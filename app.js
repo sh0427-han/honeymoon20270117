@@ -74,6 +74,9 @@ const getTripState = () => {
 
 const tripState = getTripState();
 let selectedDate = tripState.focusDate;
+let selectedSchedulePlaceName = null;
+let scheduleMap = null;
+let scheduleMarkers = new Map();
 
 const countdownValue = document.querySelector("#countdown-value");
 const countdownCaption = document.querySelector("#countdown-caption");
@@ -92,24 +95,24 @@ const budgetList = document.querySelector("#budget-list");
 const shoppingList = document.querySelector("#shopping-list");
 
 const supplementalPlaces = [
-    { name: "Sydney Airport", city: "Sydney", category: "공항" },
-    { name: "Sydney Observatory", city: "Sydney", category: "관광" },
-    { name: "The Rocks", city: "Sydney", category: "관광" },
-    { name: "Barangaroo", city: "Sydney", category: "관광" },
-    { name: "Darling Harbour", city: "Sydney", category: "관광" },
-    { name: "Surry Hills", city: "Sydney", category: "관광" },
-    { name: "Royal Botanic Garden Sydney", city: "Sydney", category: "관광" },
-    { name: "Queenstown Airport", city: "Queenstown", category: "공항" },
-    { name: "Milford Sound", city: "Queenstown", category: "투어" },
-    { name: "Crown Range", city: "Wanaka", category: "드라이브" },
-    { name: "Cardrona", city: "Wanaka", category: "경유" },
-    { name: "Church of the Good Shepherd", city: "Fairlie", category: "관광" },
-    { name: "Geraldine", city: "Christchurch", category: "경유" },
-    { name: "Cathedral Square", city: "Christchurch", category: "관광" },
-    { name: "New Regent Street", city: "Christchurch", category: "관광" },
-    { name: "Christchurch Airport", city: "Christchurch", category: "공항" },
-    { name: "Auckland Airport", city: "Auckland", category: "공항" },
-    { name: "Viaduct Harbour", city: "Auckland", category: "식사" }
+    { name: "Sydney Airport", city: "Sydney", category: "공항", lat: -33.9399, lng: 151.1753 },
+    { name: "Sydney Observatory", city: "Sydney", category: "관광", lat: -33.8599, lng: 151.2049 },
+    { name: "The Rocks", city: "Sydney", category: "관광", lat: -33.8599, lng: 151.2090 },
+    { name: "Barangaroo", city: "Sydney", category: "관광", lat: -33.8650, lng: 151.2011 },
+    { name: "Darling Harbour", city: "Sydney", category: "관광", lat: -33.8748, lng: 151.2007 },
+    { name: "Surry Hills", city: "Sydney", category: "관광", lat: -33.8848, lng: 151.2114 },
+    { name: "Royal Botanic Garden Sydney", city: "Sydney", category: "관광", lat: -33.8642, lng: 151.2166 },
+    { name: "Queenstown Airport", city: "Queenstown", category: "공항", lat: -45.0211, lng: 168.7392 },
+    { name: "Milford Sound", city: "Queenstown", category: "투어", lat: -44.6711, lng: 167.9263 },
+    { name: "Crown Range", city: "Wanaka", category: "드라이브", lat: -44.9970, lng: 168.8938 },
+    { name: "Cardrona", city: "Wanaka", category: "경유", lat: -44.8813, lng: 169.0027 },
+    { name: "Church of the Good Shepherd", city: "Fairlie", category: "관광", lat: -44.0031, lng: 170.4822 },
+    { name: "Geraldine", city: "Christchurch", category: "경유", lat: -44.0902, lng: 171.2446 },
+    { name: "Cathedral Square", city: "Christchurch", category: "관광", lat: -43.5309, lng: 172.6365 },
+    { name: "New Regent Street", city: "Christchurch", category: "관광", lat: -43.5290, lng: 172.6376 },
+    { name: "Christchurch Airport", city: "Christchurch", category: "공항", lat: -43.4894, lng: 172.5322 },
+    { name: "Auckland Airport", city: "Auckland", category: "공항", lat: -37.0082, lng: 174.7850 },
+    { name: "Viaduct Harbour", city: "Auckland", category: "식사", lat: -36.8447, lng: 174.7589 }
 ];
 
 const allPlaces = [...tripData.places, ...supplementalPlaces];
@@ -185,6 +188,55 @@ const routePlaceNamesByDate = {
     "2027-01-29": ["Hilton Auckland", "Auckland Airport"]
 };
 
+const schedulePlaceOverrides = {
+    "2027-01-17|20:05": "Sydney Airport",
+    "2027-01-17|22:00": "Meriton Suites Campbell Street",
+    "2027-01-18|10:00": "Queen Victoria Building",
+    "2027-01-18|12:00": "Sydney Fish Market",
+    "2027-01-18|14:00": "Barangaroo",
+    "2027-01-18|16:30": "The Rocks",
+    "2027-01-18|19:30": "Sydney Observatory",
+    "2027-01-19|10:00": "Surry Hills",
+    "2027-01-19|12:00": "Bondi Beach",
+    "2027-01-19|15:30": "Meriton Suites Campbell Street",
+    "2027-01-19|17:00": "Royal Botanic Garden Sydney",
+    "2027-01-19|18:30": "Sydney Opera House",
+    "2027-01-20|07:30": "Sydney Airport",
+    "2027-01-20|10:55": "Sydney Airport",
+    "2027-01-20|16:00": "Queenstown Airport",
+    "2027-01-20|18:00": "Queenstown Lakeview",
+    "2027-01-21|07:00": "Milford Sound",
+    "2027-01-21|20:00": "Queenstown Lakeview",
+    "2027-01-23|08:45": "Onsen Hot Pools",
+    "2027-01-23|09:00": "Onsen Hot Pools",
+    "2027-01-23|10:30": "Arrowtown",
+    "2027-01-23|12:30": "Crown Range",
+    "2027-01-23|15:00": "Edgewater Wanaka",
+    "2027-01-23|17:00": "That Wanaka Tree",
+    "2027-01-24|09:30": "Edgewater Wanaka",
+    "2027-01-24|12:00": "Lake Pukaki",
+    "2027-01-24|15:00": "Lake Tekapo",
+    "2027-01-24|15:30": "Church of the Good Shepherd",
+    "2027-01-24|19:00": "Fairlie",
+    "2027-01-25|09:30": "Fairlie",
+    "2027-01-25|10:30": "Geraldine",
+    "2027-01-25|13:30": "BreakFree on Cashel",
+    "2027-01-25|16:00": "Riverside Market",
+    "2027-01-26|09:30": "Christchurch Airport",
+    "2027-01-26|12:00": "Christchurch Airport",
+    "2027-01-26|13:25": "Auckland Airport",
+    "2027-01-26|15:00": "Hilton Auckland",
+    "2027-01-26|17:00": "Commercial Bay",
+    "2027-01-26|19:00": "Viaduct Harbour",
+    "2027-01-27|07:00": "Rotorua",
+    "2027-01-27|20:00": "Hilton Auckland",
+    "2027-01-28|09:30": "Downtown Ferry Terminal",
+    "2027-01-28|10:30": "Waiheke Island",
+    "2027-01-28|17:30": "Downtown Ferry Terminal",
+    "2027-01-29|08:00": "Auckland Airport",
+    "2027-01-29|11:45": "Auckland Airport"
+};
+
 const getDay = (date) => tripData.days.find((day) => day.date === date);
 const findPlace = (name) => allPlaces.find((place) => place.name === name);
 const getRoutePlaces = (date) => (routePlaceNamesByDate[date] || []).map(findPlace).filter(Boolean);
@@ -211,6 +263,41 @@ const googleMapsRouteUrl = (places) => {
 
     return `https://www.google.com/maps/dir/?${params.toString()}`;
 };
+
+const normalizePlaceText = (value) => String(value)
+    .toLowerCase()
+    .replace(/[^a-z0-9가-힣]/g, "");
+
+const getScheduleItemPlace = (date, item) => {
+    const override = schedulePlaceOverrides[`${date}|${item.time}`];
+    if (override) return findPlace(override) || null;
+
+    const normalizedTitle = normalizePlaceText(item.title);
+    const candidates = allPlaces
+        .filter((place) => {
+            const normalizedPlace = normalizePlaceText(place.name);
+            return normalizedPlace.length >= 4 && normalizedTitle.includes(normalizedPlace);
+        })
+        .sort((a, b) => b.name.length - a.name.length);
+
+    return candidates[0] || null;
+};
+
+const uniquePlaces = (places) => {
+    const seen = new Set();
+    return places.filter((place) => {
+        if (!place || seen.has(place.name)) return false;
+        seen.add(place.name);
+        return true;
+    });
+};
+
+const makeScheduleMarkerIcon = (number, active = false) => L.divIcon({
+    className: "",
+    html: `<div class="schedule-map-marker ${active ? "active" : ""}">${number}</div>`,
+    iconSize: active ? [38, 38] : [30, 30],
+    iconAnchor: active ? [19, 19] : [15, 15]
+});
 
 const renderCountdown = () => {
     if (tripState.mode === "before") {
@@ -264,6 +351,7 @@ const renderHomeFocus = () => {
     document.querySelectorAll("[data-focus-action]").forEach((button) => {
         button.addEventListener("click", () => {
             selectedDate = day.date;
+            selectedSchedulePlaceName = null;
             renderDateStrips();
             renderSelectedDay();
             renderRoute();
@@ -310,6 +398,7 @@ const renderDateStripInto = (container) => {
     container.querySelectorAll(".date-button").forEach((button) => {
         button.addEventListener("click", () => {
             selectedDate = button.dataset.date;
+            selectedSchedulePlaceName = null;
             renderDateStrips();
             renderSelectedDay();
             renderRoute();
@@ -327,21 +416,188 @@ const renderDateStrips = () => {
     renderDateStripInto(routeDateStrip);
 };
 
+const updateScheduleTimelineSelection = () => {
+    document.querySelectorAll(".timeline-item[data-schedule-place]").forEach((item) => {
+        const isActive = item.dataset.schedulePlace === selectedSchedulePlaceName;
+        item.classList.toggle("timeline-item--selected", isActive);
+        item.setAttribute("aria-pressed", String(isActive));
+    });
+
+    const place = findPlace(selectedSchedulePlaceName);
+    const selectedLabel = document.querySelector("#schedule-map-selected");
+    const selectedLink = document.querySelector("#schedule-map-place-link");
+
+    if (selectedLabel) {
+        selectedLabel.textContent = place ? `${place.name} · ${place.city}` : "일정을 선택해 위치를 확인하세요.";
+    }
+
+    if (selectedLink) {
+        selectedLink.hidden = !place;
+        if (place) selectedLink.href = googleMapsPlaceUrl(place);
+    }
+};
+
+const focusScheduleMapPlace = (place, animate = true) => {
+    if (!place || !scheduleMap || !Number.isFinite(place.lat) || !Number.isFinite(place.lng)) return;
+
+    scheduleMarkers.forEach(({ marker, number }, placeName) => {
+        marker.setIcon(makeScheduleMarkerIcon(number, placeName === place.name));
+        marker.setZIndexOffset(placeName === place.name ? 1000 : 0);
+    });
+
+    const selectedMarker = scheduleMarkers.get(place.name)?.marker;
+    if (selectedMarker) selectedMarker.openPopup();
+
+    const target = [place.lat, place.lng];
+    if (animate) {
+        scheduleMap.flyTo(target, Math.max(scheduleMap.getZoom(), 14), { duration: 0.45 });
+    } else {
+        scheduleMap.setView(target, Math.max(scheduleMap.getZoom(), 14));
+    }
+};
+
+const initializeScheduleMap = () => {
+    const mapContainer = document.querySelector("#schedule-day-map");
+    if (!mapContainer) return;
+
+    if (scheduleMap) {
+        scheduleMap.remove();
+        scheduleMap = null;
+    }
+    scheduleMarkers = new Map();
+
+    const places = uniquePlaces(getRoutePlaces(selectedDate))
+        .filter((place) => Number.isFinite(place.lat) && Number.isFinite(place.lng));
+
+    if (!window.L) {
+        mapContainer.classList.add("schedule-day-map--error");
+        mapContainer.innerHTML = "지도를 불러오지 못했습니다. Google Maps 버튼을 이용해주세요.";
+        return;
+    }
+
+    if (places.length === 0) {
+        mapContainer.classList.add("schedule-day-map--error");
+        mapContainer.innerHTML = "이 날짜에 지도 위치가 아직 등록되지 않았습니다.";
+        return;
+    }
+
+    mapContainer.classList.remove("schedule-day-map--error");
+    mapContainer.innerHTML = "";
+
+    try {
+        scheduleMap = L.map(mapContainer, {
+            scrollWheelZoom: false,
+            zoomControl: true,
+            attributionControl: true
+        });
+
+        L.tileLayer(
+            "https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png",
+            {
+                subdomains: "abcd",
+                maxZoom: 20,
+                attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+            }
+        ).addTo(scheduleMap);
+
+        const bounds = [];
+
+        places.forEach((place, index) => {
+            const number = index + 1;
+            const marker = L.marker([place.lat, place.lng], {
+                icon: makeScheduleMarkerIcon(number, place.name === selectedSchedulePlaceName)
+            }).addTo(scheduleMap);
+
+            marker.bindPopup(`
+                <div class="schedule-map-popup">
+                    <small>${escapeHtml(place.category || "장소")}</small>
+                    <strong>${escapeHtml(place.name)}</strong>
+                    <a href="${googleMapsPlaceUrl(place)}" target="_blank" rel="noopener noreferrer">Google Maps ↗</a>
+                </div>
+            `);
+
+            marker.on("click", () => {
+                selectedSchedulePlaceName = place.name;
+                updateScheduleTimelineSelection();
+                focusScheduleMapPlace(place, false);
+            });
+
+            scheduleMarkers.set(place.name, { marker, number });
+            bounds.push([place.lat, place.lng]);
+        });
+
+        if (bounds.length === 1) {
+            scheduleMap.setView(bounds[0], 14);
+        } else {
+            scheduleMap.fitBounds(bounds, { padding: [34, 34] });
+        }
+
+        setTimeout(() => scheduleMap?.invalidateSize(), 80);
+    } catch (error) {
+        console.error("Schedule map initialization failed:", error);
+        mapContainer.classList.add("schedule-day-map--error");
+        mapContainer.innerHTML = "지도를 표시하는 중 오류가 발생했습니다. Google Maps 버튼을 이용해주세요.";
+    }
+};
+
+const bindScheduleTimelineMapClicks = () => {
+    document.querySelectorAll(".timeline-item[data-schedule-place]").forEach((item) => {
+        const activate = () => {
+            const place = findPlace(item.dataset.schedulePlace);
+            if (!place) return;
+            selectedSchedulePlaceName = place.name;
+            updateScheduleTimelineSelection();
+            focusScheduleMapPlace(place, true);
+            document.querySelector("#schedule-map-block")?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+        };
+
+        item.addEventListener("click", activate);
+        item.addEventListener("keydown", (event) => {
+            if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                activate();
+            }
+        });
+    });
+};
+
 const renderSelectedDay = () => {
     const day = getDay(selectedDate) || tripData.days[0];
-    const items = day.items.map((item) => `
-        <li class="timeline-item">
+    const mappedItems = day.items.map((item) => ({
+        item,
+        place: getScheduleItemPlace(day.date, item)
+    }));
+
+    const availablePlaces = mappedItems.map(({ place }) => place).filter(Boolean);
+    if (!availablePlaces.some((place) => place.name === selectedSchedulePlaceName)) {
+        selectedSchedulePlaceName = availablePlaces[0]?.name || null;
+    }
+
+    const items = mappedItems.map(({ item, place }) => `
+        <li
+            class="timeline-item ${place ? "timeline-item--mappable" : ""} ${place?.name === selectedSchedulePlaceName ? "timeline-item--selected" : ""}"
+            ${place ? `data-schedule-place="${escapeHtml(place.name)}" role="button" tabindex="0" aria-pressed="${place.name === selectedSchedulePlaceName}"` : ""}
+        >
             <div class="timeline-time">${escapeHtml(item.time)}</div>
             <div class="timeline-content">
                 <div class="timeline-meta">
                     <span class="type-badge type-${escapeHtml(item.type)}">${getTypeLabel(item.type)}</span>
                     ${item.fixed ? '<span class="fixed-badge">고정</span>' : ""}
+                    ${place ? '<span class="map-ready-badge">지도</span>' : ""}
                 </div>
                 <strong>${escapeHtml(item.title)}</strong>
                 ${item.note ? `<p>${escapeHtml(item.note)}</p>` : ""}
             </div>
         </li>
     `).join("");
+
+    const routePlaces = getRoutePlaces(selectedDate);
+    const selectedPlace = findPlace(selectedSchedulePlaceName);
+
+    if (scheduleMap) {
+        scheduleMap.remove();
+        scheduleMap = null;
+    }
 
     selectedDay.innerHTML = `
         <article class="day-detail">
@@ -359,7 +615,44 @@ const renderSelectedDay = () => {
             </div>
             <ul class="timeline">${items}</ul>
         </article>
+
+        <section id="schedule-map-block" class="schedule-map-block">
+            <div class="schedule-map-head">
+                <div>
+                    <p class="section-kicker">DAY MAP</p>
+                    <h3>일정 위치</h3>
+                    <p id="schedule-map-selected">${selectedPlace ? `${escapeHtml(selectedPlace.name)} · ${escapeHtml(selectedPlace.city)}` : "일정을 선택해 위치를 확인하세요."}</p>
+                </div>
+                <div class="schedule-map-actions">
+                    <a
+                        id="schedule-map-place-link"
+                        class="schedule-map-link secondary"
+                        href="${selectedPlace ? googleMapsPlaceUrl(selectedPlace) : "#"}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        ${selectedPlace ? "" : "hidden"}
+                    >선택 장소 ↗</a>
+                    <a
+                        class="schedule-map-link"
+                        href="${googleMapsRouteUrl(routePlaces)}"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >전체 동선 ↗</a>
+                </div>
+            </div>
+            <div id="schedule-day-map" class="schedule-day-map" aria-label="선택한 날짜의 일정 지도"></div>
+            <p class="helper-text">지도 표시가 있는 일정을 누르면 해당 위치가 강조됩니다. 전체 동선은 Google Maps에서 열 수 있습니다.</p>
+        </section>
     `;
+
+    bindScheduleTimelineMapClicks();
+
+    if (document.querySelector("#schedule-panel")?.classList.contains("active")) {
+        setTimeout(() => {
+            initializeScheduleMap();
+            updateScheduleTimelineSelection();
+        }, 40);
+    }
 };
 
 const renderRoute = () => {
@@ -511,6 +804,10 @@ const activateTab = (tabName) => {
     if (tabName === "schedule") {
         renderDateStrips();
         renderSelectedDay();
+        setTimeout(() => {
+            initializeScheduleMap();
+            updateScheduleTimelineSelection();
+        }, 60);
     }
 
     if (tabName === "map") {
@@ -531,12 +828,14 @@ document.querySelectorAll("[data-go-tab]").forEach((button) => {
 
 document.querySelector("#jump-today")?.addEventListener("click", () => {
     selectedDate = tripState.focusDate;
+    selectedSchedulePlaceName = null;
     renderDateStrips();
     renderSelectedDay();
 });
 
 document.querySelector("#route-today")?.addEventListener("click", () => {
     selectedDate = tripState.focusDate;
+    selectedSchedulePlaceName = null;
     renderDateStrips();
     renderRoute();
 });
