@@ -12,9 +12,38 @@ const tripData = {
             date: "2027-01-17",
             label: "1/17 (일)",
             city: "Sydney",
-            title: "시드니 도착",
-            intensity: 1,
+            title: "용인 출발 → 인천공항 → 시드니",
+            intensity: 2,
             items: [
+                {
+                    time: "03:15",
+                    title: "용인동백 두산위브더제니스 출발",
+                    type: "transport",
+                    note: "택시/자차 권장 · 새벽 이동 약 1시간 20~40분 예상, 교통 변수 포함 여유 있게 출발"
+                },
+                {
+                    time: "05:00",
+                    title: "인천국제공항 제2여객터미널 도착",
+                    type: "transport",
+                    note: "08:00 국제선 출발 3시간 전 도착 목표"
+                },
+                {
+                    time: "05:10",
+                    title: "대한항공 비즈니스 체크인 · 수하물 위탁",
+                    type: "flight",
+                    note: "체크인 후 보안검색·출국심사 진행"
+                },
+                {
+                    time: "06:00",
+                    title: "대한항공 프레스티지 라운지 · 아침식사 & 휴식",
+                    type: "lounge",
+                    note: "T2 프레스티지 서편 라운지 기준 · 현재 04:00부터 운영, 약 1시간 이상 여유롭게 이용"
+                },
+                {
+                    time: "07:20",
+                    title: "탑승구 이동 · 탑승 준비",
+                    type: "note"
+                },
                 {
                     time: "08:00",
                     title: "인천 출발",
@@ -214,6 +243,9 @@ const tripData = {
         { city: "Auckland", dates: "1/26 → 1/29", name: "Hilton Auckland", price: 1461663 }
     ],
     places: [
+        { name: "용인동백 두산위브더제니스", city: "Yongin", lat: 37.2838527, lng: 127.1499897, category: "출발지" },
+        { name: "인천국제공항 제2여객터미널", city: "Incheon", lat: 37.4692, lng: 126.4335, category: "공항" },
+        { name: "대한항공 프레스티지 라운지(서편)", city: "Incheon Airport T2", lat: 37.4692, lng: 126.4335, category: "라운지" },
         { name: "Meriton Suites Campbell Street", city: "Sydney", lat: -33.8797, lng: 151.2056, category: "숙소" },
         { name: "Queen Victoria Building", city: "Sydney", lat: -33.8718, lng: 151.2067, category: "관광" },
         { name: "Sydney Fish Market", city: "Sydney", lat: -33.8732, lng: 151.1923, category: "식사" },
