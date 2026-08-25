@@ -47,6 +47,8 @@
         const day = tripData.days.find((item) => item.label === dateLabel);
         if (!day) return;
 
+        if (focusList.dataset.fullScheduleDate === day.date) return;
+
         focusList.innerHTML = day.items.map((item) => `
             <li class="focus-item">
                 <time>${escapeHtmlSafe(item.time)}</time>
@@ -57,6 +59,7 @@
             </li>
         `).join("");
 
+        focusList.dataset.fullScheduleDate = day.date;
         focusList.classList.add("focus-list--scrollable");
 
         let scrollHint = focusCard.querySelector(".focus-scroll-hint");
@@ -121,8 +124,14 @@
     applyEnhancements();
 
     // app.js가 향후 일부 영역을 다시 렌더링하더라도 보강 UI를 복원한다.
+    let scheduled = false;
     const observer = new MutationObserver(() => {
-        window.requestAnimationFrame(applyEnhancements);
+        if (scheduled) return;
+        scheduled = true;
+        window.requestAnimationFrame(() => {
+            scheduled = false;
+            applyEnhancements();
+        });
     });
 
     [document.querySelector("#home-focus"), document.querySelector("#hotel-list"), document.querySelector("#journey-strip")]
