@@ -7,6 +7,182 @@
     <meta name="description" content="2027 Australia & New Zealand honeymoon itinerary">
     <title>Our Honeymoon · 2027</title>
     <link rel="stylesheet" href="styles.css?v=20260825-v3">
+    <style>
+        .static-fallback__text {
+            margin: 0;
+            padding: 20px 22px 24px;
+            color: var(--muted);
+            font-size: 0.82rem;
+        }
+
+        .route-summary {
+            margin-bottom: 12px;
+        }
+
+        .route-head-card {
+            display: grid;
+            grid-template-columns: 1fr auto;
+            gap: 14px;
+            align-items: center;
+            padding: 18px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+            box-shadow: 0 9px 28px rgba(47, 39, 30, 0.06);
+        }
+
+        .route-head-card h3 {
+            margin: 4px 0 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.42rem;
+            font-weight: 500;
+            letter-spacing: -0.035em;
+        }
+
+        .route-head-card p:last-child {
+            margin: 5px 0 0;
+            color: var(--muted);
+            font-size: 0.76rem;
+        }
+
+        .google-route-button {
+            display: grid;
+            gap: 2px;
+            min-width: 158px;
+            padding: 12px 14px;
+            border-radius: 14px;
+            background: var(--ink);
+            color: #fff;
+            text-decoration: none;
+        }
+
+        .google-route-button span {
+            color: #d5cec5;
+            font-size: 0.65rem;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+        }
+
+        .google-route-button strong {
+            font-size: 0.78rem;
+        }
+
+        .route-list {
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-lg);
+            background: var(--surface);
+        }
+
+        .route-stop-card {
+            display: grid;
+            grid-template-columns: 38px minmax(0, 1fr) auto;
+            gap: 11px;
+            min-height: 78px;
+            padding: 13px 14px;
+            border-bottom: 1px solid #ece5dc;
+        }
+
+        .route-stop-card:last-child {
+            border-bottom: 0;
+        }
+
+        .route-sequence {
+            position: relative;
+            display: flex;
+            justify-content: center;
+        }
+
+        .route-sequence span {
+            position: relative;
+            z-index: 2;
+            display: grid;
+            width: 30px;
+            height: 30px;
+            place-items: center;
+            border-radius: 50%;
+            background: var(--ink);
+            color: #fff;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 0.82rem;
+        }
+
+        .route-sequence i {
+            position: absolute;
+            top: 29px;
+            bottom: -28px;
+            left: 50%;
+            width: 1px;
+            background: var(--line);
+            transform: translateX(-50%);
+        }
+
+        .route-stop-content {
+            min-width: 0;
+            padding-top: 2px;
+        }
+
+        .route-stop-content small,
+        .route-stop-content span {
+            display: block;
+            color: var(--muted);
+        }
+
+        .route-stop-content small {
+            margin-bottom: 2px;
+            color: var(--accent);
+            font-size: 0.63rem;
+            font-weight: 750;
+        }
+
+        .route-stop-content strong {
+            display: block;
+            overflow: hidden;
+            font-size: 0.88rem;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .route-stop-content span {
+            margin-top: 2px;
+            font-size: 0.69rem;
+        }
+
+        .route-place-button {
+            align-self: center;
+            padding: 8px 9px;
+            border: 1px solid var(--line);
+            border-radius: 10px;
+            color: var(--accent-dark);
+            font-size: 0.68rem;
+            font-weight: 750;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .route-empty {
+            padding: 24px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        @media (max-width: 560px) {
+            .route-head-card {
+                grid-template-columns: 1fr;
+            }
+
+            .google-route-button {
+                min-width: 0;
+            }
+
+            .route-stop-card {
+                grid-template-columns: 34px minmax(0, 1fr) auto;
+                gap: 8px;
+                padding-inline: 11px;
+            }
+        }
+    </style>
 </head>
 <body>
     <div class="site-shell">
@@ -99,7 +275,7 @@
                 <div id="route-date-strip" class="date-strip" aria-label="동선 날짜 선택"></div>
                 <div id="route-summary" class="route-summary"></div>
                 <div id="route-list" class="route-list"></div>
-                <p class="helper-text">장소별 지도 버튼이나 전체 동선 버튼을 누르면 Google Maps 앱 또는 웹에서 열립니다.</p>
+                <p class="helper-text">장소별 지도 버튼이나 전체 동선 버튼을 누르면 Google Maps 앱 또는 웹에서 열립니다. 항공·투어·페리 이동은 실제 예약 동선을 우선하세요.</p>
             </section>
 
             <section class="tab-panel" id="bookings-panel">
