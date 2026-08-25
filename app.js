@@ -21,6 +21,7 @@ const getTypeLabel = (type) => {
         car: "렌터카",
         drive: "드라이브",
         shopping: "쇼핑",
+        lounge: "라운지",
         note: "메모"
     };
     return labels[type] || "일정";
@@ -118,7 +119,11 @@ const supplementalPlaces = [
 const allPlaces = [...tripData.places, ...supplementalPlaces];
 
 const routePlaceNamesByDate = {
-    "2027-01-17": ["Sydney Airport", "Meriton Suites Campbell Street"],
+    "2027-01-17": [
+        "용인동백 두산위브더제니스",
+        "인천국제공항 제2여객터미널",
+        "대한항공 프레스티지 라운지(서편)"
+    ],
     "2027-01-18": [
         "Meriton Suites Campbell Street",
         "Queen Victoria Building",
@@ -189,8 +194,12 @@ const routePlaceNamesByDate = {
 };
 
 const schedulePlaceOverrides = {
-    "2027-01-17|20:05": "Sydney Airport",
-    "2027-01-17|22:00": "Meriton Suites Campbell Street",
+    "2027-01-17|03:15": "용인동백 두산위브더제니스",
+    "2027-01-17|05:00": "인천국제공항 제2여객터미널",
+    "2027-01-17|05:10": "인천국제공항 제2여객터미널",
+    "2027-01-17|06:00": "대한항공 프레스티지 라운지(서편)",
+    "2027-01-17|07:20": "인천국제공항 제2여객터미널",
+    "2027-01-17|08:00": "인천국제공항 제2여객터미널",
     "2027-01-18|10:00": "Queen Victoria Building",
     "2027-01-18|12:00": "Sydney Fish Market",
     "2027-01-18|14:00": "Barangaroo",
@@ -530,6 +539,11 @@ const initializeScheduleMap = () => {
             scheduleMap.setView(bounds[0], 14);
         } else {
             scheduleMap.fitBounds(bounds, { padding: [34, 34] });
+        }
+
+        const selectedPlace = findPlace(selectedSchedulePlaceName);
+        if (selectedPlace && scheduleMarkers.has(selectedPlace.name)) {
+            focusScheduleMapPlace(selectedPlace, false);
         }
 
         setTimeout(() => scheduleMap?.invalidateSize(), 80);
