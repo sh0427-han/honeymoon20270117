@@ -12,8 +12,8 @@
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
         crossorigin=""
     >
-    <link rel="stylesheet" href="styles.css?v=20260825-v7">
-    <link rel="stylesheet" href="enhancements.css?v=20260825-v7">
+    <link rel="stylesheet" href="styles.css?v=20260825-v8">
+    <link rel="stylesheet" href="enhancements.css?v=20260825-v8">
 </head>
 <body>
     <div class="site-shell">
@@ -31,21 +31,9 @@
             </div>
 
             <div class="hero-metrics" aria-label="여행 요약">
-                <div>
-                    <span>Departure</span>
-                    <strong id="countdown-value">D-DAY</strong>
-                    <small id="countdown-caption">until departure</small>
-                </div>
-                <div>
-                    <span>Stay</span>
-                    <strong>12</strong>
-                    <small>nights</small>
-                </div>
-                <div>
-                    <span>Journey</span>
-                    <strong>13</strong>
-                    <small>days</small>
-                </div>
+                <div><span>Departure</span><strong id="countdown-value">D-DAY</strong><small id="countdown-caption">until departure</small></div>
+                <div><span>Stay</span><strong>12</strong><small>nights</small></div>
+                <div><span>Journey</span><strong>13</strong><small>days</small></div>
             </div>
         </header>
 
@@ -66,54 +54,25 @@
                 </div>
 
                 <div class="quick-actions" aria-label="빠른 메뉴">
-                    <button type="button" class="quick-action" data-go-tab="schedule">
-                        <span>01</span>
-                        <strong>일정</strong>
-                        <small>날짜별 타임라인</small>
-                    </button>
-                    <button type="button" class="quick-action" data-go-tab="map">
-                        <span>02</span>
-                        <strong>동선</strong>
-                        <small>Google Maps 연결</small>
-                    </button>
-                    <button type="button" class="quick-action" data-go-tab="bookings">
-                        <span>03</span>
-                        <strong>예약</strong>
-                        <small>항공 · 숙소</small>
-                    </button>
+                    <button type="button" class="quick-action" data-go-tab="schedule"><span>01</span><strong>일정</strong><small>날짜별 타임라인</small></button>
+                    <button type="button" class="quick-action" data-go-tab="map"><span>02</span><strong>동선</strong><small>Google Maps 연결</small></button>
+                    <button type="button" class="quick-action" data-go-tab="bookings"><span>03</span><strong>예약</strong><small>항공 · 숙소 · 투어</small></button>
                 </div>
 
                 <section class="home-section">
-                    <div class="section-heading compact">
-                        <div>
-                            <p class="section-kicker">THE JOURNEY</p>
-                            <h2>숙박 동선</h2>
-                        </div>
-                    </div>
+                    <div class="section-heading compact"><div><p class="section-kicker">THE JOURNEY</p><h2>숙박 동선</h2></div></div>
                     <div id="journey-strip" class="journey-strip"></div>
                 </section>
             </section>
 
             <section class="tab-panel" id="schedule-panel">
-                <div class="section-heading">
-                    <div>
-                        <p class="section-kicker">DAILY PLAN</p>
-                        <h2>날짜별 일정</h2>
-                    </div>
-                    <button type="button" id="jump-today" class="text-button">오늘 / 다음</button>
-                </div>
+                <div class="section-heading"><div><p class="section-kicker">DAILY PLAN</p><h2>날짜별 일정</h2></div><button type="button" id="jump-today" class="text-button">오늘 / 다음</button></div>
                 <div id="date-strip" class="date-strip" aria-label="날짜 선택"></div>
                 <div id="selected-day"></div>
             </section>
 
             <section class="tab-panel" id="map-panel">
-                <div class="section-heading">
-                    <div>
-                        <p class="section-kicker">ROUTE</p>
-                        <h2>하루 동선</h2>
-                    </div>
-                    <button type="button" id="route-today" class="text-button">오늘 / 다음</button>
-                </div>
+                <div class="section-heading"><div><p class="section-kicker">ROUTE</p><h2>하루 동선</h2></div><button type="button" id="route-today" class="text-button">오늘 / 다음</button></div>
                 <div id="route-date-strip" class="date-strip" aria-label="동선 날짜 선택"></div>
                 <div id="route-summary" class="route-summary"></div>
                 <div id="route-list" class="route-list"></div>
@@ -121,88 +80,44 @@
             </section>
 
             <section class="tab-panel" id="bookings-panel">
-                <div class="section-heading">
-                    <div>
-                        <p class="section-kicker">BOOKINGS</p>
-                        <h2>항공 · 숙소</h2>
-                    </div>
-                </div>
+                <div class="section-heading"><div><p class="section-kicker">BOOKINGS</p><h2>항공 · 숙소 · 투어</h2></div></div>
                 <div id="booking-summary" class="booking-summary"></div>
                 <div id="flight-list" class="booking-stack"></div>
                 <div id="hotel-list" class="booking-stack"></div>
             </section>
 
             <section class="tab-panel" id="more-panel">
-                <div class="section-heading">
-                    <div>
-                        <p class="section-kicker">TRIP NOTES</p>
-                        <h2>예산 · 가족 선물</h2>
-                    </div>
-                </div>
-
+                <div class="section-heading"><div><p class="section-kicker">TRIP NOTES</p><h2>예산 · 가족 선물</h2></div></div>
                 <section class="more-section">
-                    <div class="subsection-heading">
-                        <h3>여행 예산</h3>
-                        <span>2인 기준</span>
-                    </div>
+                    <div class="subsection-heading"><h3>여행 예산</h3><span>2인 기준</span></div>
                     <div id="budget-summary" class="budget-summary"></div>
                     <div id="budget-list" class="budget-list"></div>
                 </section>
-
                 <section class="more-section">
-                    <div class="subsection-heading">
-                        <h3>가족 선물</h3>
-                        <span>오클랜드 중심 구매</span>
-                    </div>
-                    <div class="shopping-note">
-                        <strong>짐은 가볍게</strong>
-                        <span>대부분의 선물은 오클랜드에서 구매하고, 로토루아에서는 마음에 드는 Māori 공예품만 추가합니다.</span>
-                    </div>
+                    <div class="subsection-heading"><h3>가족 선물</h3><span>오클랜드 중심 구매</span></div>
+                    <div class="shopping-note"><strong>짐은 가볍게</strong><span>대부분의 선물은 오클랜드에서 구매하고, 로토루아에서는 마음에 드는 Māori 공예품만 추가합니다.</span></div>
                     <div id="shopping-list" class="shopping-list"></div>
                 </section>
             </section>
         </main>
 
-        <footer class="page-footer">
-            <span>OUR HONEYMOON</span>
-            <p>Australia &amp; New Zealand · January 2027</p>
-        </footer>
+        <footer class="page-footer"><span>OUR HONEYMOON</span><p>Australia &amp; New Zealand · January 2027</p></footer>
 
         <nav class="bottom-nav" aria-label="주요 메뉴">
-            <button type="button" class="nav-button active" data-tab="home">
-                <span class="nav-icon">⌂</span>
-                <span>홈</span>
-            </button>
-            <button type="button" class="nav-button" data-tab="schedule">
-                <span class="nav-icon">17</span>
-                <span>일정</span>
-            </button>
-            <button type="button" class="nav-button" data-tab="map">
-                <span class="nav-icon">↗</span>
-                <span>동선</span>
-            </button>
-            <button type="button" class="nav-button" data-tab="bookings">
-                <span class="nav-icon">✦</span>
-                <span>예약</span>
-            </button>
-            <button type="button" class="nav-button" data-tab="more">
-                <span class="nav-icon">•••</span>
-                <span>더보기</span>
-            </button>
+            <button type="button" class="nav-button active" data-tab="home"><span class="nav-icon">⌂</span><span>홈</span></button>
+            <button type="button" class="nav-button" data-tab="schedule"><span class="nav-icon">17</span><span>일정</span></button>
+            <button type="button" class="nav-button" data-tab="map"><span class="nav-icon">↗</span><span>동선</span></button>
+            <button type="button" class="nav-button" data-tab="bookings"><span class="nav-icon">✦</span><span>예약</span></button>
+            <button type="button" class="nav-button" data-tab="more"><span class="nav-icon">•••</span><span>더보기</span></button>
         </nav>
     </div>
 
-    <noscript>
-        <div class="noscript-note">이 일정 페이지는 JavaScript가 필요합니다.</div>
-    </noscript>
+    <noscript><div class="noscript-note">이 일정 페이지는 JavaScript가 필요합니다.</div></noscript>
 
-    <script
-        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
-        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
-        crossorigin=""
-    ></script>
-    <script src="itinerary.js?v=20260825-v7"></script>
-    <script src="app.js?v=20260825-v7"></script>
-    <script src="enhancements.js?v=20260825-v7"></script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="itinerary.js?v=20260825-v8"></script>
+    <script src="app.js?v=20260825-v8"></script>
+    <script src="booking-data.js?v=20260825-v8"></script>
+    <script src="enhancements.js?v=20260825-v8"></script>
 </body>
 </html>
