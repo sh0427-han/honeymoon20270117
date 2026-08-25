@@ -2,12 +2,10 @@
 <html lang="ko">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="theme-color" content="#f5efe7">
-    <title>Honeymoon 2027</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="theme-color" content="#f5f0e8">
+    <meta name="description" content="2027 Australia & New Zealand honeymoon itinerary">
+    <title>Our Honeymoon · 2027</title>
     <link
         rel="stylesheet"
         href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
@@ -17,90 +15,170 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header class="hero">
-        <div class="hero__inner">
-            <p class="eyebrow">HONEYMOON 2027</p>
-            <h1>Australia & New Zealand</h1>
-            <p class="hero__date">2027.01.17 — 01.29 · 12박 13일</p>
-            <p class="hero__route">
-                Sydney → Queenstown → Wanaka → Fairlie → Christchurch → Auckland
-            </p>
-        </div>
-    </header>
+    <div class="site-shell">
+        <header class="editorial-hero">
+            <div class="hero-rule"></div>
+            <p class="eyebrow">OUR HONEYMOON</p>
+            <h1>Australia <span>&amp;</span><br>New Zealand</h1>
+            <p class="hero-date">17 — 29 JANUARY 2027</p>
+            <div class="hero-metrics" aria-label="여행 요약">
+                <div>
+                    <strong id="countdown-value">D-DAY</strong>
+                    <span id="countdown-caption">until departure</span>
+                </div>
+                <div>
+                    <strong>12</strong>
+                    <span>nights</span>
+                </div>
+                <div>
+                    <strong>13</strong>
+                    <span>days</span>
+                </div>
+            </div>
+        </header>
 
-    <main class="app-shell">
-        <nav class="tab-bar" aria-label="주요 메뉴">
-            <button class="tab-button active" data-tab="schedule">일정</button>
-            <button class="tab-button" data-tab="map">지도</button>
-            <button class="tab-button" data-tab="bookings">예약</button>
-            <button class="tab-button" data-tab="budget">예산</button>
-            <button class="tab-button" data-tab="shopping">선물</button>
+        <main class="app-main">
+            <section class="tab-panel active" id="home-panel">
+                <div id="home-focus"></div>
+
+                <div class="quick-actions" aria-label="빠른 메뉴">
+                    <button type="button" class="quick-action" data-go-tab="schedule">
+                        <span>01</span>
+                        <strong>일정 보기</strong>
+                        <small>날짜별 타임라인</small>
+                    </button>
+                    <button type="button" class="quick-action" data-go-tab="map">
+                        <span>02</span>
+                        <strong>동선 지도</strong>
+                        <small>전체 · 선택 날짜</small>
+                    </button>
+                    <button type="button" class="quick-action" data-go-tab="bookings">
+                        <span>03</span>
+                        <strong>예약 보기</strong>
+                        <small>항공 · 숙소</small>
+                    </button>
+                </div>
+
+                <section class="home-section">
+                    <div class="section-heading compact">
+                        <div>
+                            <p class="section-kicker">THE JOURNEY</p>
+                            <h2>숙박 동선</h2>
+                        </div>
+                    </div>
+                    <div id="journey-strip" class="journey-strip"></div>
+                </section>
+
+                <section class="home-section">
+                    <div class="section-heading compact">
+                        <div>
+                            <p class="section-kicker">HIGHLIGHTS</p>
+                            <h2>고정 일정</h2>
+                        </div>
+                    </div>
+                    <div id="fixed-highlights" class="highlight-grid"></div>
+                </section>
+            </section>
+
+            <section class="tab-panel" id="schedule-panel">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">DAILY PLAN</p>
+                        <h2>날짜별 일정</h2>
+                    </div>
+                    <button type="button" id="jump-today" class="text-button">오늘/다음</button>
+                </div>
+                <div id="date-strip" class="date-strip" aria-label="날짜 선택"></div>
+                <div id="selected-day"></div>
+            </section>
+
+            <section class="tab-panel" id="map-panel">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">ROUTE</p>
+                        <h2>여행 지도</h2>
+                    </div>
+                </div>
+                <div class="map-toolbar" role="group" aria-label="지도 모드">
+                    <button type="button" class="map-mode active" data-map-mode="day">선택 날짜</button>
+                    <button type="button" class="map-mode" data-map-mode="all">전체 여행</button>
+                </div>
+                <div id="map-day-label" class="map-day-label"></div>
+                <div id="trip-map" class="trip-map" aria-label="여행 장소 지도"></div>
+                <div id="map-fallback" class="map-fallback"></div>
+                <p class="helper-text">지도 로딩에 실패해도 아래 장소 버튼으로 Google Maps를 바로 열 수 있습니다.</p>
+            </section>
+
+            <section class="tab-panel" id="bookings-panel">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">BOOKINGS</p>
+                        <h2>항공 · 숙소</h2>
+                    </div>
+                </div>
+                <div id="booking-summary" class="booking-summary"></div>
+                <div id="flight-list" class="booking-stack"></div>
+                <div id="hotel-list" class="booking-stack"></div>
+            </section>
+
+            <section class="tab-panel" id="more-panel">
+                <div class="section-heading">
+                    <div>
+                        <p class="section-kicker">TRIP NOTES</p>
+                        <h2>예산 · 가족 선물</h2>
+                    </div>
+                </div>
+
+                <section class="more-section">
+                    <div class="subsection-heading">
+                        <h3>여행 예산</h3>
+                        <span>2인 기준</span>
+                    </div>
+                    <div id="budget-summary" class="budget-summary"></div>
+                    <div id="budget-list" class="budget-list"></div>
+                </section>
+
+                <section class="more-section">
+                    <div class="subsection-heading">
+                        <h3>가족 선물</h3>
+                        <span>오클랜드 중심 구매</span>
+                    </div>
+                    <div class="shopping-note">
+                        <strong>짐은 가볍게</strong>
+                        <span>대부분의 선물은 오클랜드에서 구매하고, 로토루아에서는 마음에 드는 Māori 공예품만 추가합니다.</span>
+                    </div>
+                    <div id="shopping-list" class="shopping-list"></div>
+                </section>
+            </section>
+        </main>
+
+        <footer class="page-footer">
+            <p>Our Honeymoon · Australia &amp; New Zealand · 2027</p>
+        </footer>
+
+        <nav class="bottom-nav" aria-label="주요 메뉴">
+            <button type="button" class="nav-button active" data-tab="home">
+                <span class="nav-icon">⌂</span>
+                <span>홈</span>
+            </button>
+            <button type="button" class="nav-button" data-tab="schedule">
+                <span class="nav-icon">17</span>
+                <span>일정</span>
+            </button>
+            <button type="button" class="nav-button" data-tab="map">
+                <span class="nav-icon">⌖</span>
+                <span>지도</span>
+            </button>
+            <button type="button" class="nav-button" data-tab="bookings">
+                <span class="nav-icon">✦</span>
+                <span>예약</span>
+            </button>
+            <button type="button" class="nav-button" data-tab="more">
+                <span class="nav-icon">•••</span>
+                <span>더보기</span>
+            </button>
         </nav>
-
-        <section class="tab-panel active" id="schedule-panel">
-            <div class="section-heading">
-                <div>
-                    <p class="section-kicker">DAILY PLAN</p>
-                    <h2>날짜별 일정</h2>
-                </div>
-                <select id="city-filter" aria-label="도시 필터">
-                    <option value="all">전체 지역</option>
-                </select>
-            </div>
-            <div id="schedule-list" class="schedule-list"></div>
-        </section>
-
-        <section class="tab-panel" id="map-panel">
-            <div class="section-heading">
-                <div>
-                    <p class="section-kicker">PLACES</p>
-                    <h2>여행 지도</h2>
-                </div>
-            </div>
-            <div id="trip-map" class="trip-map" aria-label="여행 장소 지도"></div>
-            <p class="helper-text">마커를 누르면 장소 설명과 Google Maps 검색 링크를 확인할 수 있습니다.</p>
-        </section>
-
-        <section class="tab-panel" id="bookings-panel">
-            <div class="section-heading">
-                <div>
-                    <p class="section-kicker">BOOKINGS</p>
-                    <h2>항공 · 숙소</h2>
-                </div>
-            </div>
-            <div id="flight-list" class="card-grid"></div>
-            <div id="hotel-list" class="card-grid"></div>
-        </section>
-
-        <section class="tab-panel" id="budget-panel">
-            <div class="section-heading">
-                <div>
-                    <p class="section-kicker">BUDGET</p>
-                    <h2>여행 예산</h2>
-                </div>
-            </div>
-            <div id="budget-summary" class="budget-summary"></div>
-            <div id="budget-list" class="budget-list"></div>
-        </section>
-
-        <section class="tab-panel" id="shopping-panel">
-            <div class="section-heading">
-                <div>
-                    <p class="section-kicker">GIFTS</p>
-                    <h2>가족 선물</h2>
-                </div>
-            </div>
-            <div class="shopping-note">
-                <strong>추천 전략</strong>
-                <span>선물의 대부분은 오클랜드에서 구매하고, 로토루아에서는 마음에 드는 Māori 공예품만 추가합니다.</span>
-            </div>
-            <div id="shopping-list" class="shopping-list"></div>
-        </section>
-    </main>
-
-    <footer class="page-footer">
-        <p>Honeymoon 2027 · Mobile itinerary</p>
-    </footer>
+    </div>
 
     <script
         src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
