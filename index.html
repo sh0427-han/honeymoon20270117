@@ -6,7 +6,13 @@
     <meta name="theme-color" content="#f5f0e8">
     <meta name="description" content="2027 Australia & New Zealand honeymoon itinerary">
     <title>Our Honeymoon · 2027</title>
-    <link rel="stylesheet" href="styles.css?v=20260825-v3">
+    <link
+        rel="stylesheet"
+        href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+        integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
+        crossorigin=""
+    >
+    <link rel="stylesheet" href="styles.css?v=20260825-v4">
     <style>
         .static-fallback__text {
             margin: 0;
@@ -167,6 +173,164 @@
             font-size: 0.8rem;
         }
 
+        .map-ready-badge {
+            display: inline-flex;
+            width: fit-content;
+            padding: 3px 8px;
+            border-radius: 999px;
+            background: #e5ece8;
+            color: #53675c;
+            font-size: 0.64rem;
+            font-weight: 750;
+        }
+
+        .timeline-item--mappable {
+            margin-inline: -8px;
+            padding-inline: 8px;
+            border-radius: 13px;
+            cursor: pointer;
+            transition: background 160ms ease, box-shadow 160ms ease, transform 160ms ease;
+        }
+
+        .timeline-item--mappable:hover {
+            background: #f5f0e8;
+        }
+
+        .timeline-item--mappable:focus-visible {
+            outline: 2px solid var(--accent);
+            outline-offset: 2px;
+        }
+
+        .timeline-item--selected {
+            background: #eee5d9;
+            box-shadow: inset 3px 0 0 var(--accent);
+        }
+
+        .schedule-map-block {
+            margin-top: 16px;
+            padding: 17px;
+            border: 1px solid var(--line);
+            border-radius: var(--radius-xl);
+            background: var(--surface);
+            box-shadow: 0 9px 30px rgba(47, 39, 30, 0.055);
+        }
+
+        .schedule-map-head {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 14px;
+            align-items: end;
+            margin-bottom: 12px;
+        }
+
+        .schedule-map-head h3 {
+            margin: 4px 0 0;
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 1.35rem;
+            font-weight: 500;
+            letter-spacing: -0.03em;
+        }
+
+        #schedule-map-selected {
+            margin: 5px 0 0;
+            color: var(--muted);
+            font-size: 0.76rem;
+        }
+
+        .schedule-map-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: end;
+            gap: 6px;
+        }
+
+        .schedule-map-link {
+            padding: 9px 10px;
+            border-radius: 11px;
+            background: var(--ink);
+            color: #fff;
+            font-size: 0.69rem;
+            font-weight: 750;
+            text-decoration: none;
+            white-space: nowrap;
+        }
+
+        .schedule-map-link.secondary {
+            border: 1px solid var(--line);
+            background: transparent;
+            color: var(--accent-dark);
+        }
+
+        .schedule-day-map {
+            width: 100%;
+            height: min(50vh, 410px);
+            min-height: 300px;
+            overflow: hidden;
+            border: 1px solid var(--line);
+            border-radius: 18px;
+            background: #e9e4dc;
+        }
+
+        .schedule-day-map--error {
+            display: grid;
+            height: auto;
+            min-height: 150px;
+            place-items: center;
+            padding: 24px;
+            color: var(--muted);
+            text-align: center;
+            font-size: 0.8rem;
+        }
+
+        .schedule-map-marker {
+            display: grid;
+            width: 30px;
+            height: 30px;
+            place-items: center;
+            border: 2px solid #fff;
+            border-radius: 50%;
+            background: var(--ink);
+            color: #fff;
+            box-shadow: 0 4px 12px rgba(33, 31, 27, 0.25);
+            font-family: Georgia, "Times New Roman", serif;
+            font-size: 0.76rem;
+            font-weight: 700;
+            transition: transform 160ms ease, background 160ms ease;
+        }
+
+        .schedule-map-marker.active {
+            width: 38px;
+            height: 38px;
+            background: #a06f4f;
+            box-shadow: 0 6px 18px rgba(95, 70, 53, 0.35);
+            font-size: 0.9rem;
+        }
+
+        .schedule-map-popup {
+            display: grid;
+            min-width: 150px;
+            gap: 3px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        .schedule-map-popup small {
+            color: var(--accent);
+            font-size: 0.66rem;
+            font-weight: 700;
+        }
+
+        .schedule-map-popup strong {
+            font-size: 0.84rem;
+        }
+
+        .schedule-map-popup a {
+            margin-top: 4px;
+            color: var(--accent-dark);
+            font-size: 0.72rem;
+            font-weight: 750;
+            text-decoration: none;
+        }
+
         @media (max-width: 560px) {
             .route-head-card {
                 grid-template-columns: 1fr;
@@ -180,6 +344,24 @@
                 grid-template-columns: 34px minmax(0, 1fr) auto;
                 gap: 8px;
                 padding-inline: 11px;
+            }
+
+            .schedule-map-block {
+                padding: 13px;
+            }
+
+            .schedule-map-head {
+                grid-template-columns: 1fr;
+                align-items: start;
+            }
+
+            .schedule-map-actions {
+                justify-content: start;
+            }
+
+            .schedule-day-map {
+                height: 330px;
+                min-height: 280px;
             }
         }
     </style>
@@ -353,7 +535,12 @@
         <div style="padding:16px;font-family:sans-serif;">이 일정 페이지는 JavaScript가 필요합니다.</div>
     </noscript>
 
-    <script src="itinerary.js?v=20260825-v3"></script>
-    <script src="app.js?v=20260825-v3"></script>
+    <script
+        src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+        integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
+        crossorigin=""
+    ></script>
+    <script src="itinerary.js?v=20260825-v4"></script>
+    <script src="app.js?v=20260825-v4"></script>
 </body>
 </html>
