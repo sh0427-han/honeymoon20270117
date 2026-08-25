@@ -74,18 +74,16 @@ const getTripState = () => {
 
 const tripState = getTripState();
 let selectedDate = tripState.focusDate;
-let mapMode = "day";
-let map = null;
 
 const countdownValue = document.querySelector("#countdown-value");
 const countdownCaption = document.querySelector("#countdown-caption");
 const homeFocus = document.querySelector("#home-focus");
 const journeyStrip = document.querySelector("#journey-strip");
-const fixedHighlights = document.querySelector("#fixed-highlights");
 const dateStrip = document.querySelector("#date-strip");
+const routeDateStrip = document.querySelector("#route-date-strip");
 const selectedDay = document.querySelector("#selected-day");
-const mapDayLabel = document.querySelector("#map-day-label");
-const mapFallback = document.querySelector("#map-fallback");
+const routeSummary = document.querySelector("#route-summary");
+const routeList = document.querySelector("#route-list");
 const flightList = document.querySelector("#flight-list");
 const hotelList = document.querySelector("#hotel-list");
 const bookingSummary = document.querySelector("#booking-summary");
@@ -94,93 +92,63 @@ const budgetList = document.querySelector("#budget-list");
 const shoppingList = document.querySelector("#shopping-list");
 
 const supplementalPlaces = [
-    {
-        name: "Sydney Observatory",
-        city: "Sydney",
-        lat: -33.8599,
-        lng: 151.2049,
-        category: "관광"
-    },
-    {
-        name: "The Rocks",
-        city: "Sydney",
-        lat: -33.8599,
-        lng: 151.2090,
-        category: "관광"
-    },
-    {
-        name: "Royal Botanic Garden Sydney",
-        city: "Sydney",
-        lat: -33.8642,
-        lng: 151.2166,
-        category: "관광"
-    },
-    {
-        name: "Milford Sound",
-        city: "Queenstown",
-        lat: -44.6711,
-        lng: 167.9263,
-        category: "투어"
-    },
-    {
-        name: "Church of the Good Shepherd",
-        city: "Fairlie",
-        lat: -44.0031,
-        lng: 170.4822,
-        category: "관광"
-    },
-    {
-        name: "Geraldine",
-        city: "Christchurch",
-        lat: -44.0902,
-        lng: 171.2446,
-        category: "경유"
-    },
-    {
-        name: "Cathedral Square",
-        city: "Christchurch",
-        lat: -43.5309,
-        lng: 172.6365,
-        category: "관광"
-    },
-    {
-        name: "Christchurch Airport",
-        city: "Christchurch",
-        lat: -43.4894,
-        lng: 172.5322,
-        category: "공항"
-    },
-    {
-        name: "Auckland Airport",
-        city: "Auckland",
-        lat: -37.0082,
-        lng: 174.7850,
-        category: "공항"
-    }
+    { name: "Sydney Airport", city: "Sydney", category: "공항" },
+    { name: "Sydney Observatory", city: "Sydney", category: "관광" },
+    { name: "The Rocks", city: "Sydney", category: "관광" },
+    { name: "Barangaroo", city: "Sydney", category: "관광" },
+    { name: "Darling Harbour", city: "Sydney", category: "관광" },
+    { name: "Surry Hills", city: "Sydney", category: "관광" },
+    { name: "Royal Botanic Garden Sydney", city: "Sydney", category: "관광" },
+    { name: "Queenstown Airport", city: "Queenstown", category: "공항" },
+    { name: "Milford Sound", city: "Queenstown", category: "투어" },
+    { name: "Crown Range", city: "Wanaka", category: "드라이브" },
+    { name: "Cardrona", city: "Wanaka", category: "경유" },
+    { name: "Church of the Good Shepherd", city: "Fairlie", category: "관광" },
+    { name: "Geraldine", city: "Christchurch", category: "경유" },
+    { name: "Cathedral Square", city: "Christchurch", category: "관광" },
+    { name: "New Regent Street", city: "Christchurch", category: "관광" },
+    { name: "Christchurch Airport", city: "Christchurch", category: "공항" },
+    { name: "Auckland Airport", city: "Auckland", category: "공항" },
+    { name: "Viaduct Harbour", city: "Auckland", category: "식사" }
 ];
 
 const allPlaces = [...tripData.places, ...supplementalPlaces];
 
 const routePlaceNamesByDate = {
-    "2027-01-17": ["Meriton Suites Campbell Street"],
+    "2027-01-17": ["Sydney Airport", "Meriton Suites Campbell Street"],
     "2027-01-18": [
+        "Meriton Suites Campbell Street",
         "Queen Victoria Building",
         "Sydney Fish Market",
+        "Barangaroo",
+        "Darling Harbour",
         "The Rocks",
-        "Sydney Observatory"
+        "Sydney Observatory",
+        "Meriton Suites Campbell Street"
     ],
     "2027-01-19": [
+        "Meriton Suites Campbell Street",
+        "Surry Hills",
         "Bondi Beach",
+        "Meriton Suites Campbell Street",
         "Royal Botanic Garden Sydney",
-        "Sydney Opera House"
+        "Sydney Opera House",
+        "Meriton Suites Campbell Street"
     ],
-    "2027-01-20": ["Queenstown Lakeview"],
+    "2027-01-20": [
+        "Meriton Suites Campbell Street",
+        "Sydney Airport",
+        "Queenstown Airport",
+        "Queenstown Lakeview"
+    ],
     "2027-01-21": ["Queenstown Lakeview", "Milford Sound", "Queenstown Lakeview"],
     "2027-01-22": ["Queenstown Lakeview"],
     "2027-01-23": [
         "Queenstown Lakeview",
         "Onsen Hot Pools",
         "Arrowtown",
+        "Crown Range",
+        "Cardrona",
         "Edgewater Wanaka",
         "That Wanaka Tree"
     ],
@@ -196,13 +164,16 @@ const routePlaceNamesByDate = {
         "Geraldine",
         "BreakFree on Cashel",
         "Riverside Market",
-        "Cathedral Square"
+        "Cathedral Square",
+        "New Regent Street"
     ],
     "2027-01-26": [
         "BreakFree on Cashel",
         "Christchurch Airport",
+        "Auckland Airport",
         "Hilton Auckland",
-        "Commercial Bay"
+        "Commercial Bay",
+        "Viaduct Harbour"
     ],
     "2027-01-27": ["Hilton Auckland", "Rotorua", "Hilton Auckland"],
     "2027-01-28": [
@@ -215,18 +186,35 @@ const routePlaceNamesByDate = {
 };
 
 const getDay = (date) => tripData.days.find((day) => day.date === date);
-
 const findPlace = (name) => allPlaces.find((place) => place.name === name);
+const getRoutePlaces = (date) => (routePlaceNamesByDate[date] || []).map(findPlace).filter(Boolean);
 
-const getRoutePlaces = (date) => (routePlaceNamesByDate[date] || [])
-    .map(findPlace)
-    .filter(Boolean);
+const placeQuery = (place) => `${place.name}, ${place.city}`;
+
+const googleMapsPlaceUrl = (place) => {
+    const query = encodeURIComponent(placeQuery(place));
+    return `https://www.google.com/maps/search/?api=1&query=${query}`;
+};
+
+const googleMapsRouteUrl = (places) => {
+    if (places.length === 0) return "https://www.google.com/maps";
+    if (places.length === 1) return googleMapsPlaceUrl(places[0]);
+
+    const origin = placeQuery(places[0]);
+    const destination = placeQuery(places[places.length - 1]);
+    const middle = places.slice(1, -1).map(placeQuery);
+    const params = new URLSearchParams({ api: "1", origin, destination });
+
+    if (middle.length > 0) {
+        params.set("waypoints", middle.join("|"));
+    }
+
+    return `https://www.google.com/maps/dir/?${params.toString()}`;
+};
 
 const renderCountdown = () => {
     if (tripState.mode === "before") {
-        countdownValue.textContent = tripState.countdown === 0
-            ? "D-DAY"
-            : `D-${tripState.countdown}`;
+        countdownValue.textContent = tripState.countdown === 0 ? "D-DAY" : `D-${tripState.countdown}`;
         countdownCaption.textContent = "until departure";
         return;
     }
@@ -267,12 +255,8 @@ const renderHomeFocus = () => {
                 `).join("")}
             </ul>
             <div class="focus-card__actions">
-                <button type="button" class="primary-button" data-focus-action="schedule">
-                    일정 자세히
-                </button>
-                <button type="button" class="secondary-button" data-focus-action="map">
-                    동선 지도
-                </button>
+                <button type="button" class="primary-button" data-focus-action="schedule">일정 자세히</button>
+                <button type="button" class="secondary-button" data-focus-action="map">동선 보기</button>
             </div>
         </article>
     `;
@@ -280,8 +264,9 @@ const renderHomeFocus = () => {
     document.querySelectorAll("[data-focus-action]").forEach((button) => {
         button.addEventListener("click", () => {
             selectedDate = day.date;
-            renderDateStrip();
+            renderDateStrips();
             renderSelectedDay();
+            renderRoute();
             activateTab(button.dataset.focusAction);
         });
     });
@@ -297,33 +282,12 @@ const renderJourney = () => {
     `).join("");
 };
 
-const renderFixedHighlights = () => {
-    const highlights = [];
+const weekdayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
 
-    tripData.days.forEach((day) => {
-        day.items
-            .filter((item) => item.fixed && item.type === "tour")
-            .filter((item) => !item.title.endsWith("도착"))
-            .forEach((item) => highlights.push({
-                date: day.label,
-                title: item.title,
-                city: day.city
-            }));
-    });
+const renderDateStripInto = (container) => {
+    if (!container) return;
 
-    fixedHighlights.innerHTML = highlights.map((item) => `
-        <article class="highlight-card">
-            <span>${escapeHtml(item.date)}</span>
-            <strong>${escapeHtml(item.title)}</strong>
-            <small>${escapeHtml(item.city)}</small>
-        </article>
-    `).join("");
-};
-
-const renderDateStrip = () => {
-    const weekdayNames = ["SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT"];
-
-    dateStrip.innerHTML = tripData.days.map((day) => {
+    container.innerHTML = tripData.days.map((day) => {
         const date = new Date(`${day.date}T00:00:00`);
         const dayNumber = Number(day.date.slice(-2));
         const weekday = weekdayNames[date.getDay()];
@@ -343,21 +307,24 @@ const renderDateStrip = () => {
         `;
     }).join("");
 
-    document.querySelectorAll(".date-button").forEach((button) => {
+    container.querySelectorAll(".date-button").forEach((button) => {
         button.addEventListener("click", () => {
             selectedDate = button.dataset.date;
-            renderDateStrip();
+            renderDateStrips();
             renderSelectedDay();
-            if (mapMode === "day" && document.querySelector("#map-panel").classList.contains("active")) {
-                renderMap();
-            }
+            renderRoute();
         });
     });
 
     requestAnimationFrame(() => {
-        document.querySelector(`.date-button[data-date="${selectedDate}"]`)
+        container.querySelector(`.date-button[data-date="${selectedDate}"]`)
             ?.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
     });
+};
+
+const renderDateStrips = () => {
+    renderDateStripInto(dateStrip);
+    renderDateStripInto(routeDateStrip);
 };
 
 const renderSelectedDay = () => {
@@ -367,9 +334,7 @@ const renderSelectedDay = () => {
             <div class="timeline-time">${escapeHtml(item.time)}</div>
             <div class="timeline-content">
                 <div class="timeline-meta">
-                    <span class="type-badge type-${escapeHtml(item.type)}">
-                        ${getTypeLabel(item.type)}
-                    </span>
+                    <span class="type-badge type-${escapeHtml(item.type)}">${getTypeLabel(item.type)}</span>
                     ${item.fixed ? '<span class="fixed-badge">고정</span>' : ""}
                 </div>
                 <strong>${escapeHtml(item.title)}</strong>
@@ -397,129 +362,54 @@ const renderSelectedDay = () => {
     `;
 };
 
-const googleMapsUrl = (place) => {
-    const query = encodeURIComponent(`${place.lat},${place.lng}`);
-    return `https://www.google.com/maps/search/?api=1&query=${query}`;
-};
+const renderRoute = () => {
+    const day = getDay(selectedDate) || tripData.days[0];
+    const places = getRoutePlaces(selectedDate);
 
-const renderMapFallback = (places) => {
+    routeSummary.innerHTML = `
+        <article class="route-head-card">
+            <div>
+                <p class="section-kicker">${escapeHtml(day.label)}</p>
+                <h3>${escapeHtml(day.title)}</h3>
+                <p>${escapeHtml(day.city)} · ${places.length} stops</p>
+            </div>
+            <a
+                class="google-route-button"
+                href="${googleMapsRouteUrl(places)}"
+                target="_blank"
+                rel="noopener noreferrer"
+            >
+                <span>Google Maps</span>
+                <strong>전체 동선 열기 ↗</strong>
+            </a>
+        </article>
+    `;
+
     if (places.length === 0) {
-        mapFallback.innerHTML = '<p class="helper-text">표시할 장소가 아직 없습니다.</p>';
+        routeList.innerHTML = '<div class="route-empty">등록된 동선 장소가 아직 없습니다.</div>';
         return;
     }
 
-    mapFallback.innerHTML = places.map((place, index) => `
-        <a
-            class="place-link"
-            href="${googleMapsUrl(place)}"
-            target="_blank"
-            rel="noopener noreferrer"
-        >
-            <span>${mapMode === "day" ? `${index + 1}. ` : ""}${escapeHtml(place.name)}</span>
-            <small>Maps ↗</small>
-        </a>
+    routeList.innerHTML = places.map((place, index) => `
+        <article class="route-stop-card">
+            <div class="route-sequence">
+                <span>${index + 1}</span>
+                ${index < places.length - 1 ? '<i aria-hidden="true"></i>' : ""}
+            </div>
+            <div class="route-stop-content">
+                <small>${escapeHtml(place.category || "장소")}</small>
+                <strong>${escapeHtml(place.name)}</strong>
+                <span>${escapeHtml(place.city)}</span>
+            </div>
+            <a
+                class="route-place-button"
+                href="${googleMapsPlaceUrl(place)}"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="${escapeHtml(place.name)} Google Maps에서 열기"
+            >지도 ↗</a>
+        </article>
     `).join("");
-};
-
-const getMapPlaces = () => {
-    if (mapMode === "all") {
-        return tripData.places;
-    }
-    return getRoutePlaces(selectedDate);
-};
-
-const renderMap = () => {
-    const mapContainer = document.querySelector("#trip-map");
-    const day = getDay(selectedDate);
-    const places = getMapPlaces();
-
-    mapDayLabel.textContent = mapMode === "all"
-        ? "전체 여행의 주요 장소"
-        : `${day?.label || ""} · ${day?.title || ""} · 선은 방문 순서를 나타냅니다.`;
-
-    renderMapFallback(places);
-
-    if (map) {
-        map.remove();
-        map = null;
-    }
-
-    mapContainer.classList.remove("map-error");
-    mapContainer.innerHTML = "";
-
-    if (!window.L) {
-        mapContainer.classList.add("map-error");
-        mapContainer.textContent = "지도를 불러오지 못했습니다. 아래 Google Maps 장소 버튼을 이용해주세요.";
-        return;
-    }
-
-    if (places.length === 0) {
-        mapContainer.classList.add("map-error");
-        mapContainer.textContent = "이 날짜의 지도 장소는 아직 등록되지 않았습니다.";
-        return;
-    }
-
-    try {
-        map = L.map("trip-map", {
-            scrollWheelZoom: false,
-            zoomControl: true
-        });
-
-        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-            maxZoom: 19,
-            attribution: "&copy; OpenStreetMap contributors"
-        }).addTo(map);
-
-        const bounds = [];
-
-        places.forEach((place, index) => {
-            const markerHtml = mapMode === "day"
-                ? `<div class="number-marker">${index + 1}</div>`
-                : '<div class="number-marker all"></div>';
-
-            const icon = L.divIcon({
-                className: "",
-                html: markerHtml,
-                iconSize: mapMode === "day" ? [30, 30] : [24, 24],
-                iconAnchor: mapMode === "day" ? [15, 15] : [12, 12]
-            });
-
-            L.marker([place.lat, place.lng], { icon })
-                .addTo(map)
-                .bindPopup(`
-                    <div class="map-popup">
-                        <strong>${escapeHtml(place.name)}</strong>
-                        <span>${escapeHtml(place.category)} · ${escapeHtml(place.city)}</span>
-                        <a href="${googleMapsUrl(place)}" target="_blank" rel="noopener noreferrer">
-                            Google Maps에서 열기
-                        </a>
-                    </div>
-                `);
-
-            bounds.push([place.lat, place.lng]);
-        });
-
-        if (mapMode === "day" && places.length >= 2) {
-            L.polyline(bounds, {
-                color: "#5f4635",
-                weight: 2,
-                opacity: 0.55,
-                dashArray: "6 8"
-            }).addTo(map);
-        }
-
-        if (bounds.length === 1) {
-            map.setView(bounds[0], 13);
-        } else {
-            map.fitBounds(bounds, { padding: [35, 35] });
-        }
-
-        setTimeout(() => map?.invalidateSize(), 80);
-    } catch (error) {
-        console.error("Map initialization failed:", error);
-        mapContainer.classList.add("map-error");
-        mapContainer.textContent = "지도를 표시하는 중 오류가 발생했습니다. 아래 Google Maps 장소 버튼을 이용해주세요.";
-    }
 };
 
 const renderBookings = () => {
@@ -527,18 +417,9 @@ const renderBookings = () => {
     const hotelTotal = tripData.hotels.reduce((sum, item) => sum + item.price, 0);
 
     bookingSummary.innerHTML = `
-        <article class="booking-stat">
-            <span>FLIGHTS</span>
-            <strong>${tripData.flights.length}</strong>
-        </article>
-        <article class="booking-stat">
-            <span>STAYS</span>
-            <strong>${tripData.hotels.length}</strong>
-        </article>
-        <article class="booking-stat">
-            <span>CONFIRMED</span>
-            <strong>${formatKrw(flightTotal + hotelTotal)}</strong>
-        </article>
+        <article class="booking-stat"><span>FLIGHTS</span><strong>${tripData.flights.length}</strong></article>
+        <article class="booking-stat"><span>STAYS</span><strong>${tripData.hotels.length}</strong></article>
+        <article class="booking-stat"><span>CONFIRMED</span><strong>${formatKrw(flightTotal + hotelTotal)}</strong></article>
     `;
 
     flightList.innerHTML = `
@@ -576,35 +457,20 @@ const renderBudget = () => {
     const fixedTotal = tripData.budget
         .filter((item) => item.status === "확정")
         .reduce((sum, item) => sum + item.amount, 0);
-    const estimatedTotal = tripData.budget.reduce(
-        (sum, item) => sum + item.amount,
-        0
-    );
+    const estimatedTotal = tripData.budget.reduce((sum, item) => sum + item.amount, 0);
     const remaining = estimatedTotal - fixedTotal;
 
     budgetSummary.innerHTML = `
-        <article class="budget-highlight">
-            <span>현재 확정</span>
-            <strong>${formatKrw(fixedTotal)}</strong>
-        </article>
-        <article class="budget-highlight main">
-            <span>예상 총액</span>
-            <strong>${formatKrw(estimatedTotal)}</strong>
-            <small>쇼핑 제외</small>
-        </article>
-        <article class="budget-highlight">
-            <span>추가 예상</span>
-            <strong>${formatKrw(remaining)}</strong>
-        </article>
+        <article class="budget-highlight"><span>현재 확정</span><strong>${formatKrw(fixedTotal)}</strong></article>
+        <article class="budget-highlight main"><span>예상 총액</span><strong>${formatKrw(estimatedTotal)}</strong><small>쇼핑 제외</small></article>
+        <article class="budget-highlight"><span>추가 예상</span><strong>${formatKrw(remaining)}</strong></article>
     `;
 
     budgetList.innerHTML = tripData.budget.map((item) => `
         <div class="budget-row">
             <div>
                 <strong>${escapeHtml(item.name)}</strong>
-                <span class="status status-${item.status === "확정" ? "fixed" : "estimate"}">
-                    ${escapeHtml(item.status)}
-                </span>
+                <span class="status status-${item.status === "확정" ? "fixed" : "estimate"}">${escapeHtml(item.status)}</span>
                 ${item.range ? `<p>${escapeHtml(item.range)}</p>` : ""}
             </div>
             <strong>${formatKrw(item.amount)}</strong>
@@ -639,19 +505,17 @@ const activateTab = (tabName) => {
         button.classList.toggle("active", button.dataset.tab === tabName);
     });
 
-    document.querySelectorAll(".tab-panel").forEach((panel) => {
-        panel.classList.remove("active");
-    });
-
+    document.querySelectorAll(".tab-panel").forEach((panel) => panel.classList.remove("active"));
     document.querySelector(`#${tabName}-panel`)?.classList.add("active");
 
     if (tabName === "schedule") {
-        renderDateStrip();
+        renderDateStrips();
         renderSelectedDay();
     }
 
     if (tabName === "map") {
-        setTimeout(renderMap, 40);
+        renderDateStrips();
+        renderRoute();
     }
 
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -665,28 +529,24 @@ document.querySelectorAll("[data-go-tab]").forEach((button) => {
     button.addEventListener("click", () => activateTab(button.dataset.goTab));
 });
 
-document.querySelector("#jump-today").addEventListener("click", () => {
+document.querySelector("#jump-today")?.addEventListener("click", () => {
     selectedDate = tripState.focusDate;
-    renderDateStrip();
+    renderDateStrips();
     renderSelectedDay();
 });
 
-document.querySelectorAll(".map-mode").forEach((button) => {
-    button.addEventListener("click", () => {
-        mapMode = button.dataset.mapMode;
-        document.querySelectorAll(".map-mode").forEach((item) => {
-            item.classList.toggle("active", item === button);
-        });
-        renderMap();
-    });
+document.querySelector("#route-today")?.addEventListener("click", () => {
+    selectedDate = tripState.focusDate;
+    renderDateStrips();
+    renderRoute();
 });
 
 renderCountdown();
 renderHomeFocus();
 renderJourney();
-renderFixedHighlights();
-renderDateStrip();
+renderDateStrips();
 renderSelectedDay();
+renderRoute();
 renderBookings();
 renderBudget();
 renderShopping();
