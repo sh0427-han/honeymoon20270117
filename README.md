@@ -8,10 +8,27 @@ When continuing this project in a new ChatGPT conversation or a new work session
 
 1. **`PROJECT_CONTEXT.md`** — persistent trip context, fixed constraints, decisions, budget assumptions, shopping strategy, TODOs
 2. **`itinerary.js`** — canonical data currently rendered by the web app
+3. **`README.md`** — current product/design direction
 
 Recommended continuation prompt:
 
 > GitHub `sh0427-han/honeymoon20270117` 레포의 `PROJECT_CONTEXT.md`와 `itinerary.js`를 먼저 읽고 신혼여행 프로젝트를 이어서 작업해줘.
+
+## Current design direction — V2
+
+The selected UI direction is **Hybrid D: Luxury Editorial + Clean Travel App**.
+
+- The landing/home experience should feel like a refined honeymoon travel journal.
+- Daily use should remain compact, fast, and app-like.
+- **Do not use destination photos**. Performance on roaming/mobile networks is more important than photography.
+- Use system fonts where possible; the editorial English display type can use local serif fallbacks such as Georgia.
+- Mobile-first navigation: `홈 / 일정 / 지도 / 예약 / 더보기`.
+- Before the trip, the home screen emphasizes the D-day and next trip day.
+- During the trip, the home screen automatically emphasizes today's itinerary.
+- The schedule view shows one selected day at a time with a horizontal date selector.
+- The map supports both **selected-day route** and **whole-trip** modes.
+- Leaflet map failures must never block access to place information: always keep Google Maps fallback links visible.
+- Daily map markers use HTML/number markers instead of Leaflet image-marker assets to reduce external asset failure points.
 
 ## Goals
 
@@ -28,12 +45,20 @@ This repository is currently public. Do not store passport numbers, booking refe
 
 ## Structure
 
-- `index.html`: page shell
-- `styles.css`: responsive styling
+- `index.html`: V2 page shell and navigation
+- `styles.css`: responsive editorial/travel-app styling
 - `itinerary.js`: canonical trip data
-- `app.js`: rendering and interactions
+- `app.js`: rendering, D-day/today state, day selector, map modes, budget, shopping interactions
 - `PROJECT_CONTEXT.md`: long-term context and decision log
-- `README.md`: project entry point
+- `README.md`: project entry point and current design direction
+
+## Map implementation
+
+- Leaflet 1.9.4 + OpenStreetMap tiles
+- Official Leaflet CSS/JS integrity hashes
+- Selected-day route view uses numbered HTML markers and a sequence line
+- Whole-trip map uses compact markers
+- Google Maps links are rendered below the map as a fallback even when Leaflet fails to load
 
 ## Run
 
