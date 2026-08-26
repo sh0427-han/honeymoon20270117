@@ -34,11 +34,17 @@ index.html
 styles.css
 itinerary.js
 app.js
+time-context.js
+travel-now.js
+travel-now.css
+schedule-fixes.js
+schedule-route.css
 booking-data.js
 enhancements.js
 enhancements.css
 booking-apps.js
 booking-apps.css
+personalization.css
 README.md
 PROJECT_CONTEXT.md
 DESIGN_SYSTEM.md
@@ -48,7 +54,7 @@ AI 작업 순서:
 
 1. `PROJECT_CONTEXT.md`
 2. `itinerary.js` — 실제 최신 일정의 canonical source
-3. 필요 시 `booking-data.js`, `app.js`, `enhancements.js`, CSS, `index.html`
+3. 필요 시 `time-context.js`, `booking-data.js`, `app.js`, `schedule-fixes.js`, `enhancements.js`, CSS, `index.html`
 4. 사용자의 최신 요청이 기존 문서와 충돌하면 최신 요청 우선
 5. 중요한 일정/예약/예산/렌터카/투어 결정 변경 시 컨텍스트도 갱신
 
@@ -359,8 +365,35 @@ B가 약 5~7만 원 정도만 비싸면 편의성 때문에 공항 반납도 고
 - 일정 행을 누르면 아래 DAY MAP에서 해당 위치 강조
 - 선택 위치는 지도에서 강조 마커
 - 장소별 Google Maps 열기
-- 별도 동선 탭에서 날짜별 전체 동선 Google Maps 연결
+- 별도 `동선` 탭은 제거하고 일정 탭의 DAY MAP에 통합
+- DAY MAP 위 `DAY ROUTE`에서 번호 마커 순서로 하루 이동 흐름을 한눈에 확인
+- 지도에는 지상 이동 경로선을 표시하고 항공/페리 같은 구간은 분리해서 표현
 - 홈의 NEXT/TODAY 일정 카드는 해당 날짜 전체 일정을 카드 내부 스크롤로 확인
+
+시간대 / TODAY / 테스트 모드:
+
+- 브라우저 기기 시간대에만 의존하지 않고 여행 구간별 IANA timezone을 사용
+- 출국 전/귀국 후: `Asia/Seoul`
+- Sydney 구간: `Australia/Sydney`
+- Queenstown 이후 New Zealand 구간: `Pacific/Auckland`
+- 1/17, 1/20, 1/29처럼 하루에 시간대가 섞이는 날짜는 각 일정 항목별 timezone을 별도로 계산
+- 실제 현재시각을 기준으로 `TODAY` 날짜와 홈 `NOW / NEXT` 상태를 계산
+- 여행 중 홈 상단에 현재 일정과 다음 일정을 빠르게 보여주는 `LIVE TRIP` 카드 표시
+- 일반 여행 전/여행 후 화면은 깔끔하게 유지하고, 테스트 모드에서는 NOW/NEXT 카드를 항상 표시
+- URL 테스트 우선순위: `?datetime=YYYY-MM-DDTHH:MM` > `?date=YYYY-MM-DD` > 실제 현재시각
+- `?date=`만 지정하면 해당 날짜 12:00 기준으로 테스트
+- 테스트 모드에서는 화면 우측 상단에 `TEST · 날짜 시간 · timezone` 배지 표시
+- 실제 모드에서는 30초 주기로 NOW/NEXT를 갱신하고 날짜가 바뀌면 TODAY 화면도 자동 보정
+
+대표 테스트 예:
+
+```text
+?datetime=2027-01-17T06:00  → KST 출국 준비
+?datetime=2027-01-20T10:55  → Sydney 출발 시각
+?datetime=2027-01-23T09:30  → NZ Onsen 이후 / Arrowtown 전
+?datetime=2027-01-29T19:40  → KST 인천 도착
+?date=2027-01-23             → 1/23 12:00 NZ 기준
+```
 
 1/17 DAY MAP은 출국 전 지상 이동을 중심으로:
 
@@ -370,7 +403,7 @@ B가 약 5~7만 원 정도만 비싸면 편의성 때문에 공항 반납도 고
 → 대한항공 프레스티지 라운지
 ```
 
-를 표시한다.
+를 기본 전체 동선으로 유지하되, Sydney Airport / Meriton 숙소 일정도 개별 위치 확인이 가능하다.
 
 예약 UX:
 
@@ -421,10 +454,11 @@ Public repository / GitHub Pages에는 아래를 저장하지 않는다.
 - [ ] 여행 직전 1/17 대한항공 T2 / 라운지 운영시간 재확인
 - [ ] 여행 직전 용인 → 인천공항 예상 교통시간 재확인
 - [ ] 실제 Android/iPhone에서 대한항공 My / Trip.com / Airbnb 앱 버튼 동작 확인
+- [ ] 실제 모바일에서 `?datetime=` 기준 NOW/NEXT 및 여행 구간별 timezone 표시 확인
 - [ ] 필요 시 offline/PWA 기능 추가
 
 ---
 
 ## 14. 핵심 원칙
 
-**집에서 출발하는 순간부터 신혼여행 일정으로 관리하고, 공항에는 국제선 출발 3시간 전에 도착해 비즈니스 체크인과 라운지 시간을 충분히 확보한다. 이후 일정은 숙소·항공과 3개 핵심 투어를 유지하면서 이동 피로를 줄이고, 실제 여행 중 휴대폰에서 빠르게 확인할 수 있도록 운영한다. Public GitHub Pages에는 민감한 예약 문서를 저장하지 않고, 개인 예약 상세정보는 로그인된 휴대폰 앱으로 연결해 확인한다.**
+**집에서 출발하는 순간부터 신혼여행 일정으로 관리하고, 공항에는 국제선 출발 3시간 전에 도착해 비즈니스 체크인과 라운지 시간을 충분히 확보한다. 이후 일정은 숙소·항공과 3개 핵심 투어를 유지하면서 이동 피로를 줄이고, 실제 여행 중 휴대폰에서 빠르게 확인할 수 있도록 운영한다. Public GitHub Pages에는 민감한 예약 문서를 저장하지 않고, 개인 예약 상세정보는 로그인된 휴대폰 앱으로 연결해 확인한다. 여행 중 TODAY/NOW/NEXT는 기기 시간대가 아니라 일정 구간의 현지 timezone을 기준으로 판단한다.**
