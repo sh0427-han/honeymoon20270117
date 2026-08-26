@@ -97,18 +97,20 @@
         return ZONES.seoul;
     };
 
-    // URL test values are interpreted as itinerary-local clock values.
+    // URL test values are interpreted as itinerary-local clock values. Exact
+    // departure times remain in the departure timezone; the following clock values
+    // use the destination phase.
     const zoneForTestLocal = (dateIso, time) => {
         if (dateIso < "2027-01-17") return ZONES.seoul;
         if (dateIso > "2027-01-29") return ZONES.seoul;
 
         if (dateIso === "2027-01-17") {
-            return timeToMinutes(time) < timeToMinutes("08:00") ? ZONES.seoul : ZONES.sydney;
+            return timeToMinutes(time) <= timeToMinutes("08:00") ? ZONES.seoul : ZONES.sydney;
         }
         if (dateIso <= "2027-01-19") return ZONES.sydney;
 
         if (dateIso === "2027-01-20") {
-            return timeToMinutes(time) < timeToMinutes("10:55") ? ZONES.sydney : ZONES.nz;
+            return timeToMinutes(time) <= timeToMinutes("10:55") ? ZONES.sydney : ZONES.nz;
         }
         if (dateIso <= "2027-01-28") return ZONES.nz;
 
