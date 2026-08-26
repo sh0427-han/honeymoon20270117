@@ -12,9 +12,10 @@
         integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY="
         crossorigin=""
     >
-    <link rel="stylesheet" href="styles.css?v=20260826-v9">
-    <link rel="stylesheet" href="enhancements.css?v=20260826-v9">
-    <link rel="stylesheet" href="booking-apps.css?v=20260826-v9">
+    <link rel="stylesheet" href="styles.css?v=20260826-v10">
+    <link rel="stylesheet" href="enhancements.css?v=20260826-v10">
+    <link rel="stylesheet" href="booking-apps.css?v=20260826-v10">
+    <link rel="stylesheet" href="personalization.css?v=20260826-v10">
 </head>
 <body>
     <div class="site-shell">
@@ -32,7 +33,13 @@
             </div>
 
             <div class="hero-metrics" aria-label="여행 요약">
-                <div><span>Departure</span><strong id="countdown-value">D-DAY</strong><small id="countdown-caption">until departure</small></div>
+                <div class="couple-metric">
+                    <span>TOGETHER</span>
+                    <strong class="couple-names">SANGHUN<br>&amp; JINYEONG</strong>
+                    <small>our honeymoon</small>
+                    <span id="countdown-value" hidden>D-DAY</span>
+                    <span id="countdown-caption" hidden>until departure</span>
+                </div>
                 <div><span>Stay</span><strong>12</strong><small>nights</small></div>
                 <div><span>Journey</span><strong>13</strong><small>days</small></div>
             </div>
@@ -116,10 +123,11 @@
     <noscript><div class="noscript-note">이 일정 페이지는 JavaScript가 필요합니다.</div></noscript>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="itinerary.js?v=20260826-v9"></script>
-    <script src="app.js?v=20260826-v9"></script>
-    <script src="booking-data.js?v=20260826-v9"></script>
-    <script src="enhancements.js?v=20260826-v9"></script>
-    <script src="booking-apps.js?v=20260826-v9"></script>
+    <script src="itinerary.js?v=20260826-v10"></script>
+    <script src="app.js?v=20260826-v10"></script>
+    <script src="schedule-fixes.js?v=20260826-v10"></script>
+    <script src="booking-data.js?v=20260826-v10"></script>
+    <script src="enhancements.js?v=20260826-v10"></script>
+    <script src="booking-apps.js?v=20260826-v10"></script>
 </body>
 </html>
