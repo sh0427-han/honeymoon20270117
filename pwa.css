@@ -1,0 +1,114 @@
+.pwa-install-card {
+    display: grid;
+    grid-template-columns: 58px minmax(0, 1fr) auto;
+    gap: 14px;
+    align-items: center;
+    margin: 0 0 34px;
+    padding: 16px 0;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line);
+}
+
+.pwa-install-card__icon {
+    display: grid;
+    width: 52px;
+    height: 52px;
+    place-items: center;
+    border: 1px solid var(--line-strong);
+    border-radius: 14px;
+    background:
+        radial-gradient(circle at 75% 20%, var(--sky-soft) 0, transparent 42%),
+        radial-gradient(circle at 18% 86%, var(--peach-soft) 0, transparent 44%),
+        var(--paper);
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 0.95rem;
+}
+
+.pwa-install-card__content {
+    min-width: 0;
+}
+
+.pwa-install-card__content p {
+    margin: 0 0 2px;
+    color: var(--sage);
+    font-size: 0.57rem;
+    font-weight: 780;
+    letter-spacing: 0.13em;
+}
+
+.pwa-install-card__content strong {
+    display: block;
+    font-size: 0.86rem;
+}
+
+.pwa-install-card__content span {
+    display: block;
+    margin-top: 3px;
+    color: var(--muted);
+    font-size: 0.68rem;
+    line-height: 1.45;
+}
+
+#pwa-install-button {
+    min-height: 40px;
+    padding: 0 13px;
+    border: 1px solid var(--black);
+    border-radius: 999px;
+    background: var(--black);
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.67rem;
+    font-weight: 760;
+    white-space: nowrap;
+}
+
+.network-status-badge {
+    position: fixed;
+    z-index: 2200;
+    top: max(10px, env(safe-area-inset-top));
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    max-width: calc(100% - 28px);
+    padding: 8px 11px;
+    border: 1px solid rgba(24, 25, 21, 0.2);
+    border-radius: 999px;
+    background: rgba(252, 251, 247, 0.96);
+    box-shadow: 0 6px 20px rgba(24, 25, 21, 0.12);
+    transform: translateX(-50%);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+}
+
+.network-status-badge strong {
+    color: var(--peach);
+    font-size: 0.61rem;
+    letter-spacing: 0.1em;
+}
+
+.network-status-badge span {
+    overflow: hidden;
+    color: var(--muted);
+    font-size: 0.62rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+    .pwa-install-card {
+        grid-template-columns: 50px minmax(0, 1fr);
+    }
+
+    .pwa-install-card__icon {
+        width: 46px;
+        height: 46px;
+        border-radius: 12px;
+        font-size: 0.83rem;
+    }
+
+    #pwa-install-button {
+        grid-column: 1 / -1;
+        width: 100%;
+    }
+}
