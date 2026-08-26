@@ -1,0 +1,18 @@
+.couple-metric .couple-names {
+    display: block;
+    font-size: clamp(1.05rem, 3.9vw, 1.5rem);
+    line-height: 0.98;
+    letter-spacing: -0.045em;
+    white-space: nowrap;
+}
+
+.couple-metric small {
+    margin-top: 2px;
+}
+
+@media (max-width: 420px) {
+    .couple-metric .couple-names {
+        font-size: 1rem;
+        white-space: normal;
+    }
+}
