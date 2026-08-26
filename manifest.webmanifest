@@ -1,0 +1,20 @@
+{
+  "name": "Sanghun & Jinyeong · Honeymoon 2027",
+  "short_name": "Honeymoon",
+  "description": "Australia & New Zealand honeymoon itinerary for Sanghun & Jinyeong",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#f4f2ec",
+  "theme_color": "#f4f2ec",
+  "lang": "ko-KR",
+  "icons": [
+    {
+      "src": "./app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
