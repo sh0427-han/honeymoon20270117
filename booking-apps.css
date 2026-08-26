@@ -1,0 +1,148 @@
+.booking-app-launcher {
+    margin: 0 0 34px;
+    padding: 22px 0 28px;
+    border-bottom: 1px solid var(--line);
+}
+
+.booking-app-launcher__head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.booking-app-launcher__head h3 {
+    margin: 3px 0 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.35rem;
+    font-weight: 500;
+}
+
+.booking-app-launcher__head small {
+    color: var(--muted);
+    font-size: 0.68rem;
+}
+
+.booking-app-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.booking-app-card {
+    display: grid;
+    gap: 16px;
+    min-height: 152px;
+    padding: 16px;
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    background: var(--paper);
+}
+
+.booking-app-card__copy {
+    display: grid;
+    align-content: start;
+    gap: 5px;
+}
+
+.booking-app-card__copy strong {
+    font-size: 0.92rem;
+}
+
+.booking-app-card__copy span {
+    color: var(--muted);
+    font-size: 0.7rem;
+    line-height: 1.45;
+}
+
+.booking-app-card__actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    gap: 7px;
+    margin-top: auto;
+}
+
+.booking-app-open,
+.booking-app-store {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 34px;
+    padding: 7px 11px;
+    border-radius: 999px;
+    font: inherit;
+    font-size: 0.67rem;
+    font-weight: 760;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.booking-app-open {
+    border: 1px solid var(--ink);
+    background: var(--ink);
+    color: #fff;
+}
+
+.booking-app-store {
+    border: 1px solid var(--line-strong);
+    background: transparent;
+    color: var(--ink);
+}
+
+.booking-app-open:hover,
+.booking-app-open:focus-visible {
+    opacity: 0.82;
+}
+
+.booking-app-store:hover,
+.booking-app-store:focus-visible {
+    border-color: var(--ink);
+}
+
+.booking-app-helper {
+    margin: 12px 0 0;
+    color: var(--muted);
+    font-size: 0.66rem;
+    line-height: 1.5;
+}
+
+@media (max-width: 760px) {
+    .booking-app-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-app-card {
+        grid-template-columns: minmax(0, 1fr) auto;
+        align-items: center;
+        min-height: 0;
+    }
+
+    .booking-app-card__actions {
+        justify-content: flex-end;
+    }
+}
+
+@media (max-width: 520px) {
+    .booking-app-launcher__head {
+        align-items: start;
+        flex-direction: column;
+        gap: 4px;
+    }
+
+    .booking-app-card {
+        grid-template-columns: 1fr;
+        gap: 12px;
+    }
+
+    .booking-app-card__actions {
+        justify-content: flex-start;
+    }
+
+    .booking-app-open,
+    .booking-app-store {
+        min-height: 36px;
+    }
+}
