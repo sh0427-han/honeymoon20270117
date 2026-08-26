@@ -1,0 +1,175 @@
+.travel-now-card {
+    margin: 0 0 14px;
+    overflow: hidden;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+    background: var(--paper-strong);
+}
+
+.travel-now-card__head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px 15px;
+    border-bottom: 1px solid var(--line);
+}
+
+.travel-now-card__head h2 {
+    margin: 4px 0 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: clamp(1.35rem, 5vw, 1.85rem);
+    font-weight: 400;
+    letter-spacing: -0.04em;
+}
+
+.travel-now-clock {
+    display: grid;
+    justify-items: end;
+    flex: 0 0 auto;
+}
+
+.travel-now-clock strong {
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 1.05rem;
+}
+
+.travel-now-clock span {
+    margin-top: 1px;
+    color: var(--muted);
+    font-size: 0.58rem;
+    font-weight: 780;
+    letter-spacing: 0.12em;
+}
+
+.travel-now-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.travel-now-state {
+    position: relative;
+    display: grid;
+    align-content: start;
+    min-height: 116px;
+    padding: 17px 20px 18px;
+}
+
+.travel-now-state + .travel-now-state {
+    border-left: 1px solid var(--line);
+}
+
+.travel-now-state > span {
+    width: fit-content;
+    margin-bottom: 8px;
+    padding: 3px 7px;
+    border-radius: 999px;
+    font-size: 0.57rem;
+    font-weight: 820;
+    letter-spacing: 0.12em;
+}
+
+.travel-now-state.is-now > span {
+    background: var(--yellow);
+    color: var(--black);
+}
+
+.travel-now-state.is-next > span {
+    background: var(--sage-soft);
+    color: #526151;
+}
+
+.travel-now-state strong {
+    font-size: 0.9rem;
+    line-height: 1.35;
+}
+
+.travel-now-state small {
+    margin-top: 5px;
+    color: var(--muted);
+    font-size: 0.68rem;
+    line-height: 1.45;
+}
+
+.travel-now-card__foot {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 11px 20px 14px;
+    border-top: 1px solid var(--line);
+}
+
+.travel-now-card__foot button {
+    min-height: 34px;
+    padding: 7px 11px;
+    border: 1px solid var(--black);
+    border-radius: 999px;
+    background: var(--black);
+    color: #fff;
+    cursor: pointer;
+    font-size: 0.67rem;
+    font-weight: 760;
+}
+
+.travel-now-card__foot small {
+    color: var(--muted);
+    font-size: 0.61rem;
+    text-align: right;
+}
+
+.trip-test-badge {
+    position: fixed;
+    z-index: 2000;
+    top: max(10px, env(safe-area-inset-top));
+    right: max(10px, env(safe-area-inset-right));
+    max-width: calc(100vw - 20px);
+    padding: 6px 9px;
+    border: 1px solid rgba(24, 25, 21, 0.28);
+    border-radius: 999px;
+    background: rgba(24, 25, 21, 0.9);
+    color: #fff;
+    box-shadow: 0 5px 18px rgba(24, 25, 21, 0.16);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.58rem;
+    font-weight: 750;
+    letter-spacing: 0.04em;
+    white-space: nowrap;
+}
+
+@media (max-width: 560px) {
+    .travel-now-card__head {
+        padding: 16px 17px 13px;
+    }
+
+    .travel-now-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .travel-now-state {
+        min-height: 0;
+        padding: 15px 17px 16px;
+    }
+
+    .travel-now-state + .travel-now-state {
+        border-top: 1px solid var(--line);
+        border-left: 0;
+    }
+
+    .travel-now-card__foot {
+        align-items: flex-start;
+        padding: 10px 17px 13px;
+    }
+
+    .travel-now-card__foot small {
+        max-width: 56%;
+    }
+
+    .trip-test-badge {
+        top: max(7px, env(safe-area-inset-top));
+        right: max(7px, env(safe-area-inset-right));
+        font-size: 0.54rem;
+    }
+}
