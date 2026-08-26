@@ -45,6 +45,11 @@ enhancements.css
 booking-apps.js
 booking-apps.css
 personalization.css
+manifest.webmanifest
+service-worker.js
+pwa.js
+pwa.css
+app-icon.svg
 README.md
 PROJECT_CONTEXT.md
 DESIGN_SYSTEM.md
@@ -54,7 +59,7 @@ AI 작업 순서:
 
 1. `PROJECT_CONTEXT.md`
 2. `itinerary.js` — 실제 최신 일정의 canonical source
-3. 필요 시 `time-context.js`, `booking-data.js`, `app.js`, `schedule-fixes.js`, `enhancements.js`, CSS, `index.html`
+3. 필요 시 `time-context.js`, `booking-data.js`, `app.js`, `schedule-fixes.js`, `enhancements.js`, `pwa.js`, CSS, `index.html`
 4. 사용자의 최신 요청이 기존 문서와 충돌하면 최신 요청 우선
 5. 중요한 일정/예약/예산/렌터카/투어 결정 변경 시 컨텍스트도 갱신
 
@@ -395,6 +400,20 @@ B가 약 5~7만 원 정도만 비싸면 편의성 때문에 공항 반납도 고
 ?date=2027-01-23             → 1/23 12:00 NZ 기준
 ```
 
+PWA / 오프라인 운영:
+
+- `manifest.webmanifest` + `service-worker.js`를 사용해 홈 화면 설치 가능한 PWA로 운영
+- 설치 시 standalone 모드로 실행해 브라우저 주소창 없이 앱처럼 사용
+- Android/Chromium에서 설치 이벤트가 제공되면 `더보기` 탭에 `앱 설치` 버튼 표시
+- iPhone/iPad에서는 Safari `공유 → 홈 화면에 추가` 안내 표시
+- 앱 셸과 일정 데이터(`itinerary.js`), 예약 구조, NOW/NEXT, 스타일/스크립트를 사전 캐시
+- 인터넷이 끊겨도 홈/일정/예약 구조/예산/가족 선물 체크리스트는 다시 열 수 있도록 함
+- 오프라인이면 화면 상단에 `OFFLINE` 배지를 표시
+- 지도 타일, Google Maps, 대한항공/Trip.com/Airbnb 같은 외부 앱·웹 연결은 인터넷 필요
+- Leaflet/CDN 자원은 온라인 사용 시 runtime cache를 시도하지만 완전한 오프라인 지도는 보장하지 않음
+- Service Worker navigation은 network-first, 앱 정적 파일은 stale-while-revalidate 사용
+- 새 배포 시 Service Worker cache version을 올려 오래된 앱 셸을 정리
+
 1/17 DAY MAP은 출국 전 지상 이동을 중심으로:
 
 ```text
@@ -455,10 +474,11 @@ Public repository / GitHub Pages에는 아래를 저장하지 않는다.
 - [ ] 여행 직전 용인 → 인천공항 예상 교통시간 재확인
 - [ ] 실제 Android/iPhone에서 대한항공 My / Trip.com / Airbnb 앱 버튼 동작 확인
 - [ ] 실제 모바일에서 `?datetime=` 기준 NOW/NEXT 및 여행 구간별 timezone 표시 확인
-- [ ] 필요 시 offline/PWA 기능 추가
+- [x] PWA + offline app shell 구현
+- [ ] 실제 Android/iPhone에서 홈 화면 설치 및 비행기 모드 오프라인 재실행 확인
 
 ---
 
 ## 14. 핵심 원칙
 
-**집에서 출발하는 순간부터 신혼여행 일정으로 관리하고, 공항에는 국제선 출발 3시간 전에 도착해 비즈니스 체크인과 라운지 시간을 충분히 확보한다. 이후 일정은 숙소·항공과 3개 핵심 투어를 유지하면서 이동 피로를 줄이고, 실제 여행 중 휴대폰에서 빠르게 확인할 수 있도록 운영한다. Public GitHub Pages에는 민감한 예약 문서를 저장하지 않고, 개인 예약 상세정보는 로그인된 휴대폰 앱으로 연결해 확인한다. 여행 중 TODAY/NOW/NEXT는 기기 시간대가 아니라 일정 구간의 현지 timezone을 기준으로 판단한다.**
+**집에서 출발하는 순간부터 신혼여행 일정으로 관리하고, 공항에는 국제선 출발 3시간 전에 도착해 비즈니스 체크인과 라운지 시간을 충분히 확보한다. 이후 일정은 숙소·항공과 3개 핵심 투어를 유지하면서 이동 피로를 줄이고, 실제 여행 중 휴대폰에서 빠르게 확인할 수 있도록 운영한다. Public GitHub Pages에는 민감한 예약 문서를 저장하지 않고, 개인 예약 상세정보는 로그인된 휴대폰 앱으로 연결해 확인한다. 여행 중 TODAY/NOW/NEXT는 기기 시간대가 아니라 일정 구간의 현지 timezone을 기준으로 판단한다. 일정 핵심 정보는 PWA 캐시에 보관해 통신이 불안정해도 다시 열 수 있게 하고, 지도/외부 서비스는 온라인 기능으로 분리한다.**
