@@ -1,0 +1,300 @@
+/* Practical travel controls: navigation, booking wallet, compact travel mode, checklist. */
+
+.timeline-directions {
+    margin-top: 8px;
+}
+
+.timeline-directions a {
+    display: inline-flex;
+    min-height: 34px;
+    align-items: center;
+    padding: 6px 10px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: rgba(255, 255, 255, 0.72);
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.64rem;
+    font-weight: 760;
+}
+
+html[data-network="offline"] .timeline-directions a,
+html[data-network="offline"] .booking-upcoming__actions a,
+html[data-network="offline"] .private-drive-entry a {
+    opacity: 0.42;
+    pointer-events: none;
+}
+
+.booking-upcoming {
+    margin: 18px 0 30px;
+    padding: 18px;
+    border: 1px solid var(--line-strong);
+    border-radius: var(--radius-lg);
+    background: var(--paper);
+}
+
+.booking-upcoming__head {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    gap: 12px;
+    margin-bottom: 12px;
+}
+
+.booking-upcoming__head h3 {
+    margin: 3px 0 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+}
+
+.booking-upcoming__head > small {
+    color: var(--muted);
+    font-size: 0.66rem;
+}
+
+.booking-upcoming__grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.booking-upcoming__card {
+    display: grid;
+    gap: 5px;
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: #fff;
+}
+
+.booking-upcoming__card > span {
+    color: var(--peach);
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.booking-upcoming__card.is-tonight > span {
+    color: var(--sage);
+}
+
+.booking-upcoming__card > strong {
+    font-size: 0.84rem;
+    line-height: 1.35;
+}
+
+.booking-upcoming__card > small {
+    color: var(--muted);
+    font-size: 0.65rem;
+}
+
+.booking-upcoming__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 5px;
+}
+
+.booking-upcoming__actions a,
+.booking-upcoming__actions button {
+    display: inline-flex;
+    min-height: 34px;
+    align-items: center;
+    padding: 6px 9px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--ink);
+    cursor: pointer;
+    text-decoration: none;
+    font-size: 0.62rem;
+    font-weight: 760;
+}
+
+.private-drive-entry {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    margin: 16px 0 30px;
+    padding: 16px;
+    border: 1px solid #c8d5dd;
+    border-radius: var(--radius-md);
+    background: var(--sky-soft);
+}
+
+.private-drive-entry > div {
+    display: grid;
+    gap: 3px;
+}
+
+.private-drive-entry > div > strong {
+    font-size: 0.82rem;
+}
+
+.private-drive-entry > div > span {
+    color: var(--muted);
+    font-size: 0.66rem;
+}
+
+.private-drive-entry > a {
+    flex: 0 0 auto;
+    padding: 8px 11px;
+    border: 1px solid var(--ink);
+    border-radius: 999px;
+    color: var(--ink);
+    text-decoration: none;
+    font-size: 0.63rem;
+    font-weight: 780;
+}
+
+.travel-prep-checklist {
+    margin-top: 22px;
+}
+
+.travel-prep-checklist details {
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line-strong);
+}
+
+.travel-prep-checklist summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 15px 0;
+    cursor: pointer;
+    list-style: none;
+}
+
+.travel-prep-checklist summary::-webkit-details-marker {
+    display: none;
+}
+
+.travel-prep-checklist summary > div {
+    display: grid;
+    gap: 3px;
+}
+
+.travel-prep-checklist summary strong {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.25rem;
+    font-weight: 400;
+}
+
+.travel-prep-checklist summary > span {
+    min-width: 52px;
+    padding: 6px 9px;
+    border: 1px solid var(--line-strong);
+    border-radius: 999px;
+    text-align: center;
+    font-size: 0.65rem;
+    font-weight: 760;
+}
+
+.travel-prep-list {
+    display: grid;
+    padding-bottom: 12px;
+}
+
+.travel-prep-item {
+    position: relative;
+    display: grid;
+    grid-template-columns: 24px 1fr;
+    gap: 10px;
+    align-items: start;
+    padding: 12px 0;
+    border-top: 1px solid var(--line);
+    cursor: pointer;
+}
+
+.travel-prep-item input {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+}
+
+.travel-prep-check {
+    width: 20px;
+    height: 20px;
+    margin-top: 1px;
+    border: 1px solid var(--line-strong);
+    border-radius: 5px;
+    background: var(--paper);
+}
+
+.travel-prep-item input:checked + .travel-prep-check {
+    border-color: var(--black);
+    background: var(--black);
+    box-shadow: inset 0 0 0 5px var(--paper);
+}
+
+.travel-prep-item > span:last-child {
+    display: grid;
+    gap: 2px;
+}
+
+.travel-prep-item strong {
+    font-size: 0.78rem;
+}
+
+.travel-prep-item small {
+    color: var(--muted);
+    font-size: 0.65rem;
+}
+
+/* During the actual trip, prioritize operational content over the editorial cover. */
+html[data-travel-ui="active"] .editorial-hero {
+    padding-top: 14px;
+    padding-bottom: 14px;
+}
+
+html[data-travel-ui="active"] .editorial-hero::after,
+html[data-travel-ui="active"] .hero-topline,
+html[data-travel-ui="active"] .hero-copy {
+    display: none;
+}
+
+html[data-travel-ui="active"] .hero-metrics {
+    grid-template-columns: 1fr;
+    border-top: 0;
+}
+
+html[data-travel-ui="active"] .hero-metrics > div:not(.couple-metric) {
+    display: none;
+}
+
+html[data-travel-ui="active"] .hero-metrics > .couple-metric {
+    padding: 0;
+    border-right: 0;
+}
+
+html[data-travel-ui="active"] .couple-names {
+    font-size: 1.25rem;
+    line-height: 1.02;
+}
+
+html[data-travel-ui="active"] .app-main {
+    padding-top: 18px;
+}
+
+@media (max-width: 640px) {
+    .booking-upcoming__grid {
+        grid-template-columns: 1fr;
+    }
+
+    .booking-upcoming__head,
+    .private-drive-entry {
+        align-items: flex-start;
+    }
+
+    .private-drive-entry {
+        display: grid;
+    }
+
+    .private-drive-entry > a {
+        justify-self: start;
+    }
+}
