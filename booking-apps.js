@@ -52,48 +52,62 @@
         return app.webUrl;
     };
 
+    const placeLauncherAtBottom = (section) => {
+        const panel = document.querySelector("#bookings-panel");
+        if (!panel || !section) return;
+        const anchor = panel.querySelector("#tour-list")
+            || panel.querySelector("#hotel-list")
+            || panel.querySelector("#flight-list")
+            || panel.querySelector("#booking-summary");
+        if (!anchor) return;
+        if (anchor.nextElementSibling !== section) {
+            anchor.insertAdjacentElement("afterend", section);
+        }
+    };
+
     const renderBookingAppLauncher = () => {
         const bookingSummary = document.querySelector("#booking-summary");
-        if (!bookingSummary || document.querySelector("#booking-app-launcher")) return;
+        if (!bookingSummary) return;
 
-        const section = document.createElement("section");
-        section.id = "booking-app-launcher";
-        section.className = "booking-app-launcher";
-        section.innerHTML = `
-            <div class="booking-app-launcher__head">
-                <div>
-                    <p class="section-kicker">MY BOOKING APPS</p>
-                    <h3>예약 앱 바로가기</h3>
+        let section = document.querySelector("#booking-app-launcher");
+        if (!section) {
+            section = document.createElement("section");
+            section.id = "booking-app-launcher";
+            section.className = "booking-app-launcher";
+            section.innerHTML = `
+                <div class="booking-app-launcher__head">
+                    <div>
+                        <p class="section-kicker">MY BOOKING APPS</p>
+                        <h3>예약 앱 바로가기</h3>
+                    </div>
+                    <small>개인 예약정보는 앱에서 확인</small>
                 </div>
-                <small>개인 예약정보는 앱에서 확인</small>
-            </div>
-            <div class="booking-app-grid">
-                ${bookingApps.map((app) => `
-                    <article class="booking-app-card" data-booking-app="${app.id}">
-                        <div class="booking-app-card__copy">
-                            <strong>${app.name}</strong>
-                            <span>${app.caption}</span>
-                        </div>
-                        <div class="booking-app-card__actions">
-                            <button type="button" class="booking-app-open" data-open-app="${app.id}">앱/웹 열기</button>
-                            <a class="booking-app-store" data-store-app="${app.id}" href="${getStoreUrl(app)}" target="_blank" rel="noopener noreferrer">앱 설치/열기 ↗</a>
-                        </div>
-                    </article>
-                `).join("")}
-            </div>
-            <p class="booking-app-helper">Android에서는 설치된 앱 실행을 우선 시도합니다. iPhone은 서비스가 Universal Link를 지원하면 앱으로, 그렇지 않으면 공식 웹으로 열립니다.</p>
-        `;
+                <div class="booking-app-grid">
+                    ${bookingApps.map((app) => `
+                        <article class="booking-app-card" data-booking-app="${app.id}">
+                            <div class="booking-app-card__copy">
+                                <strong>${app.name}</strong>
+                                <span>${app.caption}</span>
+                            </div>
+                            <div class="booking-app-card__actions">
+                                <button type="button" class="booking-app-open" data-open-app="${app.id}">앱/웹 열기</button>
+                                <a class="booking-app-store" data-store-app="${app.id}" href="${getStoreUrl(app)}" target="_blank" rel="noopener noreferrer">앱 설치/열기 ↗</a>
+                            </div>
+                        </article>
+                    `).join("")}
+                </div>
+                <p class="booking-app-helper">Android에서는 설치된 앱 실행을 우선 시도합니다. iPhone은 서비스가 Universal Link를 지원하면 앱으로, 그렇지 않으면 공식 웹으로 열립니다.</p>
+            `;
 
-        const privacyNote = document.querySelector("#booking-privacy-note");
-        if (privacyNote) privacyNote.insertAdjacentElement("afterend", section);
-        else bookingSummary.insertAdjacentElement("afterend", section);
-
-        section.querySelectorAll("[data-open-app]").forEach((button) => {
-            button.addEventListener("click", () => {
-                const app = bookingApps.find((item) => item.id === button.dataset.openApp);
-                if (app) openApp(app);
+            section.querySelectorAll("[data-open-app]").forEach((button) => {
+                button.addEventListener("click", () => {
+                    const app = bookingApps.find((item) => item.id === button.dataset.openApp);
+                    if (app) openApp(app);
+                });
             });
-        });
+        }
+
+        placeLauncherAtBottom(section);
     };
 
     const updatePublicBookingCopy = () => {
