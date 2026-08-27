@@ -10,20 +10,21 @@
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="apple-mobile-web-app-title" content="Honeymoon">
     <title>Our Honeymoon · 2027</title>
-    <link rel="manifest" href="manifest.webmanifest?v=20260827-v23">
-    <link rel="icon" href="app-icon.svg?v=20260827-v23" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="app-icon.svg?v=20260827-v23">
+    <link rel="manifest" href="manifest.webmanifest?v=20260827-v24">
+    <link rel="icon" href="app-icon.svg?v=20260827-v24" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="app-icon.svg?v=20260827-v24">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="">
-    <link rel="stylesheet" href="styles.css?v=20260827-v23">
-    <link rel="stylesheet" href="enhancements.css?v=20260827-v23">
-    <link rel="stylesheet" href="booking-apps.css?v=20260827-v23">
-    <link rel="stylesheet" href="personalization.css?v=20260827-v23">
-    <link rel="stylesheet" href="schedule-route.css?v=20260827-v23">
-    <link rel="stylesheet" href="travel-now.css?v=20260827-v23">
-    <link rel="stylesheet" href="pwa.css?v=20260827-v23">
-    <link rel="stylesheet" href="travel-extras.css?v=20260827-v23">
-    <link rel="stylesheet" href="flight-wallet.css?v=20260827-v23">
-    <link rel="stylesheet" href="booking-filter-v23.css">
+    <link rel="stylesheet" href="styles.css?v=20260827-v24">
+    <link rel="stylesheet" href="enhancements.css?v=20260827-v24">
+    <link rel="stylesheet" href="booking-apps.css?v=20260827-v24">
+    <link rel="stylesheet" href="personalization.css?v=20260827-v24">
+    <link rel="stylesheet" href="schedule-route.css?v=20260827-v24">
+    <link rel="stylesheet" href="travel-now.css?v=20260827-v24">
+    <link rel="stylesheet" href="pwa.css?v=20260827-v24">
+    <link rel="stylesheet" href="travel-extras.css?v=20260827-v24">
+    <link rel="stylesheet" href="flight-wallet.css?v=20260827-v24">
+    <link rel="stylesheet" href="booking-wallet-v24.css">
+    <link rel="stylesheet" href="more-hub-v24.css">
 </head>
 <body>
     <div class="site-shell">
@@ -68,8 +69,8 @@
                 </div>
                 <div class="quick-actions" aria-label="빠른 메뉴">
                     <button type="button" class="quick-action" data-go-tab="schedule"><span>01</span><strong>일정</strong><small>타임라인 · DAY MAP</small></button>
-                    <button type="button" class="quick-action" data-go-tab="bookings"><span>02</span><strong>예약</strong><small>항공 · 숙소 · 투어</small></button>
-                    <button type="button" class="quick-action" data-go-tab="more"><span>03</span><strong>더보기</strong><small>예산 · 가족 선물</small></button>
+                    <button type="button" class="quick-action" data-go-tab="bookings"><span>02</span><strong>예약</strong><small>항공 · 숙소 · 투어 · 렌터카</small></button>
+                    <button type="button" class="quick-action" data-go-tab="more"><span>03</span><strong>더보기</strong><small>준비 · 문서 · 긴급</small></button>
                 </div>
                 <section class="home-section">
                     <div class="section-heading compact"><div><p class="section-kicker">THE JOURNEY</p><h2>숙박 동선</h2></div></div>
@@ -88,14 +89,14 @@
             </section>
 
             <section class="tab-panel" id="bookings-panel">
-                <div class="section-heading"><div><p class="section-kicker">BOOKINGS</p><h2>항공 · 숙소 · 투어</h2></div></div>
+                <div class="section-heading"><div><p class="section-kicker">BOOKINGS</p><h2>항공 · 숙소 · 투어 · 렌터카</h2></div></div>
                 <div id="booking-summary" class="booking-summary"></div>
                 <div id="flight-list" class="booking-stack"></div>
                 <div id="hotel-list" class="booking-stack"></div>
             </section>
 
             <section class="tab-panel" id="more-panel">
-                <div class="section-heading"><div><p class="section-kicker">TRIP NOTES</p><h2>예산 · 가족 선물</h2></div></div>
+                <div class="section-heading"><div><p class="section-kicker">TRIP TOOLS</p><h2>여행 도구</h2></div></div>
                 <section class="more-section">
                     <div class="subsection-heading"><h3>여행 예산</h3><span>2인 기준</span></div>
                     <div id="budget-summary" class="budget-summary"></div>
@@ -120,17 +121,18 @@
 
     <noscript><div class="noscript-note">이 일정 페이지는 JavaScript가 필요합니다.</div></noscript>
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
-    <script src="itinerary.js?v=20260827-v23"></script>
-    <script src="app.js?v=20260827-v23"></script>
-    <script src="time-context.js?v=20260827-v23"></script>
-    <script src="schedule-fixes.js?v=20260827-v23"></script>
-    <script src="booking-data.js?v=20260827-v23"></script>
-    <script src="enhancements.js?v=20260827-v23"></script>
-    <script src="booking-apps.js?v=20260827-v23"></script>
-    <script src="travel-now.js?v=20260827-v23"></script>
-    <script src="pwa.js?v=20260827-v23"></script>
-    <script src="travel-extras.js?v=20260827-v23"></script>
-    <script src="flight-wallet.js?v=20260827-v23"></script>
-    <script src="booking-filter-v23.js"></script>
+    <script src="itinerary.js?v=20260827-v24"></script>
+    <script src="app.js?v=20260827-v24"></script>
+    <script src="time-context.js?v=20260827-v24"></script>
+    <script src="schedule-fixes.js?v=20260827-v24"></script>
+    <script src="booking-data.js?v=20260827-v24"></script>
+    <script src="enhancements.js?v=20260827-v24"></script>
+    <script src="booking-apps.js?v=20260827-v24"></script>
+    <script src="travel-now.js?v=20260827-v24"></script>
+    <script src="pwa.js?v=20260827-v24"></script>
+    <script src="travel-extras.js?v=20260827-v24"></script>
+    <script src="flight-wallet.js?v=20260827-v24"></script>
+    <script src="booking-wallet-v24.js"></script>
+    <script src="more-hub-v24.js"></script>
 </body>
 </html>
