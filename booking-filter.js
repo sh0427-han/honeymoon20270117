@@ -33,6 +33,7 @@
 
     const syncDriveDocument = (card, documentMeta) => {
         if (!card || !documentMeta) return;
+
         let row = card.querySelector(".booking-actions");
         if (!row) {
             row = document.createElement("div");
@@ -62,23 +63,32 @@
         });
     };
 
+    const removeBookingStatuses = () => {
+        document.querySelectorAll("#bookings-panel .booking-status").forEach((status) => status.remove());
+    };
+
     const renderFilterControls = () => {
         const summary = document.querySelector("#booking-summary");
         if (!summary) return;
 
         if (summary.dataset.bookingFilterReady !== "true") {
             summary.innerHTML = FILTERS.map((filter) => `
-                <button type="button" class="booking-filter-card" data-booking-filter="${filter.id}" aria-pressed="false">
+                <button
+                    type="button"
+                    class="booking-filter-card"
+                    data-booking-filter="${filter.id}"
+                    aria-controls="${filter.selector.slice(1)}"
+                    aria-pressed="false"
+                >
                     <span>${filter.label}</span>
                     <strong>${filter.count}</strong>
-                    <small>보기</small>
                 </button>
             `).join("");
             summary.dataset.bookingFilterReady = "true";
 
             summary.querySelectorAll("[data-booking-filter]").forEach((button) => {
                 button.addEventListener("click", () => {
-                    activeFilter = button.dataset.bookingFilter;
+                    activeFilter = button.dataset.bookingFilter || "flights";
                     applyFilter();
                 });
             });
@@ -88,7 +98,16 @@
     const applyFilter = () => {
         FILTERS.forEach((filter) => {
             const list = document.querySelector(filter.selector);
-            if (list) list.hidden = filter.id !== activeFilter;
+            if (!list) return;
+
+            // V20의 hidden 속성이 남아 있더라도 새 필터가 항상 복구할 수 있게 한다.
+            list.hidden = false;
+            list.removeAttribute("hidden");
+
+            const selected = filter.id === activeFilter;
+            list.classList.toggle("booking-filter-visible", selected);
+            list.classList.toggle("booking-filter-hidden", !selected);
+            list.setAttribute("aria-hidden", String(!selected));
         });
 
         document.querySelectorAll("[data-booking-filter]").forEach((button) => {
@@ -108,20 +127,15 @@
         const apps = panel.querySelector("#booking-app-launcher");
         const privateDrive = panel.querySelector("#private-drive-entry");
 
-        if (apps && privateDrive) {
-            if (apps.nextElementSibling !== privateDrive) panel.insertBefore(apps, privateDrive);
-            if (privateDrive.nextElementSibling !== null) panel.appendChild(privateDrive);
-            return;
-        }
-
-        if (apps && apps.nextElementSibling !== null) panel.appendChild(apps);
-        if (privateDrive && privateDrive.nextElementSibling !== null) panel.appendChild(privateDrive);
+        if (apps) panel.appendChild(apps);
+        if (privateDrive) panel.appendChild(privateDrive);
     };
 
     const apply = () => {
         renderFilterControls();
         syncStayDocuments();
         syncTourDocuments();
+        removeBookingStatuses();
         applyFilter();
         moveUtilitiesToBottom();
     };
