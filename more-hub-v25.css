@@ -1,0 +1,197 @@
+#more-filter-bar.more-filter-bar {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 6px;
+    margin: 0 0 24px;
+}
+
+.more-filter-bar button {
+    min-width: 0;
+    min-height: 44px;
+    padding: 8px 4px;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: rgba(252, 251, 247, 0.62);
+    color: var(--muted);
+    cursor: pointer;
+    font-size: 0.68rem;
+    font-weight: 780;
+}
+
+.more-filter-bar button.active {
+    border-color: var(--black);
+    background: var(--black);
+    color: #fff;
+}
+
+#more-panel[data-more-filter] [data-more-section] {
+    display: none !important;
+}
+
+#more-panel[data-more-filter="prep"] [data-more-section="prep"],
+#more-panel[data-more-filter="docs"] [data-more-section="docs"],
+#more-panel[data-more-filter="emergency"] [data-more-section="emergency"],
+#more-panel[data-more-filter="gifts"] [data-more-section="gifts"] {
+    display: block !important;
+}
+
+.document-status-summary {
+    display: grid;
+    gap: 3px;
+    padding: 14px 0 16px;
+    border-top: 1px solid var(--line-strong);
+    border-bottom: 1px solid var(--line);
+}
+
+.document-status-summary strong {
+    font-size: 0.88rem;
+}
+
+.document-status-summary span,
+.more-tool-note {
+    color: var(--muted);
+    font-size: 0.68rem;
+}
+
+.document-status-list {
+    border-bottom: 1px solid var(--line-strong);
+}
+
+.document-status-row {
+    display: grid;
+    gap: 8px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--line);
+}
+
+.document-status-row:last-child {
+    border-bottom: 0;
+}
+
+.document-status-row__top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.document-status-row__top strong {
+    font-size: 0.78rem;
+}
+
+.document-status-row__top span {
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.68rem;
+    font-weight: 700;
+}
+
+.document-status-track {
+    overflow: hidden;
+    height: 5px;
+    border-radius: 999px;
+    background: var(--line);
+}
+
+.document-status-track span {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+    background: var(--sage);
+}
+
+.more-tool-links {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 8px;
+    margin-top: 14px;
+}
+
+.more-tool-link {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 38px;
+    padding: 8px 11px;
+    border: 1px solid var(--black);
+    border-radius: 999px;
+    background: var(--black);
+    color: #fff;
+    font-size: 0.68rem;
+    font-weight: 760;
+    text-align: center;
+    text-decoration: none;
+}
+
+.more-tool-link.secondary {
+    border-color: var(--line-strong);
+    background: transparent;
+    color: var(--ink);
+}
+
+.emergency-list {
+    display: grid;
+    gap: 8px;
+}
+
+.emergency-card {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 3px 14px;
+    align-items: center;
+    padding: 15px 0;
+    border-top: 1px solid var(--line);
+    color: var(--ink);
+    text-decoration: none;
+}
+
+.emergency-card:first-child {
+    border-top-color: var(--line-strong);
+}
+
+.emergency-card span {
+    color: var(--muted);
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.1em;
+}
+
+.emergency-card strong {
+    grid-column: 2;
+    grid-row: 1 / span 2;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.2rem;
+    font-weight: 400;
+}
+
+.emergency-card small {
+    color: var(--muted);
+    font-size: 0.68rem;
+}
+
+.more-tool-note {
+    margin: 12px 0 0;
+    padding-top: 12px;
+    border-top: 1px solid var(--line-strong);
+}
+
+@media (max-width: 560px) {
+    #more-filter-bar.more-filter-bar {
+        gap: 4px;
+        margin-bottom: 20px;
+    }
+
+    .more-filter-bar button {
+        min-height: 40px;
+        padding-inline: 2px;
+        font-size: 0.62rem;
+    }
+
+    .more-tool-links {
+        grid-template-columns: 1fr;
+    }
+
+    .emergency-card strong {
+        font-size: 1.02rem;
+    }
+}
