@@ -1,0 +1,7 @@
+#home-focus {
+    display: none !important;
+}
+
+#home-panel .quick-actions {
+    margin-top: 0;
+}
