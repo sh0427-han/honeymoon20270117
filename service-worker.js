@@ -1,4 +1,4 @@
-const CACHE_VERSION = "honeymoon-v25";
+const CACHE_VERSION = "honeymoon-v26";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -27,7 +27,7 @@ const APP_SHELL = [
   "./flight-wallet.js",
   "./booking-wallet-v24.js",
   "./more-hub-v25.js",
-  "./app-ux-v25.js",
+  "./app-ux-v26.js",
   "./manifest.webmanifest",
   "./app-icon.svg"
 ];
