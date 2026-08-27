@@ -41,7 +41,10 @@ const bookingData = {
             key: "akl-icn",
             status: "예약 완료",
             tickets: {
-                sanghun: { fileName: "20270129_AKL-ICN_SANGHUN_KE.pdf", url: null },
+                sanghun: {
+                    fileName: "20270129_AKL-ICN_SANGHUN_KE.pdf",
+                    url: "https://drive.google.com/file/d/1v_T9O0hVY1aE6LJeJA86QGwdHzkoYyaV/view?usp=drivesdk"
+                },
                 jinyeong: { fileName: "20270129_AKL-ICN_JINYEONG_KE.pdf", url: null }
             },
             bookingApp: "koreanair",
