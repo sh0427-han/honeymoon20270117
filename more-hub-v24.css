@@ -24,16 +24,12 @@
     color: #fff;
 }
 
-#more-panel[data-more-filter] [data-more-section] {
+#more-panel[data-more-filter="prep"] [data-more-section]:not([data-more-section="prep"]),
+#more-panel[data-more-filter="docs"] [data-more-section]:not([data-more-section="docs"]),
+#more-panel[data-more-filter="emergency"] [data-more-section]:not([data-more-section="emergency"]),
+#more-panel[data-more-filter="budget"] [data-more-section]:not([data-more-section="budget"]),
+#more-panel[data-more-filter="gifts"] [data-more-section]:not([data-more-section="gifts"]) {
     display: none !important;
-}
-
-#more-panel[data-more-filter="prep"] [data-more-section="prep"],
-#more-panel[data-more-filter="docs"] [data-more-section="docs"],
-#more-panel[data-more-filter="emergency"] [data-more-section="emergency"],
-#more-panel[data-more-filter="budget"] [data-more-section="budget"],
-#more-panel[data-more-filter="gifts"] [data-more-section="gifts"] {
-    display: block !important;
 }
 
 .document-status-summary {
