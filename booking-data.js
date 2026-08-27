@@ -1,4 +1,11 @@
 const bookingData = {
+    // Public GitHub에는 실제 문서를 저장하지 않는다.
+    // Google Drive에서 '일반 액세스: 제한됨' + 두 사람 계정만 Viewer로 설정한
+    // 전용 폴더의 공유 URL을 folderUrl에 넣으면 예약 탭에 Private Drive 버튼이 나타난다.
+    privateDrive: {
+        label: "Private Travel Docs",
+        folderUrl: null
+    },
     flights: [
         {
             key: "icn-syd",
