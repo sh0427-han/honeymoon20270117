@@ -127,8 +127,20 @@
         const apps = panel.querySelector("#booking-app-launcher");
         const privateDrive = panel.querySelector("#private-drive-entry");
 
-        if (apps) panel.appendChild(apps);
-        if (privateDrive) panel.appendChild(privateDrive);
+        if (privateDrive && panel.lastElementChild !== privateDrive) {
+            panel.appendChild(privateDrive);
+        }
+
+        if (apps && privateDrive) {
+            if (privateDrive.previousElementSibling !== apps) {
+                panel.insertBefore(apps, privateDrive);
+            }
+            return;
+        }
+
+        if (apps && panel.lastElementChild !== apps) {
+            panel.appendChild(apps);
+        }
     };
 
     const apply = () => {
