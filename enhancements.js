@@ -208,11 +208,10 @@
         [...tourList.querySelectorAll(".booking-tour-card")].forEach((card, index) => {
             const tour = bookingData.tours[index];
             if (!tour) return;
-            const actions = [
+            addBookingActions(card, [
                 createMapLink("위치 열기 ↗", tour.mapQuery),
                 createConfirmationButton(tour.name, tour.confirmationUrl)
-            ];
-            addBookingActions(card, actions);
+            ]);
         });
 
         tourList.dataset.rendered = "true";
@@ -221,12 +220,13 @@
     const updateBookingSummary = () => {
         if (typeof bookingData === "undefined") return;
         const summary = document.querySelector("#booking-summary");
-        if (!summary) return;
+        if (!summary || summary.dataset.bookingSummaryEnhanced === "true") return;
         summary.innerHTML = `
             <article class="booking-stat"><span>FLIGHTS</span><strong>${bookingData.flights.length}</strong></article>
             <article class="booking-stat"><span>STAYS</span><strong>${bookingData.hotels.length}</strong></article>
             <article class="booking-stat"><span>TOURS</span><strong>${bookingData.tours.length}</strong></article>
         `;
+        summary.dataset.bookingSummaryEnhanced = "true";
     };
 
     const addBookingPrivacyNote = () => {
@@ -237,7 +237,7 @@
         note.className = "booking-privacy-note";
         note.innerHTML = `
             <strong>Booking Wallet</strong>
-            <span>가격 대신 위치와 예약 문서를 빠르게 확인합니다. Public 사이트에는 개인정보를 제거한 확인서만 연결합니다.</span>
+            <span>가격 대신 위치와 예약 정보를 빠르게 확인합니다.</span>
         `;
         summary.insertAdjacentElement("afterend", note);
     };
@@ -285,7 +285,6 @@
 
     [
         document.querySelector("#home-focus"),
-        document.querySelector("#booking-summary"),
         document.querySelector("#flight-list"),
         document.querySelector("#hotel-list"),
         document.querySelector("#journey-strip")
