@@ -10,37 +10,41 @@ const bookingData = {
         {
             key: "icn-syd",
             status: "예약 완료",
-            mapLinks: [
-                { label: "인천공항 T2 ↗", query: "Incheon International Airport Terminal 2, Incheon, South Korea" },
-                { label: "Sydney Airport ↗", query: "Sydney Airport International Terminal, Sydney NSW, Australia" }
-            ],
+            tickets: {
+                sanghun: { fileName: "20270117_ICN-SYD_SANGHUN_KE.pdf", url: null },
+                jinyeong: { fileName: "20270117_ICN-SYD_JINYEONG_KE.pdf", url: null }
+            },
+            bookingApp: "koreanair",
             confirmationUrl: null
         },
         {
             key: "syd-zqn",
             status: "예약 완료",
-            mapLinks: [
-                { label: "Sydney Airport ↗", query: "Sydney Airport International Terminal, Sydney NSW, Australia" },
-                { label: "Queenstown Airport ↗", query: "Queenstown Airport, Queenstown, New Zealand" }
-            ],
+            tickets: {
+                sanghun: { fileName: "20270120_SYD-ZQN_SANGHUN_NZ.pdf", url: null },
+                jinyeong: { fileName: "20270120_SYD-ZQN_JINYEONG_NZ.pdf", url: null }
+            },
+            bookingApp: "trip",
             confirmationUrl: null
         },
         {
             key: "chc-akl",
             status: "예약 완료",
-            mapLinks: [
-                { label: "Christchurch Airport ↗", query: "Christchurch Airport, Christchurch, New Zealand" },
-                { label: "Auckland Airport ↗", query: "Auckland Airport, Auckland, New Zealand" }
-            ],
+            tickets: {
+                sanghun: { fileName: "20270126_CHC-AKL_SANGHUN_NZ.pdf", url: null },
+                jinyeong: { fileName: "20270126_CHC-AKL_JINYEONG_NZ.pdf", url: null }
+            },
+            bookingApp: "trip",
             confirmationUrl: null
         },
         {
             key: "akl-icn",
             status: "예약 완료",
-            mapLinks: [
-                { label: "Auckland Airport ↗", query: "Auckland Airport International Terminal, Auckland, New Zealand" },
-                { label: "인천공항 T2 ↗", query: "Incheon International Airport Terminal 2, Incheon, South Korea" }
-            ],
+            tickets: {
+                sanghun: { fileName: "20270129_AKL-ICN_SANGHUN_KE.pdf", url: null },
+                jinyeong: { fileName: "20270129_AKL-ICN_JINYEONG_KE.pdf", url: null }
+            },
+            bookingApp: "koreanair",
             confirmationUrl: null
         }
     ],
