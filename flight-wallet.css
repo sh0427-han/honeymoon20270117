@@ -1,0 +1,26 @@
+#flight-list .booking-actions {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+}
+
+#flight-list .booking-action {
+    min-width: 0;
+    justify-content: center;
+    text-align: center;
+}
+
+#flight-list .flight-ticket-action.is-pending {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+#flight-list .flight-app-action {
+    white-space: nowrap;
+}
+
+@media (max-width: 520px) {
+    #flight-list .booking-actions {
+        grid-template-columns: 1fr;
+    }
+}
