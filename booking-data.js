@@ -4,7 +4,7 @@ const bookingData = {
     // 전용 폴더의 공유 URL을 folderUrl에 넣으면 예약 탭에 Private Drive 버튼이 나타난다.
     privateDrive: {
         label: "Private Travel Docs",
-        folderUrl: null
+        folderUrl: "https://drive.google.com/drive/folders/1htJdyYnzYCasaBfZBPGee0RG101-rdo5"
     },
     flights: [
         {
