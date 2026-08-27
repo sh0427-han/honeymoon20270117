@@ -1,0 +1,97 @@
+#booking-summary.booking-summary {
+    gap: 8px;
+}
+
+.booking-filter-card {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    grid-template-rows: auto auto;
+    gap: 2px 8px;
+    min-width: 0;
+    padding: 14px 14px 12px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: rgba(252, 251, 247, 0.62);
+    color: var(--ink);
+    cursor: pointer;
+    text-align: left;
+    transition: border-color 150ms ease, background 150ms ease, color 150ms ease, transform 150ms ease;
+}
+
+.booking-filter-card:hover,
+.booking-filter-card:focus-visible {
+    border-color: var(--line-strong);
+    background: var(--paper);
+    transform: translateY(-1px);
+}
+
+.booking-filter-card span {
+    align-self: end;
+    color: var(--muted);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.booking-filter-card strong {
+    grid-row: 1 / span 2;
+    grid-column: 2;
+    align-self: center;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.55rem;
+    font-weight: 400;
+}
+
+.booking-filter-card small {
+    color: var(--muted);
+    font-size: 0.62rem;
+}
+
+.booking-filter-card.active {
+    border-color: var(--black);
+    background: var(--black);
+    color: #fff;
+}
+
+.booking-filter-card.active span,
+.booking-filter-card.active small {
+    color: #d7d8d2;
+}
+
+.booking-drive-document {
+    border-color: var(--sage);
+    background: var(--sage-soft);
+    color: #425342;
+}
+
+.booking-drive-document.is-pending {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+#booking-app-launcher {
+    margin-top: 38px;
+}
+
+#private-drive-entry {
+    margin-top: 14px;
+}
+
+@media (max-width: 560px) {
+    .booking-filter-card {
+        min-height: 72px;
+        padding: 11px 10px 10px;
+    }
+
+    .booking-filter-card span {
+        font-size: 0.57rem;
+    }
+
+    .booking-filter-card strong {
+        font-size: 1.32rem;
+    }
+
+    .booking-filter-card small {
+        font-size: 0.58rem;
+    }
+}
