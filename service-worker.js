@@ -1,4 +1,4 @@
-const CACHE_VERSION = "honeymoon-v13";
+const CACHE_VERSION = "honeymoon-v16";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -9,6 +9,7 @@ const APP_SHELL = [
   "./schedule-route.css",
   "./travel-now.css",
   "./pwa.css",
+  "./travel-extras.css",
   "./itinerary.js",
   "./app.js",
   "./time-context.js",
@@ -18,6 +19,7 @@ const APP_SHELL = [
   "./booking-apps.js",
   "./travel-now.js",
   "./pwa.js",
+  "./travel-extras.js",
   "./manifest.webmanifest",
   "./app-icon.svg"
 ];
@@ -35,7 +37,7 @@ self.addEventListener("activate", (event) => {
     caches.keys()
       .then((keys) => Promise.all(
         keys
-          .filter((key) => key.startsWith("honeymoon-") && key !== CACHE_VERSION)
+          .filter((key) => key.startsWith("honeymoon-") && key !== CACHE_VERSION && key !== `${CACHE_VERSION}-runtime`)
           .map((key) => caches.delete(key))
       ))
       .then(() => self.clients.claim())
@@ -54,7 +56,6 @@ self.addEventListener("fetch", (event) => {
   const url = new URL(request.url);
   const sameOrigin = url.origin === self.location.origin;
 
-  // Navigation: prefer fresh HTML when online, fall back to the cached app shell.
   if (request.mode === "navigate") {
     event.respondWith((async () => {
       try {
@@ -69,8 +70,6 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // App files: use stale-while-revalidate so offline loads are immediate while
-  // still refreshing cached resources whenever the network is available.
   if (sameOrigin) {
     event.respondWith((async () => {
       const cached = await cachedAppResponse(request);
@@ -97,8 +96,6 @@ self.addEventListener("fetch", (event) => {
     return;
   }
 
-  // Cross-origin resources such as Leaflet/CDN tiles are not required for the
-  // offline itinerary. Cache successful responses opportunistically only.
   event.respondWith((async () => {
     try {
       const response = await fetch(request);
