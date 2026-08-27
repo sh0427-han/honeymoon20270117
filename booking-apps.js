@@ -43,9 +43,6 @@
             window.location.href = buildAndroidIntentUrl(app);
             return;
         }
-
-        // iOS에서는 Universal Link/App Link가 등록된 서비스라면 앱으로 열리고,
-        // 그렇지 않으면 공식 모바일 웹으로 안전하게 fallback 된다.
         window.location.href = app.webUrl;
     };
 
@@ -88,11 +85,8 @@
         `;
 
         const privacyNote = document.querySelector("#booking-privacy-note");
-        if (privacyNote) {
-            privacyNote.insertAdjacentElement("afterend", section);
-        } else {
-            bookingSummary.insertAdjacentElement("afterend", section);
-        }
+        if (privacyNote) privacyNote.insertAdjacentElement("afterend", section);
+        else bookingSummary.insertAdjacentElement("afterend", section);
 
         section.querySelectorAll("[data-open-app]").forEach((button) => {
             button.addEventListener("click", () => {
@@ -108,19 +102,19 @@
 
         note.innerHTML = `
             <strong>Booking Wallet</strong>
-            <span>이 사이트는 Public GitHub Pages로 운영합니다. 예약번호·QR·확인서·개인정보는 저장하지 않고, 필요한 예약정보는 휴대폰 앱에서 확인합니다.</span>
+            <span>Public GitHub에는 민감한 문서를 저장하지 않습니다. 예약정보는 앱에서 확인하고, 여권·확인서 등은 Google Drive의 ‘제한됨’ 폴더를 본인/배우자 계정에만 공유해 연결할 수 있습니다.</span>
         `;
         note.dataset.publicMode = "true";
     };
 
-    const hideDocumentActions = () => {
+    const hidePublicDocumentActions = () => {
         document.querySelectorAll(".booking-action--document").forEach((element) => element.remove());
     };
 
     const apply = () => {
         updatePublicBookingCopy();
         renderBookingAppLauncher();
-        hideDocumentActions();
+        hidePublicDocumentActions();
     };
 
     apply();
