@@ -52,12 +52,24 @@
     color: #d7d8d2;
 }
 
-#bookings-panel .booking-filter-hidden {
+/*
+ * 필터는 bookings-panel 자체를 절대 숨기지 않는다.
+ * panel의 data-booking-filter 값만 바꾸고 CSS가 세 목록 중 하나만 표시한다.
+ */
+#bookings-panel[data-booking-filter] #flight-list,
+#bookings-panel[data-booking-filter] #hotel-list,
+#bookings-panel[data-booking-filter] #tour-list {
     display: none !important;
 }
 
-#bookings-panel .booking-filter-visible {
+#bookings-panel[data-booking-filter="flights"] #flight-list,
+#bookings-panel[data-booking-filter="stays"] #hotel-list,
+#bookings-panel[data-booking-filter="tours"] #tour-list {
     display: grid !important;
+}
+
+#bookings-panel .booking-status {
+    display: none !important;
 }
 
 .booking-drive-document {
