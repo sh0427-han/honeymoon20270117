@@ -16,30 +16,20 @@
     const googleNavigationUrl = (place) => {
         if (!place) return "#";
         const destination = `${place.name}, ${place.city}`;
-        const params = new URLSearchParams({
-            api: "1",
-            destination,
-            dir_action: "navigate"
-        });
+        const params = new URLSearchParams({ api: "1", destination, dir_action: "navigate" });
         return `https://www.google.com/maps/dir/?${params.toString()}`;
     };
 
     const enhanceTimelineDirections = () => {
         if (typeof findPlace !== "function") return;
-
         document.querySelectorAll(".timeline-item[data-schedule-place]").forEach((row) => {
             if (row.querySelector(".timeline-directions")) return;
             const place = findPlace(row.dataset.schedulePlace);
             const content = row.querySelector(".timeline-content");
             if (!place || !content) return;
-
             const actions = document.createElement("div");
             actions.className = "timeline-directions";
-            actions.innerHTML = `
-                <a href="${googleNavigationUrl(place)}" target="_blank" rel="noopener noreferrer">
-                    길찾기 시작 ↗
-                </a>
-            `;
+            actions.innerHTML = `<a href="${googleNavigationUrl(place)}" target="_blank" rel="noopener noreferrer">길찾기 시작 ↗</a>`;
             actions.querySelector("a")?.addEventListener("click", (event) => event.stopPropagation());
             content.appendChild(actions);
         });
@@ -48,21 +38,20 @@
     const getBookingEvents = () => {
         if (!window.tripClock) return [];
         const events = [];
-
         const flightDates = ["2027-01-17", "2027-01-20", "2027-01-26", "2027-01-29"];
+
         tripData.flights.forEach((flight, index) => {
             const dateIso = flightDates[index];
             const time = firstTime(flight.time);
             if (!dateIso || !time) return;
             const meta = typeof bookingData !== "undefined" ? bookingData.flights?.[index] : null;
-            const mapQuery = meta?.mapLinks?.[0]?.query || null;
             events.push({
                 kind: "FLIGHT",
                 dateIso,
                 time,
                 title: flight.route,
                 subtitle: flight.airline,
-                mapQuery,
+                mapQuery: meta?.mapLinks?.[0]?.query || null,
                 epochMs: window.tripClock.getScheduleItemEpoch(dateIso, { time })
             });
         });
@@ -82,7 +71,6 @@
                 });
             });
         }
-
         return events.sort((a, b) => a.epochMs - b.epochMs);
     };
 
@@ -93,16 +81,13 @@
             const end = shortDateToIso(endRaw);
             return start && end && snapshot.dateIso >= start && snapshot.dateIso < end;
         });
-
         if (!hotel) return null;
         const index = tripData.hotels.indexOf(hotel);
         const meta = typeof bookingData !== "undefined" ? bookingData.hotels?.[index] : null;
         return { hotel, meta };
     };
 
-    const mapsSearchUrl = (query) => (
-        `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`
-    );
+    const mapsSearchUrl = (query) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
 
     const ensureBookingUpcoming = () => {
         if (!window.tripClock) return;
@@ -120,9 +105,11 @@
         }
 
         const snapshot = window.tripClock.getSnapshot();
-        const events = getBookingEvents();
-        const upcoming = events.find((event) => event.epochMs >= snapshot.epochMs) || null;
+        const upcoming = getBookingEvents().find((event) => event.epochMs >= snapshot.epochMs) || null;
         const currentHotel = getCurrentHotel(snapshot);
+        const signature = [snapshot.dateIso, snapshot.timeShort, upcoming?.kind || "none", upcoming?.dateIso || "", upcoming?.time || "", currentHotel?.hotel?.name || "none"].join("|");
+        if (section.dataset.signature === signature) return;
+        section.dataset.signature = signature;
 
         if (!upcoming && !currentHotel) {
             section.hidden = true;
@@ -156,10 +143,7 @@
 
         section.innerHTML = `
             <div class="booking-upcoming__head">
-                <div>
-                    <p class="section-kicker">TRAVEL WALLET</p>
-                    <h3>지금 필요한 예약</h3>
-                </div>
+                <div><p class="section-kicker">TRAVEL WALLET</p><h3>지금 필요한 예약</h3></div>
                 <small>${safe(snapshot.timeShort)} · ${safe(snapshot.zoneLabel)}</small>
             </div>
             <div class="booking-upcoming__grid">${upcomingHtml}${hotelHtml}</div>
@@ -188,10 +172,9 @@
 
     const checklistKey = (id) => `honeymoon-prep-${id}`;
 
-    const renderChecklist = () => {
+    const renderChecklist = (force = false) => {
         const panel = document.querySelector("#more-panel");
         if (!panel) return;
-
         let section = panel.querySelector("#travel-prep-checklist");
         if (!section) {
             section = document.createElement("section");
@@ -202,33 +185,23 @@
             if (pwaCard) pwaCard.insertAdjacentElement("afterend", section);
             else if (firstMore) firstMore.insertAdjacentElement("beforebegin", section);
             else panel.appendChild(section);
+        } else if (!force && section.dataset.rendered === "true") {
+            return;
         }
 
         const completed = CHECKLIST.filter((item) => localStorage.getItem(checklistKey(item.id)) === "true").length;
         const shouldOpen = !(typeof tripState !== "undefined" && tripState.mode === "during");
-
+        section.dataset.rendered = "true";
         section.innerHTML = `
             <details ${shouldOpen ? "open" : ""}>
                 <summary>
-                    <div>
-                        <p class="section-kicker">BEFORE DEPARTURE</p>
-                        <strong>여행 준비 체크리스트</strong>
-                    </div>
+                    <div><p class="section-kicker">BEFORE DEPARTURE</p><strong>여행 준비 체크리스트</strong></div>
                     <span>${completed} / ${CHECKLIST.length}</span>
                 </summary>
                 <div class="travel-prep-list">
                     ${CHECKLIST.map((item) => {
                         const checked = localStorage.getItem(checklistKey(item.id)) === "true";
-                        return `
-                            <label class="travel-prep-item">
-                                <input type="checkbox" data-prep-id="${safe(item.id)}" ${checked ? "checked" : ""}>
-                                <span class="travel-prep-check" aria-hidden="true"></span>
-                                <span>
-                                    <strong>${safe(item.title)}</strong>
-                                    <small>${safe(item.note)}</small>
-                                </span>
-                            </label>
-                        `;
+                        return `<label class="travel-prep-item"><input type="checkbox" data-prep-id="${safe(item.id)}" ${checked ? "checked" : ""}><span class="travel-prep-check" aria-hidden="true"></span><span><strong>${safe(item.title)}</strong><small>${safe(item.note)}</small></span></label>`;
                     }).join("")}
                 </div>
             </details>
@@ -237,34 +210,27 @@
         section.querySelectorAll("[data-prep-id]").forEach((checkbox) => {
             checkbox.addEventListener("change", () => {
                 localStorage.setItem(checklistKey(checkbox.dataset.prepId), String(checkbox.checked));
-                renderChecklist();
+                renderChecklist(true);
             });
         });
     };
 
     const applyTravelMode = () => {
         const active = typeof tripState !== "undefined" && tripState.mode === "during";
-        document.documentElement.dataset.travelUi = active ? "active" : "editorial";
+        const value = active ? "active" : "editorial";
+        if (document.documentElement.dataset.travelUi !== value) document.documentElement.dataset.travelUi = value;
     };
 
     const renderPrivateDriveEntry = () => {
         if (typeof bookingData === "undefined" || !bookingData.privateDrive?.folderUrl) return;
         const panel = document.querySelector("#bookings-panel");
         if (!panel || panel.querySelector("#private-drive-entry")) return;
-
         const apps = panel.querySelector("#booking-app-launcher");
         const summary = panel.querySelector("#booking-summary");
         const section = document.createElement("section");
         section.id = "private-drive-entry";
         section.className = "private-drive-entry";
-        section.innerHTML = `
-            <div>
-                <p class="section-kicker">PRIVATE DRIVE</p>
-                <strong>${safe(bookingData.privateDrive.label || "Private Travel Docs")}</strong>
-                <span>Google 계정 권한이 있는 사용자만 문서를 열 수 있습니다.</span>
-            </div>
-            <a href="${safe(bookingData.privateDrive.folderUrl)}" target="_blank" rel="noopener noreferrer">Drive 문서 열기 ↗</a>
-        `;
+        section.innerHTML = `<div><p class="section-kicker">PRIVATE DRIVE</p><strong>${safe(bookingData.privateDrive.label || "Private Travel Docs")}</strong><span>Google 계정 권한이 있는 사용자만 문서를 열 수 있습니다.</span></div><a href="${safe(bookingData.privateDrive.folderUrl)}" target="_blank" rel="noopener noreferrer">Drive 문서 열기 ↗</a>`;
         (apps || summary)?.insertAdjacentElement("afterend", section);
     };
 
@@ -282,22 +248,14 @@
     const observer = new MutationObserver(() => {
         if (queued) return;
         queued = true;
-        requestAnimationFrame(() => {
-            queued = false;
-            apply();
-        });
+        requestAnimationFrame(() => { queued = false; apply(); });
     });
 
-    [
-        document.querySelector("#schedule-panel"),
-        document.querySelector("#bookings-panel"),
-        document.querySelector("#more-panel")
-    ].filter(Boolean).forEach((node) => observer.observe(node, { childList: true, subtree: true }));
+    [document.querySelector("#schedule-panel"), document.querySelector("#bookings-panel"), document.querySelector("#more-panel")]
+        .filter(Boolean)
+        .forEach((node) => observer.observe(node, { childList: true, subtree: true }));
 
     if (!window.tripClock?.isTestMode) {
-        window.setInterval(() => {
-            applyTravelMode();
-            ensureBookingUpcoming();
-        }, 60000);
+        window.setInterval(() => { applyTravelMode(); ensureBookingUpcoming(); }, 60000);
     }
 })();
