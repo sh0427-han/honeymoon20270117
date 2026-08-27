@@ -1,33 +1,6 @@
 (() => {
     if (typeof bookingData === "undefined") return;
 
-    const APP_CONFIG = {
-        koreanair: {
-            label: "대한항공 앱",
-            webUrl: "https://www.koreanair.com/",
-            androidPackage: "com.koreanair.passenger"
-        },
-        trip: {
-            label: "Trip.com",
-            webUrl: "https://www.trip.com/",
-            androidPackage: "ctrip.english"
-        }
-    };
-
-    const isAndroid = () => /Android/i.test(navigator.userAgent);
-
-    const androidIntentUrl = (app) => {
-        const url = new URL(app.webUrl);
-        const path = `${url.host}${url.pathname}${url.search}`;
-        return `intent://${path}#Intent;scheme=https;package=${app.androidPackage};S.browser_fallback_url=${encodeURIComponent(app.webUrl)};end`;
-    };
-
-    const openBookingApp = (appId) => {
-        const app = APP_CONFIG[appId];
-        if (!app) return;
-        window.location.href = isAndroid() ? androidIntentUrl(app) : app.webUrl;
-    };
-
     const createTicketAction = (label, ticket) => {
         if (ticket?.url) {
             const link = document.createElement("a");
@@ -50,18 +23,6 @@
         return button;
     };
 
-    const createAppAction = (appId) => {
-        const app = APP_CONFIG[appId];
-        if (!app) return null;
-
-        const button = document.createElement("button");
-        button.type = "button";
-        button.className = "booking-action flight-app-action";
-        button.textContent = `${app.label} 이동`;
-        button.addEventListener("click", () => openBookingApp(appId));
-        return button;
-    };
-
     const enhanceFlightWallet = () => {
         const cards = [...document.querySelectorAll("#flight-list .booking-card")];
         if (!cards.length) return;
@@ -79,18 +40,14 @@
 
             const signature = [
                 meta.tickets?.sanghun?.url || "pending",
-                meta.tickets?.jinyeong?.url || "pending",
-                meta.bookingApp || ""
+                meta.tickets?.jinyeong?.url || "pending"
             ].join("|");
 
             if (row.dataset.flightWalletSignature === signature) return;
 
             row.replaceChildren();
-            row.appendChild(createTicketAction("내 티켓", meta.tickets?.sanghun));
-            row.appendChild(createTicketAction("여자친구 티켓", meta.tickets?.jinyeong));
-
-            const appAction = createAppAction(meta.bookingApp);
-            if (appAction) row.appendChild(appAction);
+            row.appendChild(createTicketAction("🐶상훈이 티켓", meta.tickets?.sanghun));
+            row.appendChild(createTicketAction("🐯진영이 티켓", meta.tickets?.jinyeong));
 
             row.dataset.flightWalletSignature = signature;
             card.dataset.flightWallet = "true";
