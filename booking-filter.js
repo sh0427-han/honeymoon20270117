@@ -67,46 +67,55 @@
         document.querySelectorAll("#bookings-panel .booking-status").forEach((status) => status.remove());
     };
 
+    const forceBookingPanelReflow = () => {
+        const panel = document.querySelector("#bookings-panel");
+        if (!panel?.classList.contains("active")) return;
+
+        // 모바일 브라우저/PWA에서 자식 display 전환이 즉시 paint되지 않는 경우를 방지한다.
+        panel.style.display = "none";
+        void panel.offsetHeight;
+        panel.style.removeProperty("display");
+        void panel.offsetHeight;
+    };
+
     const renderFilterControls = () => {
         const summary = document.querySelector("#booking-summary");
         if (!summary) return;
 
-        if (summary.dataset.bookingFilterReady !== "true") {
-            summary.innerHTML = FILTERS.map((filter) => `
-                <button
-                    type="button"
-                    class="booking-filter-card"
-                    data-booking-filter="${filter.id}"
-                    aria-controls="${filter.selector.slice(1)}"
-                    aria-pressed="false"
-                >
-                    <span>${filter.label}</span>
-                    <strong>${filter.count}</strong>
-                </button>
-            `).join("");
-            summary.dataset.bookingFilterReady = "true";
+        summary.innerHTML = FILTERS.map((filter) => `
+            <button
+                type="button"
+                class="booking-filter-card"
+                data-booking-filter="${filter.id}"
+                aria-controls="${filter.selector.slice(1)}"
+                aria-pressed="false"
+            >
+                <span>${filter.label}</span>
+                <strong>${filter.count}</strong>
+            </button>
+        `).join("");
+        summary.dataset.bookingFilterReady = "true";
 
-            summary.querySelectorAll("[data-booking-filter]").forEach((button) => {
-                button.addEventListener("click", () => {
-                    activeFilter = button.dataset.bookingFilter || "flights";
-                    applyFilter();
-                });
+        summary.querySelectorAll("[data-booking-filter]").forEach((button) => {
+            button.addEventListener("click", () => {
+                activeFilter = button.dataset.bookingFilter || "flights";
+                applyFilter(true);
             });
-        }
+        });
     };
 
-    const applyFilter = () => {
+    const applyFilter = (forceReflow = false) => {
         FILTERS.forEach((filter) => {
             const list = document.querySelector(filter.selector);
             if (!list) return;
 
-            // V20의 hidden 속성이 남아 있더라도 새 필터가 항상 복구할 수 있게 한다.
+            const selected = filter.id === activeFilter;
+
+            // 과거 버전의 hidden/class 상태를 모두 무시하고 inline display를 canonical 상태로 둔다.
             list.hidden = false;
             list.removeAttribute("hidden");
-
-            const selected = filter.id === activeFilter;
-            list.classList.toggle("booking-filter-visible", selected);
-            list.classList.toggle("booking-filter-hidden", !selected);
+            list.classList.remove("booking-filter-visible", "booking-filter-hidden");
+            list.style.setProperty("display", selected ? "grid" : "none", "important");
             list.setAttribute("aria-hidden", String(!selected));
         });
 
@@ -118,6 +127,8 @@
 
         const panel = document.querySelector("#bookings-panel");
         if (panel) panel.dataset.bookingFilter = activeFilter;
+
+        if (forceReflow) forceBookingPanelReflow();
     };
 
     const moveUtilitiesToBottom = () => {
@@ -127,44 +138,30 @@
         const apps = panel.querySelector("#booking-app-launcher");
         const privateDrive = panel.querySelector("#private-drive-entry");
 
-        if (privateDrive && panel.lastElementChild !== privateDrive) {
-            panel.appendChild(privateDrive);
-        }
-
         if (apps && privateDrive) {
             if (privateDrive.previousElementSibling !== apps) {
                 panel.insertBefore(apps, privateDrive);
             }
+            if (privateDrive.nextElementSibling !== null) {
+                panel.appendChild(privateDrive);
+            }
             return;
         }
 
-        if (apps && panel.lastElementChild !== apps) {
-            panel.appendChild(apps);
-        }
+        if (apps && apps.nextElementSibling !== null) panel.appendChild(apps);
+        if (privateDrive && privateDrive.nextElementSibling !== null) panel.appendChild(privateDrive);
     };
 
-    const apply = () => {
+    const initialize = () => {
         renderFilterControls();
         syncStayDocuments();
         syncTourDocuments();
         removeBookingStatuses();
-        applyFilter();
         moveUtilitiesToBottom();
+        applyFilter(false);
     };
 
-    apply();
-
-    let queued = false;
-    const panel = document.querySelector("#bookings-panel");
-    if (panel) {
-        const observer = new MutationObserver(() => {
-            if (queued) return;
-            queued = true;
-            requestAnimationFrame(() => {
-                queued = false;
-                apply();
-            });
-        });
-        observer.observe(panel, { childList: true, subtree: true });
-    }
+    // 이 스크립트는 booking 관련 렌더러들보다 마지막에 로드된다.
+    // 따라서 MutationObserver로 다시 쓰지 않고 한 번 초기화하여 필터 상태 경쟁을 없앤다.
+    initialize();
 })();
