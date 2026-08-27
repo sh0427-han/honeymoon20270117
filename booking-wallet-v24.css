@@ -1,0 +1,115 @@
+#booking-summary.booking-summary {
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 8px;
+    margin-bottom: 24px;
+    border: 0;
+}
+
+.booking-filter-card {
+    display: grid;
+    place-items: center;
+    gap: 4px;
+    min-width: 0;
+    min-height: 76px;
+    padding: 12px 8px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: rgba(252, 251, 247, 0.62);
+    color: var(--ink);
+    cursor: pointer;
+    text-align: center;
+}
+
+.booking-filter-card span {
+    color: var(--muted);
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.booking-filter-card strong {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    line-height: 1;
+}
+
+.booking-filter-card.active {
+    border-color: var(--black);
+    background: var(--black);
+    color: #fff;
+}
+
+.booking-filter-card.active span {
+    color: #d7d8d2;
+}
+
+#bookings-panel[data-booking-filter] #flight-list,
+#bookings-panel[data-booking-filter] #hotel-list,
+#bookings-panel[data-booking-filter] #tour-list,
+#bookings-panel[data-booking-filter] #rental-list {
+    display: none !important;
+}
+
+#bookings-panel[data-booking-filter="flights"] #flight-list,
+#bookings-panel[data-booking-filter="stays"] #hotel-list,
+#bookings-panel[data-booking-filter="tours"] #tour-list,
+#bookings-panel[data-booking-filter="car"] #rental-list {
+    display: grid !important;
+}
+
+#bookings-panel .booking-status {
+    display: none !important;
+}
+
+.booking-drive-document {
+    border-color: var(--sage);
+    background: var(--sage-soft);
+    color: #425342;
+}
+
+.booking-drive-document.is-pending {
+    opacity: 0.45;
+    cursor: not-allowed;
+}
+
+.booking-rental-card .booking-content span + span {
+    margin-top: 4px;
+}
+
+#booking-app-launcher {
+    margin-top: 38px;
+}
+
+#private-drive-entry {
+    margin-top: 14px;
+}
+
+html:not([data-active-tab="home"]) .app-main {
+    padding-top: 18px;
+}
+
+@media (max-width: 560px) {
+    #booking-summary.booking-summary {
+        grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+        gap: 5px;
+    }
+
+    .booking-filter-card {
+        min-height: 64px;
+        padding: 9px 3px;
+    }
+
+    .booking-filter-card span {
+        font-size: 0.47rem;
+        letter-spacing: 0.04em;
+    }
+
+    .booking-filter-card strong {
+        font-size: 1.12rem;
+    }
+
+    html:not([data-active-tab="home"]) .app-main {
+        padding-top: 14px;
+    }
+}
