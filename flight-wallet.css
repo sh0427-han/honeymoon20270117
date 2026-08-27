@@ -1,11 +1,12 @@
 #flight-list .booking-actions {
     display: grid;
-    grid-template-columns: repeat(3, minmax(0, 1fr));
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 8px;
 }
 
 #flight-list .booking-action {
     min-width: 0;
+    width: 100%;
     justify-content: center;
     text-align: center;
 }
@@ -15,12 +16,14 @@
     cursor: not-allowed;
 }
 
-#flight-list .flight-app-action {
-    white-space: nowrap;
-}
-
-@media (max-width: 520px) {
+@media (max-width: 380px) {
     #flight-list .booking-actions {
-        grid-template-columns: 1fr;
+        gap: 6px;
+    }
+
+    #flight-list .booking-action {
+        padding-left: 8px;
+        padding-right: 8px;
+        font-size: 0.78rem;
     }
 }
