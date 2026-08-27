@@ -147,5 +147,16 @@ const bookingData = {
             document: { fileName: "20270128_WAIHEKE_BOOKING.pdf", url: null },
             confirmationUrl: null
         }
-    ]
+    ],
+    rental: {
+        key: "queenstown-christchurch",
+        date: "1/22 → 1/25",
+        name: "Queenstown → Christchurch",
+        pickup: "1/22 14:00 · Queenstown Downtown",
+        dropoff: "1/25 15:00 · Christchurch Downtown",
+        vehicle: "SUV · Full Coverage / Zero Excess",
+        pickupQuery: "Queenstown CBD, New Zealand",
+        dropoffQuery: "Christchurch CBD, New Zealand",
+        document: { fileName: "20270122-20270125_ZQN-CHC_RENTAL_BOOKING.pdf", url: null }
+    }
 };
