@@ -1,4 +1,4 @@
-const CACHE_VERSION = "honeymoon-v24";
+const CACHE_VERSION = "honeymoon-v25";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -12,7 +12,8 @@ const APP_SHELL = [
   "./travel-extras.css",
   "./flight-wallet.css",
   "./booking-wallet-v24.css",
-  "./more-hub-v24.css",
+  "./more-hub-v25.css",
+  "./app-ux-v25.css",
   "./itinerary.js",
   "./app.js",
   "./time-context.js",
@@ -25,7 +26,8 @@ const APP_SHELL = [
   "./travel-extras.js",
   "./flight-wallet.js",
   "./booking-wallet-v24.js",
-  "./more-hub-v24.js",
+  "./more-hub-v25.js",
+  "./app-ux-v25.js",
   "./manifest.webmanifest",
   "./app-icon.svg"
 ];
