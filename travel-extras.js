@@ -5,14 +5,6 @@
         typeof escapeHtml === "function" ? escapeHtml(value) : String(value)
     );
 
-    const shortDateToIso = (value) => {
-        const match = /^(\d{1,2})\/(\d{1,2})$/.exec(String(value || "").trim());
-        if (!match) return null;
-        return `2027-${String(Number(match[1])).padStart(2, "0")}-${String(Number(match[2])).padStart(2, "0")}`;
-    };
-
-    const firstTime = (value) => String(value || "").split("→")[0].trim();
-
     const googleNavigationUrl = (place) => {
         if (!place) return "#";
         const destination = `${place.name}, ${place.city}`;
@@ -35,125 +27,8 @@
         });
     };
 
-    const getBookingEvents = () => {
-        if (!window.tripClock) return [];
-        const events = [];
-        const flightDates = ["2027-01-17", "2027-01-20", "2027-01-26", "2027-01-29"];
-
-        tripData.flights.forEach((flight, index) => {
-            const dateIso = flightDates[index];
-            const time = firstTime(flight.time);
-            if (!dateIso || !time) return;
-            const meta = typeof bookingData !== "undefined" ? bookingData.flights?.[index] : null;
-            events.push({
-                kind: "FLIGHT",
-                dateIso,
-                time,
-                title: flight.route,
-                subtitle: flight.airline,
-                mapQuery: meta?.mapLinks?.[0]?.query || null,
-                epochMs: window.tripClock.getScheduleItemEpoch(dateIso, { time })
-            });
-        });
-
-        if (typeof bookingData !== "undefined") {
-            bookingData.tours?.forEach((tour) => {
-                const dateIso = shortDateToIso(tour.date);
-                if (!dateIso || !tour.time) return;
-                events.push({
-                    kind: "TOUR",
-                    dateIso,
-                    time: tour.time,
-                    title: tour.name,
-                    subtitle: tour.city,
-                    mapQuery: tour.mapQuery || null,
-                    epochMs: window.tripClock.getScheduleItemEpoch(dateIso, { time: tour.time })
-                });
-            });
-        }
-        return events.sort((a, b) => a.epochMs - b.epochMs);
-    };
-
-    const getCurrentHotel = (snapshot) => {
-        const hotel = tripData.hotels.find((item) => {
-            const [startRaw, endRaw] = String(item.dates).split("→").map((value) => value.trim());
-            const start = shortDateToIso(startRaw);
-            const end = shortDateToIso(endRaw);
-            return start && end && snapshot.dateIso >= start && snapshot.dateIso < end;
-        });
-        if (!hotel) return null;
-        const index = tripData.hotels.indexOf(hotel);
-        const meta = typeof bookingData !== "undefined" ? bookingData.hotels?.[index] : null;
-        return { hotel, meta };
-    };
-
-    const mapsSearchUrl = (query) => `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
-
-    const ensureBookingUpcoming = () => {
-        if (!window.tripClock) return;
-        const panel = document.querySelector("#bookings-panel");
-        const summary = document.querySelector("#booking-summary");
-        if (!panel || !summary) return;
-
-        let section = panel.querySelector("#booking-upcoming");
-        if (!section) {
-            section = document.createElement("section");
-            section.id = "booking-upcoming";
-            section.className = "booking-upcoming";
-            const privacy = document.querySelector("#booking-privacy-note");
-            (privacy || summary).insertAdjacentElement("afterend", section);
-        }
-
-        const snapshot = window.tripClock.getSnapshot();
-        const upcoming = getBookingEvents().find((event) => event.epochMs >= snapshot.epochMs) || null;
-        const currentHotel = getCurrentHotel(snapshot);
-        const signature = [snapshot.dateIso, snapshot.timeShort, upcoming?.kind || "none", upcoming?.dateIso || "", upcoming?.time || "", currentHotel?.hotel?.name || "none"].join("|");
-        if (section.dataset.signature === signature) return;
-        section.dataset.signature = signature;
-
-        if (!upcoming && !currentHotel) {
-            section.hidden = true;
-            return;
-        }
-        section.hidden = false;
-
-        const upcomingHtml = upcoming ? `
-            <article class="booking-upcoming__card is-next">
-                <span>UP NEXT · ${safe(upcoming.kind)}</span>
-                <strong>${safe(upcoming.title)}</strong>
-                <small>${safe(upcoming.dateIso.slice(5).replace("-", "/"))} · ${safe(upcoming.time)} · ${safe(upcoming.subtitle)}</small>
-                <div class="booking-upcoming__actions">
-                    ${upcoming.mapQuery ? `<a href="${mapsSearchUrl(upcoming.mapQuery)}" target="_blank" rel="noopener noreferrer">위치 ↗</a>` : ""}
-                    <button type="button" data-scroll-booking-apps>예약 앱</button>
-                </div>
-            </article>
-        ` : "";
-
-        const hotelHtml = currentHotel ? `
-            <article class="booking-upcoming__card is-tonight">
-                <span>TONIGHT · STAY</span>
-                <strong>${safe(currentHotel.hotel.name)}</strong>
-                <small>${safe(currentHotel.hotel.dates)} · ${safe(currentHotel.hotel.city)}</small>
-                <div class="booking-upcoming__actions">
-                    ${currentHotel.meta?.mapQuery ? `<a href="${mapsSearchUrl(currentHotel.meta.mapQuery)}" target="_blank" rel="noopener noreferrer">숙소 위치 ↗</a>` : ""}
-                    <button type="button" data-scroll-booking-apps>예약 앱</button>
-                </div>
-            </article>
-        ` : "";
-
-        section.innerHTML = `
-            <div class="booking-upcoming__head">
-                <div><p class="section-kicker">TRAVEL WALLET</p><h3>지금 필요한 예약</h3></div>
-                <small>${safe(snapshot.timeShort)} · ${safe(snapshot.zoneLabel)}</small>
-            </div>
-            <div class="booking-upcoming__grid">${upcomingHtml}${hotelHtml}</div>
-        `;
-
-        section.querySelectorAll("[data-scroll-booking-apps]").forEach((button) => {
-            button.addEventListener("click", () => {
-                document.querySelector("#booking-app-launcher")?.scrollIntoView({ behavior: "smooth", block: "start" });
-            });
-        });
+    const removeBookingUpcoming = () => {
+        document.querySelector("#booking-upcoming")?.remove();
     };
 
     const CHECKLIST = [
@@ -218,26 +93,47 @@
     const applyTravelMode = () => {
         const active = typeof tripState !== "undefined" && tripState.mode === "during";
         const value = active ? "active" : "editorial";
-        if (document.documentElement.dataset.travelUi !== value) document.documentElement.dataset.travelUi = value;
+        if (document.documentElement.dataset.travelUi !== value) {
+            document.documentElement.dataset.travelUi = value;
+        }
     };
 
     const renderPrivateDriveEntry = () => {
         if (typeof bookingData === "undefined" || !bookingData.privateDrive?.folderUrl) return;
         const panel = document.querySelector("#bookings-panel");
-        if (!panel || panel.querySelector("#private-drive-entry")) return;
+        if (!panel) return;
+
+        let section = panel.querySelector("#private-drive-entry");
+        if (!section) {
+            section = document.createElement("section");
+            section.id = "private-drive-entry";
+            section.className = "private-drive-entry";
+            section.innerHTML = `
+                <div>
+                    <p class="section-kicker">PRIVATE DRIVE</p>
+                    <strong>${safe(bookingData.privateDrive.label || "Private Travel Docs")}</strong>
+                    <span>Google 계정 권한이 있는 사용자만 문서를 열 수 있습니다.</span>
+                </div>
+                <a href="${safe(bookingData.privateDrive.folderUrl)}" target="_blank" rel="noopener noreferrer">Drive 문서 열기 ↗</a>
+            `;
+        }
+
         const apps = panel.querySelector("#booking-app-launcher");
-        const summary = panel.querySelector("#booking-summary");
-        const section = document.createElement("section");
-        section.id = "private-drive-entry";
-        section.className = "private-drive-entry";
-        section.innerHTML = `<div><p class="section-kicker">PRIVATE DRIVE</p><strong>${safe(bookingData.privateDrive.label || "Private Travel Docs")}</strong><span>Google 계정 권한이 있는 사용자만 문서를 열 수 있습니다.</span></div><a href="${safe(bookingData.privateDrive.folderUrl)}" target="_blank" rel="noopener noreferrer">Drive 문서 열기 ↗</a>`;
-        (apps || summary)?.insertAdjacentElement("afterend", section);
+        const anchor = apps
+            || panel.querySelector("#tour-list")
+            || panel.querySelector("#hotel-list")
+            || panel.querySelector("#flight-list");
+        if (!anchor) return;
+
+        if (anchor.nextElementSibling !== section) {
+            anchor.insertAdjacentElement("afterend", section);
+        }
     };
 
     const apply = () => {
         applyTravelMode();
         enhanceTimelineDirections();
-        ensureBookingUpcoming();
+        removeBookingUpcoming();
         renderChecklist();
         renderPrivateDriveEntry();
     };
@@ -248,14 +144,21 @@
     const observer = new MutationObserver(() => {
         if (queued) return;
         queued = true;
-        requestAnimationFrame(() => { queued = false; apply(); });
+        requestAnimationFrame(() => {
+            queued = false;
+            apply();
+        });
     });
 
-    [document.querySelector("#schedule-panel"), document.querySelector("#bookings-panel"), document.querySelector("#more-panel")]
+    [
+        document.querySelector("#schedule-panel"),
+        document.querySelector("#bookings-panel"),
+        document.querySelector("#more-panel")
+    ]
         .filter(Boolean)
         .forEach((node) => observer.observe(node, { childList: true, subtree: true }));
 
     if (!window.tripClock?.isTestMode) {
-        window.setInterval(() => { applyTravelMode(); ensureBookingUpcoming(); }, 60000);
+        window.setInterval(applyTravelMode, 60000);
     }
 })();
