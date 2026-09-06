@@ -58,6 +58,25 @@
     white-space: nowrap;
 }
 
+/* FLIGHTS: passenger ticket buttons must stack vertically. */
+#bookings-panel #flight-list .booking-actions {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) !important;
+    flex-wrap: initial !important;
+    overflow-x: visible !important;
+    width: 100%;
+}
+
+#bookings-panel #flight-list .booking-action,
+#bookings-panel #flight-list .booking-map-link {
+    width: 100% !important;
+    max-width: 100%;
+    min-width: 0;
+    flex: initial !important;
+    justify-content: center;
+    white-space: normal;
+}
+
 #bookings-panel .booking-tour-stack,
 #bookings-panel .booking-rental-stack {
     margin-top: 0 !important;
@@ -119,6 +138,13 @@
     #bookings-panel .booking-actions {
         grid-column: 2 / 4 !important;
         gap: 5px;
+    }
+
+    #bookings-panel #flight-list .booking-actions {
+        grid-column: 2 / 4 !important;
+        display: grid !important;
+        grid-template-columns: minmax(0, 1fr) !important;
+        overflow-x: visible !important;
     }
 
     .payment-statement-head.compact {
