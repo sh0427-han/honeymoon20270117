@@ -58,6 +58,14 @@ const bookingData = {
             status: "예약 완료",
             mapQuery: "Meriton Suites Campbell Street, 6 Campbell Street, Haymarket NSW 2000, Australia",
             mapLabel: "위치 열기 ↗",
+            payment: {
+                status: "unknown",
+                currency: "AUD",
+                amountDue: null,
+                timing: "결제 시점 확인 필요",
+                method: "unknown",
+                cashRequired: false
+            },
             document: { fileName: "20270117-20270120_SYD_MERITON_BOOKING.pdf", url: null },
             confirmationUrl: null
         },
@@ -66,6 +74,14 @@ const bookingData = {
             status: "예약 완료",
             mapQuery: "Hampshire Holiday Parks Queenstown Lakeview, 4 Cemetery Road, Queenstown 9300, New Zealand",
             mapLabel: "위치 열기 ↗",
+            payment: {
+                status: "unknown",
+                currency: "NZD",
+                amountDue: null,
+                timing: "결제 시점 확인 필요",
+                method: "unknown",
+                cashRequired: false
+            },
             document: { fileName: "20270120-20270123_ZQN_LAKEVIEW_BOOKING.pdf", url: null },
             confirmationUrl: null
         },
@@ -74,6 +90,14 @@ const bookingData = {
             status: "예약 완료",
             mapQuery: "Edgewater Hotel, 54 Sargood Drive, Wanaka 9305, New Zealand",
             mapLabel: "위치 열기 ↗",
+            payment: {
+                status: "unknown",
+                currency: "NZD",
+                amountDue: null,
+                timing: "결제 시점 확인 필요",
+                method: "unknown",
+                cashRequired: false
+            },
             document: { fileName: "20270123-20270124_WANAKA_EDGEWATER_BOOKING.pdf", url: null },
             confirmationUrl: null
         },
@@ -83,6 +107,14 @@ const bookingData = {
             mapQuery: "Fairlie, Canterbury, New Zealand",
             mapLabel: "Fairlie 지역 ↗",
             approximate: true,
+            payment: {
+                status: "unknown",
+                currency: "NZD",
+                amountDue: null,
+                timing: "결제 시점 확인 필요",
+                method: "unknown",
+                cashRequired: false
+            },
             document: { fileName: "20270124-20270125_FAIRLIE_AIRBNB_BOOKING.pdf", url: null },
             confirmationUrl: null
         },
@@ -91,6 +123,14 @@ const bookingData = {
             status: "예약 완료",
             mapQuery: "BreakFree on Cashel Christchurch, 165 Cashel Street, Christchurch 8011, New Zealand",
             mapLabel: "위치 열기 ↗",
+            payment: {
+                status: "unknown",
+                currency: "NZD",
+                amountDue: null,
+                timing: "결제 시점 확인 필요",
+                method: "unknown",
+                cashRequired: false
+            },
             document: { fileName: "20270125-20270126_CHC_BREAKFREE_BOOKING.pdf", url: null },
             confirmationUrl: null
         },
@@ -99,6 +139,14 @@ const bookingData = {
             status: "예약 완료",
             mapQuery: "Hilton Auckland, 147 Quay Street, Auckland 1010, New Zealand",
             mapLabel: "위치 열기 ↗",
+            payment: {
+                status: "unknown",
+                currency: "NZD",
+                amountDue: null,
+                timing: "결제 시점 확인 필요",
+                method: "unknown",
+                cashRequired: false
+            },
             document: { fileName: "20270126-20270129_AKL_HILTON_BOOKING.pdf", url: null },
             confirmationUrl: null
         }
@@ -112,6 +160,14 @@ const bookingData = {
             city: "Queenstown ↔ Milford Sound",
             status: "예약 정보 미입력",
             mapQuery: "Milford Sound Visitor Terminal, Milford Sound, New Zealand",
+            payment: {
+                status: "unknown",
+                currency: "NZD",
+                amountDue: null,
+                timing: "결제 시점 확인 필요",
+                method: "unknown",
+                cashRequired: false
+            },
             document: { fileName: "20270121_MILFORD_BOOKING.pdf", url: null },
             confirmationUrl: null
         },
@@ -123,6 +179,14 @@ const bookingData = {
             city: "Queenstown",
             status: "예약 정보 미입력",
             mapQuery: "Onsen Hot Pools, 160 Arthurs Point Road, Queenstown, New Zealand",
+            payment: {
+                status: "unknown",
+                currency: "NZD",
+                amountDue: null,
+                timing: "결제 시점 확인 필요",
+                method: "unknown",
+                cashRequired: false
+            },
             document: { fileName: "20270123_ONSEN_BOOKING.pdf", url: null },
             confirmationUrl: null
         },
@@ -134,6 +198,14 @@ const bookingData = {
             city: "Auckland ↔ Rotorua",
             status: "예약 정보 미입력",
             mapQuery: "Rotorua, New Zealand",
+            payment: {
+                status: "unknown",
+                currency: "NZD",
+                amountDue: null,
+                timing: "결제 시점 확인 필요",
+                method: "unknown",
+                cashRequired: false
+            },
             document: { fileName: "20270127_ROTORUA_BOOKING.pdf", url: null },
             confirmationUrl: null
         },
@@ -145,6 +217,14 @@ const bookingData = {
             city: "Auckland ↔ Waiheke Island",
             status: "일정 후보 · 예약 정보 미입력",
             mapQuery: "Waiheke Island, Auckland, New Zealand",
+            payment: {
+                status: "unknown",
+                currency: "NZD",
+                amountDue: null,
+                timing: "예약 시 확인 필요",
+                method: "unknown",
+                cashRequired: false
+            },
             document: { fileName: "20270128_WAIHEKE_BOOKING.pdf", url: null },
             confirmationUrl: null
         }
@@ -153,11 +233,21 @@ const bookingData = {
         key: "queenstown-christchurch",
         date: "1/22 → 1/25",
         name: "Queenstown → Christchurch",
-        pickup: "1/22 14:00 · Queenstown Downtown",
-        dropoff: "1/25 15:00 · Christchurch Downtown",
-        vehicle: "SUV · Full Coverage / Zero Excess",
+        pickup: "1/22 15:00 · Queenstown Downtown",
+        dropoff: "1/25 17:00 · Christchurch Downtown",
+        vehicle: "Hertz · SUV · Full Coverage / Zero Excess",
         pickupQuery: "Queenstown CBD, New Zealand",
         dropoffQuery: "Christchurch CBD, New Zealand",
+        payment: {
+            status: "unknown",
+            currency: "NZD",
+            amountDue: null,
+            quotedAmount: 746.93,
+            timing: "결제 시점 확인 필요",
+            method: "unknown",
+            cashRequired: false,
+            note: "Hertz 예상 견적 · 현지 결제 여부 확인 후 합계에 반영"
+        },
         document: { fileName: "20270122-20270125_ZQN-CHC_RENTAL_BOOKING.pdf", url: null }
     }
 };
