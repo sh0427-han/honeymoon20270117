@@ -19,11 +19,34 @@
         panel.querySelector("#budget-summary")?.closest(".more-section")?.remove();
     };
 
+    const getItemDocuments = (item) => {
+        if (Array.isArray(item?.documents)) {
+            return item.documents.filter(Boolean);
+        }
+        if (item?.documents && typeof item.documents === "object") {
+            return Object.values(item.documents).filter(Boolean);
+        }
+        return item?.document ? [item.document] : [];
+    };
+
+    const getFlightDocuments = (flight) => {
+        const shared = Array.isArray(flight?.sharedDocuments)
+            ? flight.sharedDocuments.filter(Boolean)
+            : [];
+
+        if (shared.length) return shared;
+
+        return [
+            ...Object.values(flight?.tickets || {}),
+            ...Object.values(flight?.receipts || {})
+        ].filter(Boolean);
+    };
+
     const getDocumentGroups = () => {
-        const flightDocs = bookingData.flights.flatMap((flight) => Object.values(flight.tickets || {}));
-        const stayDocs = bookingData.hotels.map((hotel) => hotel.document).filter(Boolean);
-        const tourDocs = bookingData.tours.map((tour) => tour.document).filter(Boolean);
-        const rentalDocs = bookingData.rental?.document ? [bookingData.rental.document] : [];
+        const flightDocs = bookingData.flights.flatMap(getFlightDocuments);
+        const stayDocs = bookingData.hotels.flatMap(getItemDocuments);
+        const tourDocs = bookingData.tours.flatMap(getItemDocuments);
+        const rentalDocs = getItemDocuments(bookingData.rental);
 
         return [
             { label: "항공권", docs: flightDocs },
