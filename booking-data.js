@@ -252,10 +252,10 @@ const bookingData = {
         {
             key: "milford",
             date: "1/21",
-            time: "07:00",
-            name: "Milford Sound Tour",
+            time: "06:45",
+            name: "Milford Sound Coach & Nature Cruise",
             city: "Queenstown ↔ Milford Sound",
-            status: "예약 정보 미입력",
+            status: "예약 완료",
             mapQuery: "Milford Sound Visitor Terminal, Milford Sound, New Zealand",
             payment: {
                 status: "unknown",
@@ -265,7 +265,11 @@ const bookingData = {
                 method: "unknown",
                 cashRequired: false
             },
-            document: { fileName: "20270121_MILFORD_BOOKING.pdf", url: null },
+            document: {
+                label: "예약 확약서",
+                fileName: "20270121_MILFORD_SOUTHERN_DISCOVERIES_BOOKING.pdf",
+                url: "https://drive.google.com/file/d/16jY4iHY4RmamBjjmecVBIgvSmvMMG0P7/view?usp=drivesdk"
+            },
             confirmationUrl: null
         },
         {
