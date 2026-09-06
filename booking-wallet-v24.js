@@ -46,14 +46,27 @@
         }).format(amount)}`;
     };
 
+    const normalizeDocumentList = (item) => {
+        if (Array.isArray(item?.documents)) {
+            return item.documents.filter(Boolean);
+        }
+        if (item?.documents && typeof item.documents === "object") {
+            return Object.values(item.documents).filter(Boolean);
+        }
+        return item?.document ? [item.document] : [];
+    };
+
     const createDriveDocumentAction = (documentMeta) => {
+        const label = documentMeta?.label || "예약 내역서";
+
         if (documentMeta?.url) {
             const link = document.createElement("a");
             link.className = "booking-action booking-drive-document";
             link.href = documentMeta.url;
             link.target = "_blank";
             link.rel = "noopener noreferrer";
-            link.textContent = "예약 내역서 ↗";
+            link.textContent = `${label} ↗`;
+            link.title = documentMeta.fileName || label;
             return link;
         }
 
@@ -61,15 +74,17 @@
         button.type = "button";
         button.className = "booking-action booking-drive-document is-pending";
         button.disabled = true;
-        button.textContent = "예약 내역서";
+        button.textContent = label;
         button.title = documentMeta?.fileName
             ? `${documentMeta.fileName} 파일이 업로드되면 연결됩니다.`
-            : "예약 내역서 업로드 후 연결됩니다.";
+            : `${label} 업로드 후 연결됩니다.`;
         return button;
     };
 
-    const syncDriveDocument = (card, documentMeta) => {
-        if (!card || !documentMeta) return;
+    const syncDriveDocuments = (card, documentMetas) => {
+        if (!card) return;
+
+        const documents = (documentMetas || []).filter(Boolean);
         let row = card.querySelector(".booking-actions");
         if (!row) {
             row = document.createElement("div");
@@ -77,25 +92,36 @@
             card.appendChild(row);
         }
 
-        const signature = `${documentMeta.fileName || ""}|${documentMeta.url || "pending"}`;
-        const current = row.querySelector(".booking-drive-document");
-        if (current?.dataset.documentSignature === signature) return;
-        current?.remove();
+        const signature = documents.map((documentMeta) => [
+            documentMeta.label || "예약 내역서",
+            documentMeta.fileName || "",
+            documentMeta.url || "pending"
+        ].join(":")).join("|");
 
-        const action = createDriveDocumentAction(documentMeta);
-        action.dataset.documentSignature = signature;
-        row.appendChild(action);
+        if (row.dataset.driveDocumentsSignature === signature) return;
+
+        row.querySelectorAll(".booking-drive-document").forEach((action) => action.remove());
+
+        documents.forEach((documentMeta) => {
+            row.appendChild(createDriveDocumentAction(documentMeta));
+        });
+
+        row.dataset.driveDocumentsSignature = signature;
+    };
+
+    const syncDriveDocument = (card, documentMeta) => {
+        syncDriveDocuments(card, documentMeta ? [documentMeta] : []);
     };
 
     const syncStayDocuments = () => {
         [...document.querySelectorAll("#hotel-list .booking-card")].forEach((card, index) => {
-            syncDriveDocument(card, bookingData.hotels[index]?.document);
+            syncDriveDocuments(card, normalizeDocumentList(bookingData.hotels[index]));
         });
     };
 
     const syncTourDocuments = () => {
         [...document.querySelectorAll("#tour-list .booking-tour-card")].forEach((card, index) => {
-            syncDriveDocument(card, bookingData.tours[index]?.document);
+            syncDriveDocuments(card, normalizeDocumentList(bookingData.tours[index]));
         });
     };
 
@@ -131,7 +157,7 @@
                 </div>
             </article>
         `;
-        syncDriveDocument(list.querySelector(".booking-rental-card"), rental.document);
+        syncDriveDocuments(list.querySelector(".booking-rental-card"), normalizeDocumentList(rental));
     };
 
     const getPaymentEntries = () => {
@@ -202,6 +228,9 @@
     };
 
     const paymentAmountText = (payment) => {
+        if (payment?.status === "paid") {
+            return formatMoney(payment.currency, 0);
+        }
         if (isConfirmedLocalPayment(payment)) {
             return formatMoney(payment.currency, payment.amountDue);
         }
