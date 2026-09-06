@@ -1,7 +1,7 @@
 #booking-summary.booking-summary {
     grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
     gap: 8px;
-    margin-bottom: 24px;
+    margin-bottom: 18px;
     border: 0;
 }
 
@@ -62,6 +62,250 @@
     display: none !important;
 }
 
+.payment-statement {
+    margin: 0 0 28px;
+    padding: 18px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-lg);
+    background: rgba(252, 251, 247, 0.72);
+}
+
+.payment-statement-head {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px;
+    margin-bottom: 14px;
+}
+
+.payment-statement-head h3 {
+    margin: 3px 0 0;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+}
+
+.payment-statement-head > small {
+    max-width: 220px;
+    color: var(--muted);
+    font-size: 0.68rem;
+    line-height: 1.45;
+    text-align: right;
+}
+
+.payment-eyebrow {
+    color: var(--muted);
+    font-size: 0.58rem;
+    font-weight: 800;
+    letter-spacing: 0.12em;
+}
+
+.payment-currency-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+}
+
+.payment-currency-card {
+    min-width: 0;
+    padding: 14px;
+    border: 1px solid var(--line);
+    border-radius: var(--radius-md);
+    background: #fff;
+}
+
+.payment-currency-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    margin-bottom: 10px;
+}
+
+.payment-currency-head span {
+    font-size: 0.76rem;
+    font-weight: 700;
+}
+
+.payment-currency-head small {
+    color: var(--muted);
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+}
+
+.payment-currency-card > strong {
+    display: block;
+    overflow-wrap: anywhere;
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1.35rem;
+    font-weight: 400;
+    line-height: 1.15;
+}
+
+.payment-currency-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 10px;
+    margin-top: 8px;
+    color: var(--muted);
+    font-size: 0.65rem;
+}
+
+.payment-details {
+    margin-top: 12px;
+    border-top: 1px solid var(--line);
+}
+
+.payment-details > summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 14px 2px 2px;
+    cursor: pointer;
+    list-style: none;
+}
+
+.payment-details > summary::-webkit-details-marker {
+    display: none;
+}
+
+.payment-details > summary span {
+    font-size: 0.78rem;
+    font-weight: 800;
+}
+
+.payment-details > summary small {
+    color: var(--muted);
+    font-size: 0.64rem;
+}
+
+.payment-details > summary::after {
+    content: "+";
+    margin-left: auto;
+    font-size: 1rem;
+    line-height: 1;
+}
+
+.payment-details[open] > summary::after {
+    content: "−";
+}
+
+.payment-details-body {
+    display: grid;
+    gap: 18px;
+    padding-top: 14px;
+}
+
+.payment-detail-group {
+    min-width: 0;
+}
+
+.payment-detail-heading {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 12px;
+    padding-bottom: 9px;
+    border-bottom: 1px solid var(--line);
+}
+
+.payment-detail-heading > div {
+    display: flex;
+    align-items: baseline;
+    gap: 8px;
+}
+
+.payment-detail-heading span {
+    font-size: 0.72rem;
+    font-weight: 700;
+}
+
+.payment-detail-heading strong {
+    font-size: 0.72rem;
+}
+
+.payment-detail-heading > strong {
+    font-family: Georgia, "Times New Roman", serif;
+    font-size: 1rem;
+    font-weight: 400;
+}
+
+.payment-entry-list {
+    display: grid;
+}
+
+.payment-entry {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(160px, 0.9fr);
+    gap: 16px;
+    padding: 12px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.payment-entry-main,
+.payment-entry-value {
+    display: grid;
+    align-content: start;
+    gap: 3px;
+    min-width: 0;
+}
+
+.payment-entry-main strong,
+.payment-entry-value strong {
+    overflow-wrap: anywhere;
+    font-size: 0.74rem;
+}
+
+.payment-entry-main small,
+.payment-entry-value small,
+.payment-entry-date {
+    color: var(--muted);
+    font-size: 0.62rem;
+    line-height: 1.45;
+}
+
+.payment-entry-value {
+    text-align: right;
+}
+
+.payment-entry-note,
+.payment-entry-deposit {
+    display: block;
+}
+
+.booking-payment {
+    display: grid;
+    gap: 3px;
+    margin: 10px 0 2px;
+    padding: 9px 11px;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    background: rgba(246, 244, 237, 0.72);
+}
+
+.booking-payment strong {
+    font-size: 0.69rem;
+    line-height: 1.35;
+}
+
+.booking-payment span {
+    color: var(--muted);
+    font-size: 0.61rem;
+    line-height: 1.4;
+}
+
+.booking-payment-pay_on_site,
+.booking-payment-partial {
+    border-color: var(--sage);
+    background: var(--sage-soft);
+}
+
+.booking-payment-paid {
+    opacity: 0.68;
+}
+
 .booking-drive-document {
     border-color: var(--sage);
     background: var(--sage-soft);
@@ -93,6 +337,7 @@ html:not([data-active-tab="home"]) .app-main {
     #booking-summary.booking-summary {
         grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
         gap: 5px;
+        margin-bottom: 14px;
     }
 
     .booking-filter-card {
@@ -107,6 +352,52 @@ html:not([data-active-tab="home"]) .app-main {
 
     .booking-filter-card strong {
         font-size: 1.12rem;
+    }
+
+    .payment-statement {
+        margin-bottom: 22px;
+        padding: 14px;
+    }
+
+    .payment-statement-head {
+        display: grid;
+        gap: 5px;
+    }
+
+    .payment-statement-head > small {
+        max-width: none;
+        text-align: left;
+    }
+
+    .payment-currency-grid {
+        gap: 7px;
+    }
+
+    .payment-currency-card {
+        padding: 11px;
+    }
+
+    .payment-currency-head span {
+        font-size: 0.66rem;
+    }
+
+    .payment-currency-card > strong {
+        font-size: 1.05rem;
+    }
+
+    .payment-currency-meta {
+        display: grid;
+        gap: 3px;
+        font-size: 0.58rem;
+    }
+
+    .payment-entry {
+        grid-template-columns: 1fr;
+        gap: 7px;
+    }
+
+    .payment-entry-value {
+        text-align: left;
     }
 
     html:not([data-active-tab="home"]) .app-main {
