@@ -331,20 +331,23 @@ const bookingData = {
         date: "1/22 → 1/25",
         name: "Queenstown → Christchurch",
         pickup: "1/22 15:00 · Queenstown Downtown",
-        dropoff: "1/25 17:00 · Christchurch Downtown",
-        vehicle: "Hertz · SUV · Full Coverage / Zero Excess",
-        pickupQuery: "Queenstown CBD, New Zealand",
-        dropoffQuery: "Christchurch CBD, New Zealand",
+        dropoff: "1/25 15:00 · Christchurch Downtown",
+        vehicle: "Hertz · Compact SUV (G0) · Kia Seltos 또는 동급 · 차량손실 면책 프로그램 포함",
+        pickupQuery: "Hertz Queenstown Downtown, 1-7 Earl Street, Queenstown, New Zealand",
+        dropoffQuery: "Hertz Christchurch Downtown, Unit 4, 150 Kilmore Street, Christchurch, New Zealand",
         payment: {
-            status: "unknown",
+            status: "pay_on_site",
             currency: "NZD",
-            amountDue: null,
-            quotedAmount: 746.93,
-            timing: "결제 시점 확인 필요",
-            method: "unknown",
+            amountDue: 560.21,
+            timing: "차량 수령 시 현지 카운터 결제",
+            method: "card",
             cashRequired: false,
-            note: "Hertz 예상 견적 · 현지 결제 여부 확인 후 합계에 반영"
+            note: "후지불 확정 요금 · 세금 포함 · 무제한 km · 보증금/추가 카드 승인은 별도 가능"
         },
-        document: { fileName: "20270122-20270125_ZQN-CHC_RENTAL_BOOKING.pdf", url: null }
+        document: {
+            label: "예약 확약서",
+            fileName: "20270122-20270125_ZQN-CHC_HERTZ_BOOKING.pdf",
+            url: "https://drive.google.com/file/d/1LHn16c131XzNXIRCzunNL4awfPEzbBLh/view?usp=drivesdk"
+        }
     }
 };
