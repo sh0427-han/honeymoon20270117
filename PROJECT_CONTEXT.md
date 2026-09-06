@@ -4,7 +4,7 @@
 > 작업 시작 시 **이 파일을 먼저 읽고, 실제 웹앱 일정 데이터는 `itinerary.js`를 함께 확인**한다.
 > 사용자의 최신 요청이 이 문서와 충돌하면 최신 요청이 우선한다.
 >
-> 마지막 정리 기준: 2026-09-06 · V32
+> 마지막 정리 기준: 2026-09-06 · V33
 
 ---
 
@@ -18,7 +18,8 @@
 - 사이트: `https://sh0427-han.github.io/honeymoon20270117/`
 - `itinerary.js`: 실제 웹앱 일정 canonical source
 - `booking-data.js`: 예약 문서 / 현지 결제 / Drive 링크 기본 데이터
-- `reservation-data-v32.js`: 최신 Milford 예약 세부정보 보강
+- `reservation-data-v32.js`: Milford 예약 세부정보 보강
+- `reservation-data-v33.js`: Fairlie Airbnb 문서/결제 상태 보강
 - `PROJECT_CONTEXT.md`: 확정사항 / 의사결정 / TODO 요약
 - 민감한 예약번호, QR/바코드, 카드/여권/개인 연락처 등은 Public GitHub에 저장하지 않는다.
 - 실제 예약확인서 원본은 Restricted Google Drive에서 관리한다.
@@ -43,6 +44,7 @@
 - 1/26 CHC→AKL: 한/영 통합 공용 티켓 1개
 - 1/29 AKL→ICN: 상훈 / 진영 티켓 각각 연결
 - 현재 항공 문서: **6 / 6 연결**
+- V33부터 개별 승객 티켓 2개가 있는 노선은 **상훈이 티켓 / 진영이 티켓을 위아래 세로 배치**한다. 모바일에서 우측 스크롤로 확인하지 않도록 한다.
 
 ---
 
@@ -66,10 +68,19 @@
 - Meriton: 한글 + 영문 바우처
 - Queenstown Lakeview: 한글 + 영문 바우처 + 영수증
 - Edgewater: 한글 + 영문 바우처 + 영수증
-- Fairlie Airbnb: 문서 미연결
+- Fairlie Airbnb: **예약·결제 확인서 연결** (`20270124-20270125_FAIRLIE_AIRBNB_RECEIPT.pdf`)
 - BreakFree: 한글 + 영문 바우처 + 영수증
 - Hilton Auckland: 한글 + 영문 바우처 + 영수증
-- 현재 숙박 문서: **14 / 15 연결**
+- 현재 숙박 문서: **15 / 15 연결**
+
+### Fairlie Airbnb — 최신 문서 기준
+
+- 숙박: **2027-01-24 → 2027-01-25 · Fairlie 1박**
+- 결제: **₩391,259 선결제 완료**
+- 결제 문서는 `02_Stays/20270124-20270125_FAIRLIE_AIRBNB_RECEIPT.pdf`
+- 웹앱에서는 `예약·결제 확인서`로 연결한다.
+- Public GitHub에는 Airbnb 확인 코드, 예약번호 등 민감정보를 저장하지 않는다.
+- **중요 확인사항:** Airbnb 문서에는 예약 인원이 `게스트 1명`으로 표기되어 있으므로 실제 투숙 인원 2명 등록 가능 여부를 여행 전 확인한다.
 
 ---
 
@@ -210,7 +221,7 @@ honeymoon270117
 
 ---
 
-## 8. 예약 탭 / 현지 결제 UI — V32
+## 8. 예약 탭 / 현지 결제 UI — V33
 
 상단 필터: `FLIGHTS / STAYS / TOURS / CAR`
 
@@ -221,22 +232,25 @@ honeymoon270117
 - **현지에서 실제 결제가 필요한 항목만** 오른쪽에 작은 `현지결제 필요 · 금액` 배지를 표시한다.
 - `결제 완료` 배지는 표시하지 않는다.
 - 결제 미확정 투어도 카드에 긴 결제 설명을 표시하지 않는다.
-- 위치 / 예약서 / 티켓 등 액션은 카드 아래에서 **한 줄 가로 정렬**한다.
+- 위치 / 예약서 / 티켓 등 액션은 카드 아래에서 한 줄 가로 정렬한다.
 - 화면 폭이 좁으면 액션 행만 가로 스크롤한다.
+- 단, FLIGHTS에서 상훈/진영 **개별 승객 티켓은 가로 스크롤 대신 위아래 세로 배치**한다.
 
 현재 카드에 표시되는 현지결제 배지:
 
 - Meriton Suites Campbell Street: **현지결제 필요 · AUD 795**
 - Hertz: **현지결제 필요 · NZD 560.21**
 
-상단 현지결제 요약도 `결제 완료` 및 긴 설명을 제거하고 현지결제 총액만 간단히 표시한다.
+Fairlie Airbnb는 ₩391,259 선결제 완료이므로 현지결제 배지를 표시하지 않는다.
 
-### V32 관련 파일
+### V32/V33 관련 파일
 
 - `reservation-data-v32.js`: Milford 픽업/출발/복귀 데이터 보강
 - `schedule-map-v32.js`: 1/21 지도 위치 보정
 - `booking-layout-v32.js`: CAR 위치 / 현지결제 배지 / Milford 카드 액션 정리
 - `booking-layout-v32.css`: 카드 및 액션 한 줄 레이아웃
+- `reservation-data-v33.js`: Fairlie Airbnb 문서 + 선결제 완료 상태 반영
+- `flight-wallet.css`: 항공 개별 승객 티켓 세로 배치
 
 ---
 
@@ -245,10 +259,10 @@ honeymoon270117
 현재 문서 연결 기준:
 
 - 항공: **6 / 6**
-- 숙박: **14 / 15**
+- 숙박: **15 / 15**
 - 투어: **1 / 4**
 - 렌터카: **1 / 1**
-- 전체: **22 / 26**
+- 전체: **23 / 26**
 
 ---
 
@@ -270,9 +284,9 @@ honeymoon270117
 ## 11. PWA / Offline
 
 - `manifest.webmanifest` + `service-worker.js`
-- 현재 cache version: **`honeymoon-v32`**
-- `index.html`의 주요 자체 자산 query string도 **V32**로 갱신
-- V32 신규 파일들도 APP_SHELL에 포함
+- 현재 cache version: **`honeymoon-v33`**
+- `index.html`의 주요 자체 자산 query string도 **V33**로 갱신
+- `reservation-data-v33.js`도 APP_SHELL에 포함
 - 지도 / Google Maps / Google Drive / 외부 예약 앱은 인터넷 필요
 
 ---
@@ -283,6 +297,7 @@ Public repository / GitHub Pages에는 직접 저장하지 않는다:
 
 - 여권번호 / 생년월일 등 신원정보
 - 항공/호텔/투어/렌터카 예약번호
+- Airbnb 확인 코드
 - QR / 바코드 / 탑승권 이미지
 - 예약확인서 PDF 원본
 - 카드번호 / 실제 카드 식별정보
@@ -295,12 +310,12 @@ Drive 링크가 Public JS에 있어도 실제 파일 접근은 Google Drive `Res
 
 ## 13. 현재 TODO
 
+- [ ] **Fairlie Airbnb 실제 투숙 인원 2명 등록 가능 여부 확인 — 현재 문서에는 게스트 1명으로 표시**
 - [ ] Milford Sound 결제 완료 여부/최종 결제금액 확인
 - [ ] 여행 직전 Southern Discoveries 06:45 숙소 픽업 및 07:00/19:30 공식 시간표 재확인
 - [ ] Southern Discoveries Multi-Language Commentary 앱 및 이어폰 준비
 - [ ] Hertz 보증금 / pre-authorisation 실제 승인 금액 확인
 - [ ] Hertz 추가 운전자 필요 여부 / 카드 surcharge 적용 여부 확인
-- [ ] Fairlie Airbnb 예약 문서 / 결제 시점 확인 및 Drive 연결
 - [ ] Onsen 예약 정보/문서/결제정보 반영
 - [ ] Rotorua 상품/결제정보 확정
 - [ ] Waiheke 방식 확정
@@ -311,7 +326,7 @@ Drive 링크가 Public JS에 있어도 실제 파일 접근은 Google Drive `Res
 - [ ] 여행자보험 / eSIM 준비
 - [ ] Drive를 본인/배우자 계정만 접근하도록 최종 검증
 - [ ] 핵심 Drive 문서 오프라인 저장
-- [ ] 실제 Android/iPhone에서 V32 예약 카드 / CAR 필터 / 가로 액션 / PWA 갱신 확인
+- [ ] 실제 Android/iPhone에서 V33 항공 티켓 세로 배치 / 예약 카드 / PWA 갱신 확인
 - [ ] 여행 직전 대한항공 T2/라운지 운영시간 재확인
 - [ ] 여행 직전 용인→인천공항 교통시간 재확인
 
