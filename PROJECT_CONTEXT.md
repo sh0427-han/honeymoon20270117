@@ -4,7 +4,7 @@
 > 작업 시작 시 **이 파일을 먼저 읽고, 실제 웹앱 일정 데이터는 `itinerary.js`를 함께 확인**한다.
 > 사용자의 최신 요청이 이 문서와 충돌하면 최신 요청이 우선한다.
 >
-> 마지막 정리 기준: 2026-09-06 · V31
+> 마지막 정리 기준: 2026-09-06 · V32
 
 ---
 
@@ -17,10 +17,11 @@
 - 배포: Public GitHub repository + GitHub Pages
 - 사이트: `https://sh0427-han.github.io/honeymoon20270117/`
 - `itinerary.js`: 실제 웹앱 일정 canonical source
-- `booking-data.js`: 예약 문서 / 현지 결제 / Drive 링크 canonical source
+- `booking-data.js`: 예약 문서 / 현지 결제 / Drive 링크 기본 데이터
+- `reservation-data-v32.js`: 최신 Milford 예약 세부정보 보강
 - `PROJECT_CONTEXT.md`: 확정사항 / 의사결정 / TODO 요약
-- 예약번호, QR/바코드, 여권정보, 카드번호, 이메일, 예약확인서 PDF 원본 등 민감정보는 Public GitHub에 저장하지 않는다.
-- 실제 민감 문서는 Restricted Google Drive에서 관리하고 Public JS에는 표시용 파일명과 Drive URL 정도만 둔다.
+- 민감한 예약번호, QR/바코드, 카드/여권/개인 연락처 등은 Public GitHub에 저장하지 않는다.
+- 실제 예약확인서 원본은 Restricted Google Drive에서 관리한다.
 
 ---
 
@@ -35,7 +36,7 @@
 
 항공 총액: **₩8,162,600**
 
-항공 영수증은 웹앱에서 제외하고 실제 탑승/예약용 티켓 문서만 노출한다.
+항공 영수증은 웹앱에서 제외하고 티켓 문서만 노출한다.
 
 - 1/17 ICN→SYD: 상훈 / 진영 티켓 각각 연결
 - 1/20 SYD→ZQN: 두 사람 공용 티켓 1개
@@ -60,7 +61,7 @@
 
 항공 + 숙박 확정금액: **₩12,151,155**
 
-숙소 문서는 가능한 경우 `예약서 · 한글 / 예약서 · 영문 / 영수증`으로 분리한다.
+현재 숙박 문서:
 
 - Meriton: 한글 + 영문 바우처
 - Queenstown Lakeview: 한글 + 영문 바우처 + 영수증
@@ -84,38 +85,38 @@
 
 - Waiheke Island — 1/28
 
-### Milford Sound — 확정 예약 기준
+### Milford Sound — 최신 예약 기준
+
+예약확인서 + Southern Discoveries 공식 상품 시간표 기준으로 운영한다.
 
 - 날짜: **2027-01-21**
-- 업체: **Southern Discoveries**
 - 상품: **Milford Sound Coach & Nature Cruise ex Queenstown**
-- 인원: 성인 2명
-- 숙소 픽업: **06:45 · Hampshire Holiday Parks Queenstown**
-- **06:35까지 숙소 리셉션에서 대기**
-- 숙소에서 택시 픽업 → **Southern Discoveries Queenstown Visitor Centre** 이동 → 코치 탑승
-- Milford Road 코치 이동 후 Nature Cruise 진행
+- 성인 2명
+- **06:35** Hampshire Holiday Parks Queenstown Lakeview 리셉션 대기
+- **06:45** 숙소에서 택시 픽업
+- 택시 이동 → **Southern Discoveries Queenstown Visitor Centre**
+  - St Omer Wharf, **110 Beach Street, Queenstown 9300**
+- **07:00** Queenstown Visitor Centre에서 코치 출발 — Southern Discoveries 공식 상품 일정 기준
+- Milford Road 이동 + Nature Cruise
 - **To Kai Lunch 2인 포함**
 - 한국어 포함 Multi-Language Coach Commentary 앱 사용 가능 · 이어폰 필요
-- Milford Road 경관 정차는 교통량/운영상황에 따라 보장되지 않으며 귀로에 진행될 수도 있음
-- 예약확약서에는 정확한 크루즈 시작/종료 시각과 Queenstown 복귀 시각이 기재되어 있지 않음
-- 따라서 웹앱/시트에서 과거의 `07:00 투어 출발`, `20:00 복귀`를 확정시간으로 사용하지 않는다.
-
-준비물 메모:
-
-- 따뜻한 방수 재킷
-- 미끄럼 방지 신발
-- 선크림
-- 벌레기피제
-- 카메라
-- 한국어 코멘터리 앱 이용 시 이어폰
+- **19:30 예정** Southern Discoveries Queenstown Visitor Centre 복귀 — 공식 상품 일정 기준
+- 19:30은 예약확인서 본문이 아니라 Southern Discoveries 공식 Coach & Nature Cruise 시간표의 Queenstown return time이다.
+- 교통량, Milford Road 경관 정차 및 당일 운영상황에 따라 복귀 시간은 변동될 수 있다.
+- 복귀 후 숙소 이동은 별도 일정으로 둔다.
 
 Drive 문서:
 
 `03_Tours/20270121_MILFORD_SOUTHERN_DISCOVERIES_BOOKING.pdf`
 
-웹앱 TOUR 카드에서 `예약 확약서`로 연결한다.
+웹앱 TOUR 카드:
 
-Milford 결제 완료 여부/최종 결제금액은 현재 예약확약서만으로 확정하지 않는다.
+- 픽업 06:45 · Hampshire Holiday Parks Queenstown Lakeview
+- 코치 출발 07:00 · Southern Discoveries Queenstown Visitor Centre
+- 복귀 19:30 예정 · Southern Discoveries Queenstown Visitor Centre
+- `픽업 위치 / 복귀 위치 / Milford 위치 / 예약 확약서` 액션을 한 줄로 표시
+
+Milford 결제 완료 여부/최종 결제금액은 예약확인서만으로 확정하지 않는다.
 
 ---
 
@@ -125,7 +126,7 @@ Milford 결제 완료 여부/최종 결제금액은 현재 예약확약서만으
 - 1/18 Sydney CBD / Fish Market / Barangaroo / The Rocks / Observatory
 - 1/19 Surry Hills / Bondi / Botanic Garden / Opera House
 - 1/20 Sydney → Queenstown
-- 1/21 **06:35 리셉션 대기 → 06:45 Southern Discoveries 숙소 픽업 → Milford Sound Coach & Nature Cruise**
+- 1/21 **06:35 리셉션 대기 → 06:45 숙소 픽업 → 07:00 Visitor Centre 코치 출발 → Milford Sound Nature Cruise → 19:30 Visitor Centre 복귀 예정 → 숙소 이동**
 - 1/22 Queenstown 휴식 + **15:00 Hertz 렌터카 수령**
 - 1/23 Onsen → Arrowtown → Crown Range / Cardrona → Wanaka
 - 1/24 Wanaka → Pukaki → Tekapo → Fairlie
@@ -135,22 +136,21 @@ Milford 결제 완료 여부/최종 결제금액은 현재 예약확약서만으
 - 1/28 Waiheke Island
 - 1/29 Auckland → Incheon
 
-세부 시간과 실제 장소/지도 좌표는 반드시 `itinerary.js`를 기준으로 한다.
+세부 일정의 기준은 `itinerary.js`다.
 
 ### Google Schedule Sheet
-
-별도 일정표:
 
 - 파일: **Honeymoon Schedule 2027**
 - Spreadsheet ID: `1sNmM1HXMUhMctdZoIdkswjvXpug7-hBR7R-MRiSgvro`
 - 시트: `시트1`
 
-1/21 열은 Milford 예약확약서 기준으로 수정 완료:
+1/21 열 최신 반영:
 
 - 05시: 기상 · 투어 준비
-- 06시: `06:35 리셉션 대기 / 06:45 숙소 픽업 → Southern Discoveries Visitor Centre`
-- 07시: 코치 이동 + Nature Cruise + To Kai Lunch 포함 안내
-- 기존 `20:00 투어 종료, 시내 도착` 문구는 확정 근거가 없어 삭제
+- 06시: `06:35 Hampshire Holiday Parks Queenstown 리셉션 대기 / 06:45 숙소 픽업 → Southern Discoveries Queenstown Visitor Centre`
+- 07시: `07:00 Southern Discoveries Queenstown Visitor Centre 출발 / 110 Beach Street → Milford Road / Nature Cruise + To Kai Lunch`
+- 19시: `19:30 Southern Discoveries Queenstown Visitor Centre 복귀 예정 / 이후 숙소 이동`
+- 기존 20:00 확정 복귀 문구는 삭제
 
 ---
 
@@ -176,6 +176,8 @@ Drive:
 
 현재 렌터카 문서: **1 / 1 연결**
 
+`itinerary.js` 예산 항목에서도 `Full Coverage` 문구를 제거하고 `예약금액 + 연료/부대비용`으로 표현한다.
+
 ---
 
 ## 7. Google Drive Private Docs
@@ -196,7 +198,6 @@ honeymoon270117
 - 일반 액세스 `Restricted`
 - 본인 + 배우자 계정만 접근 허용
 - Public GitHub에는 PDF 원본 저장 금지
-- Drive URL 자체는 공개된다고 가정
 - 여행 전 핵심 문서는 Drive 앱 오프라인 사용 설정 권장
 
 파일명 규칙:
@@ -209,40 +210,37 @@ honeymoon270117
 
 ---
 
-## 8. 예약 탭 / 현지 결제 Wallet
+## 8. 예약 탭 / 현지 결제 UI — V32
 
 상단 필터: `FLIGHTS / STAYS / TOURS / CAR`
 
-현재 확정 현지 결제:
+### 카드 레이아웃
 
-- Meriton Suites Campbell Street: **AUD 795 · Pay at Hotel**
-- Hertz: **NZD 560.21 · 차량 수령 시 현지 카운터 결제**
+- CAR를 선택하면 렌터카 카드가 다른 탭과 동일하게 필터/현지결제 영역 바로 아래로 올라온다.
+- 카드 상단: 날짜/구간 + 예약명
+- **현지에서 실제 결제가 필요한 항목만** 오른쪽에 작은 `현지결제 필요 · 금액` 배지를 표시한다.
+- `결제 완료` 배지는 표시하지 않는다.
+- 결제 미확정 투어도 카드에 긴 결제 설명을 표시하지 않는다.
+- 위치 / 예약서 / 티켓 등 액션은 카드 아래에서 **한 줄 가로 정렬**한다.
+- 화면 폭이 좁으면 액션 행만 가로 스크롤한다.
 
-선결제 완료:
+현재 카드에 표시되는 현지결제 배지:
 
-- Queenstown Lakeview
-- Edgewater Hotel
-- BreakFree on Cashel
-- Hilton Auckland
+- Meriton Suites Campbell Street: **현지결제 필요 · AUD 795**
+- Hertz: **현지결제 필요 · NZD 560.21**
 
-확인 필요:
+상단 현지결제 요약도 `결제 완료` 및 긴 설명을 제거하고 현지결제 총액만 간단히 표시한다.
 
-- Fairlie Airbnb 결제 시점
-- Milford Sound 결제 완료 여부/금액
-- Onsen / Rotorua / Waiheke 결제정보
+### V32 관련 파일
 
-Wallet 합계 원칙:
-
-- `pay_on_site / partial` + 확정된 `amountDue`만 합산
-- `paid`는 현지 결제 합계 제외
-- 보증금 / pre-authorisation 제외
-- 현금 필요액은 `cashRequired=true` 또는 `method=cash`만 합산
+- `reservation-data-v32.js`: Milford 픽업/출발/복귀 데이터 보강
+- `schedule-map-v32.js`: 1/21 지도 위치 보정
+- `booking-layout-v32.js`: CAR 위치 / 현지결제 배지 / Milford 카드 액션 정리
+- `booking-layout-v32.css`: 카드 및 액션 한 줄 레이아웃
 
 ---
 
 ## 9. 더보기 탭 / 문서 현황
-
-`준비 / 문서 / 긴급 / 선물`
 
 현재 문서 연결 기준:
 
@@ -272,8 +270,9 @@ Wallet 합계 원칙:
 ## 11. PWA / Offline
 
 - `manifest.webmanifest` + `service-worker.js`
-- 현재 cache version: **`honeymoon-v31`**
-- 앱 shell / itinerary / booking UI / 더보기 UI는 캐시
+- 현재 cache version: **`honeymoon-v32`**
+- `index.html`의 주요 자체 자산 query string도 **V32**로 갱신
+- V32 신규 파일들도 APP_SHELL에 포함
 - 지도 / Google Maps / Google Drive / 외부 예약 앱은 인터넷 필요
 
 ---
@@ -290,14 +289,14 @@ Public repository / GitHub Pages에는 직접 저장하지 않는다:
 - 개인 전화번호 / 이메일
 - 보험증권 번호
 
-Drive 링크를 Public JS에 둘 경우 URL은 누구나 볼 수 있다고 가정한다. 파일 접근은 Google Drive `Restricted` 권한으로 제어한다.
+Drive 링크가 Public JS에 있어도 실제 파일 접근은 Google Drive `Restricted` 권한으로 제어한다.
 
 ---
 
 ## 13. 현재 TODO
 
 - [ ] Milford Sound 결제 완료 여부/최종 결제금액 확인
-- [ ] 여행 직전 Southern Discoveries 픽업 시간/숙소 픽업 변경 여부 재확인
+- [ ] 여행 직전 Southern Discoveries 06:45 숙소 픽업 및 07:00/19:30 공식 시간표 재확인
 - [ ] Southern Discoveries Multi-Language Commentary 앱 및 이어폰 준비
 - [ ] Hertz 보증금 / pre-authorisation 실제 승인 금액 확인
 - [ ] Hertz 추가 운전자 필요 여부 / 카드 surcharge 적용 여부 확인
@@ -312,7 +311,7 @@ Drive 링크를 Public JS에 둘 경우 URL은 누구나 볼 수 있다고 가�
 - [ ] 여행자보험 / eSIM 준비
 - [ ] Drive를 본인/배우자 계정만 접근하도록 최종 검증
 - [ ] 핵심 Drive 문서 오프라인 저장
-- [ ] 실제 Android/iPhone PWA/필터/티켓/현지 결제 상세 동작 확인
+- [ ] 실제 Android/iPhone에서 V32 예약 카드 / CAR 필터 / 가로 액션 / PWA 갱신 확인
 - [ ] 여행 직전 대한항공 T2/라운지 운영시간 재확인
 - [ ] 여행 직전 용인→인천공항 교통시간 재확인
 
@@ -320,4 +319,4 @@ Drive 링크를 Public JS에 둘 경우 URL은 누구나 볼 수 있다고 가�
 
 ## 14. 핵심 원칙
 
-**숙소·항공과 핵심 경험은 유지하면서 이동 피로를 줄이고, 여행 중 휴대폰에서 일정·예약·문서·현지 결제·긴급정보를 빠르게 확인할 수 있게 운영한다. 일정은 `itinerary.js`, 상세 일정 보조표는 `Honeymoon Schedule 2027`, 전체 예산은 `Honeymoon Budget 2027`, 예약/현지 결제 메타데이터는 `booking-data.js`, 민감 예약 문서는 Restricted Google Drive를 각각 기준으로 사용한다.**
+**숙소·항공과 핵심 경험은 유지하면서 이동 피로를 줄이고, 여행 중 휴대폰에서 일정·예약·문서·현지 결제·긴급정보를 빠르게 확인할 수 있게 운영한다. 일정은 `itinerary.js`, 상세 일정 보조표는 `Honeymoon Schedule 2027`, 전체 예산은 `Honeymoon Budget 2027`, 예약 기본 데이터는 `booking-data.js`, 최신 예약 보강은 버전별 데이터 파일, 민감 예약 문서는 Restricted Google Drive를 기준으로 사용한다.**
