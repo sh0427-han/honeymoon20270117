@@ -8,6 +8,25 @@
         { id: "car", label: "CAR", count: bookingData.rental ? 1 : 0, selector: "#rental-list" }
     ];
 
+    const PAYMENT_CURRENCIES = [
+        { code: "AUD", country: "Australia", flag: "🇦🇺" },
+        { code: "NZD", country: "New Zealand", flag: "🇳🇿" }
+    ];
+
+    const PAYMENT_STATUS_LABELS = {
+        paid: "결제 완료",
+        pay_on_site: "현지 결제",
+        partial: "잔금 결제",
+        unknown: "결제 확인 필요"
+    };
+
+    const PAYMENT_METHOD_LABELS = {
+        card: "카드",
+        cash: "현금",
+        either: "카드/현금",
+        unknown: "결제수단 확인 필요"
+    };
+
     let activeFilter = "flights";
 
     const safe = (value) => (
@@ -16,6 +35,16 @@
 
     const googleMapsSearchUrl = (query) =>
         `https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(query)}`;
+
+    const isAmount = (value) => typeof value === "number" && Number.isFinite(value);
+
+    const formatMoney = (currency, amount) => {
+        if (!isAmount(amount)) return `${currency} —`;
+        return `${currency} ${new Intl.NumberFormat("en-US", {
+            minimumFractionDigits: 2,
+            maximumFractionDigits: 2
+        }).format(amount)}`;
+    };
 
     const createDriveDocumentAction = (documentMeta) => {
         if (documentMeta?.url) {
@@ -105,6 +134,248 @@
         syncDriveDocument(list.querySelector(".booking-rental-card"), rental.document);
     };
 
+    const getPaymentEntries = () => {
+        const hotelEntries = bookingData.hotels.map((hotel, index) => {
+            const itineraryHotel = typeof tripData !== "undefined" ? tripData.hotels?.[index] : null;
+            return {
+                key: hotel.key,
+                category: "STAY",
+                date: itineraryHotel?.dates || "숙박",
+                name: itineraryHotel?.name || hotel.key,
+                payment: hotel.payment
+            };
+        });
+
+        const tourEntries = bookingData.tours.map((tour) => ({
+            key: tour.key,
+            category: "TOUR",
+            date: tour.date,
+            name: tour.name,
+            payment: tour.payment
+        }));
+
+        const rentalEntries = bookingData.rental ? [{
+            key: bookingData.rental.key,
+            category: "CAR",
+            date: bookingData.rental.date,
+            name: bookingData.rental.name,
+            payment: bookingData.rental.payment
+        }] : [];
+
+        return [...hotelEntries, ...tourEntries, ...rentalEntries]
+            .filter((entry) => entry.payment?.currency);
+    };
+
+    const isConfirmedLocalPayment = (payment) => (
+        ["pay_on_site", "partial"].includes(payment?.status)
+        && isAmount(payment?.amountDue)
+    );
+
+    const needsPaymentCheck = (payment) => {
+        if (!payment) return false;
+        if (payment.status === "unknown") return true;
+        return ["pay_on_site", "partial"].includes(payment.status)
+            && !isAmount(payment.amountDue);
+    };
+
+    const getCurrencySummary = (entries, currency) => {
+        const currencyEntries = entries.filter(
+            (entry) => entry.payment.currency === currency
+        );
+        const confirmed = currencyEntries.filter(
+            (entry) => isConfirmedLocalPayment(entry.payment)
+        );
+        const total = confirmed.reduce(
+            (sum, entry) => sum + entry.payment.amountDue,
+            0
+        );
+        const cashTotal = confirmed
+            .filter((entry) => (
+                entry.payment.cashRequired || entry.payment.method === "cash"
+            ))
+            .reduce((sum, entry) => sum + entry.payment.amountDue, 0);
+        const checkCount = currencyEntries.filter(
+            (entry) => needsPaymentCheck(entry.payment)
+        ).length;
+
+        return { currencyEntries, total, cashTotal, checkCount };
+    };
+
+    const paymentAmountText = (payment) => {
+        if (isConfirmedLocalPayment(payment)) {
+            return formatMoney(payment.currency, payment.amountDue);
+        }
+        if (isAmount(payment?.quotedAmount)) {
+            return `견적 ${formatMoney(payment.currency, payment.quotedAmount)}`;
+        }
+        return `${payment?.currency || ""} 금액 확인 필요`.trim();
+    };
+
+    const paymentMetaText = (payment) => {
+        const status = PAYMENT_STATUS_LABELS[payment?.status] || "결제 확인 필요";
+        const timing = payment?.timing || "시점 확인 필요";
+        const method = PAYMENT_METHOD_LABELS[payment?.method] || "결제수단 확인 필요";
+        return `${status} · ${timing} · ${method}`;
+    };
+
+    const renderPaymentEntry = (entry) => {
+        const payment = entry.payment;
+        const deposit = payment?.deposit;
+        const quoteNotice = isAmount(payment?.quotedAmount)
+            && !isConfirmedLocalPayment(payment)
+            ? " · 현지결제 확정 전이라 합계 제외"
+            : "";
+        const note = payment?.note
+            ? `<small class="payment-entry-note">${safe(payment.note)}</small>`
+            : "";
+        const depositRow = isAmount(deposit?.amount) ? `
+            <small class="payment-entry-deposit">
+                별도 보증금 ${safe(formatMoney(deposit.currency || payment.currency, deposit.amount))}
+                · 합계 제외
+            </small>
+        ` : "";
+
+        return `
+            <div class="payment-entry">
+                <div class="payment-entry-main">
+                    <span class="payment-entry-date">${safe(entry.date)}</span>
+                    <strong>${safe(entry.name)}</strong>
+                    <small>${safe(entry.category)}</small>
+                </div>
+                <div class="payment-entry-value">
+                    <strong>${safe(paymentAmountText(payment))}</strong>
+                    <small>${safe(paymentMetaText(payment))}${safe(quoteNotice)}</small>
+                    ${note}
+                    ${depositRow}
+                </div>
+            </div>
+        `;
+    };
+
+    const renderPaymentStatement = () => {
+        const summary = document.querySelector("#booking-summary");
+        if (!summary) return;
+
+        const entries = getPaymentEntries();
+        let statement = document.querySelector("#payment-statement");
+        if (!statement) {
+            statement = document.createElement("section");
+            statement.id = "payment-statement";
+            statement.className = "payment-statement";
+            summary.insertAdjacentElement("afterend", statement);
+        }
+
+        const currencyCards = PAYMENT_CURRENCIES.map((currencyMeta) => {
+            const currencySummary = getCurrencySummary(entries, currencyMeta.code);
+            const checkText = currencySummary.checkCount > 0
+                ? `확인 필요 ${currencySummary.checkCount}건`
+                : "확인 완료";
+            const cashText = currencySummary.cashTotal > 0
+                ? `현금 ${formatMoney(currencyMeta.code, currencySummary.cashTotal)}`
+                : "현금 확정액 없음";
+
+            return `
+                <article class="payment-currency-card">
+                    <div class="payment-currency-head">
+                        <span>${currencyMeta.flag} ${safe(currencyMeta.country)}</span>
+                        <small>${currencyMeta.code}</small>
+                    </div>
+                    <strong>${safe(formatMoney(currencyMeta.code, currencySummary.total))}</strong>
+                    <div class="payment-currency-meta">
+                        <span>${safe(cashText)}</span>
+                        <span>${safe(checkText)}</span>
+                    </div>
+                </article>
+            `;
+        }).join("");
+
+        const detailGroups = PAYMENT_CURRENCIES.map((currencyMeta) => {
+            const currencySummary = getCurrencySummary(entries, currencyMeta.code);
+            if (currencySummary.currencyEntries.length === 0) return "";
+
+            return `
+                <section class="payment-detail-group">
+                    <div class="payment-detail-heading">
+                        <div>
+                            <span>${currencyMeta.flag} ${safe(currencyMeta.country)}</span>
+                            <strong>${currencyMeta.code}</strong>
+                        </div>
+                        <strong>${safe(formatMoney(currencyMeta.code, currencySummary.total))}</strong>
+                    </div>
+                    <div class="payment-entry-list">
+                        ${currencySummary.currencyEntries.map(renderPaymentEntry).join("")}
+                    </div>
+                </section>
+            `;
+        }).join("");
+
+        statement.innerHTML = `
+            <div class="payment-statement-head">
+                <div>
+                    <span class="payment-eyebrow">LOCAL PAYMENT</span>
+                    <h3>현지 결제 예정</h3>
+                </div>
+                <small>확정된 현지결제만 합산 · 보증금 제외</small>
+            </div>
+            <div class="payment-currency-grid">
+                ${currencyCards}
+            </div>
+            <details class="payment-details">
+                <summary>
+                    <span>현지 결제 상세 내역</span>
+                    <small>숙소 · 투어 · 렌터카</small>
+                </summary>
+                <div class="payment-details-body">
+                    ${detailGroups}
+                </div>
+            </details>
+        `;
+    };
+
+    const createPaymentRow = (payment) => {
+        if (!payment?.currency) return null;
+        const row = document.createElement("div");
+        row.className = `booking-payment booking-payment-${payment.status || "unknown"}`;
+
+        const primary = document.createElement("strong");
+        const statusLabel = PAYMENT_STATUS_LABELS[payment.status] || "결제 확인 필요";
+        primary.textContent = `${statusLabel} · ${paymentAmountText(payment)}`;
+
+        const secondary = document.createElement("span");
+        const method = PAYMENT_METHOD_LABELS[payment.method] || "결제수단 확인 필요";
+        secondary.textContent = `${payment.timing || "시점 확인 필요"} · ${method}`;
+
+        row.append(primary, secondary);
+        return row;
+    };
+
+    const syncPaymentRow = (card, payment) => {
+        if (!card) return;
+        card.querySelector(".booking-payment")?.remove();
+        const row = createPaymentRow(payment);
+        if (!row) return;
+
+        const actions = card.querySelector(".booking-actions");
+        if (actions) {
+            actions.insertAdjacentElement("beforebegin", row);
+        } else {
+            card.appendChild(row);
+        }
+    };
+
+    const syncPaymentRows = () => {
+        [...document.querySelectorAll("#hotel-list .booking-card")].forEach((card, index) => {
+            syncPaymentRow(card, bookingData.hotels[index]?.payment);
+        });
+        [...document.querySelectorAll("#tour-list .booking-tour-card")].forEach((card, index) => {
+            syncPaymentRow(card, bookingData.tours[index]?.payment);
+        });
+        syncPaymentRow(
+            document.querySelector("#rental-list .booking-rental-card"),
+            bookingData.rental?.payment
+        );
+    };
+
     const clearLegacyFilterState = () => {
         FILTERS.forEach((filter) => {
             const list = document.querySelector(filter.selector);
@@ -180,8 +451,10 @@
     renderRental();
     clearLegacyFilterState();
     renderFilterControls();
+    renderPaymentStatement();
     syncStayDocuments();
     syncTourDocuments();
+    syncPaymentRows();
     removeBookingStatuses();
     moveUtilitiesToBottom();
     applyFilter();
