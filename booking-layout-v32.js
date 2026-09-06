@@ -24,7 +24,7 @@
         if (!isLocalPayment(payment)) return null;
         const badge = document.createElement("div");
         badge.className = "booking-payment booking-payment-local";
-        badge.textContent = `현지결제 ${formatMoney(payment.currency, payment.amountDue)}`;
+        badge.textContent = `현지결제 필요 · ${formatMoney(payment.currency, payment.amountDue)}`;
         return badge;
     };
 
@@ -93,7 +93,7 @@
             <div class="payment-statement-head compact">
                 <div>
                     <span class="payment-eyebrow">LOCAL PAYMENT</span>
-                    <h3>현지 결제</h3>
+                    <h3>현지 결제 필요</h3>
                 </div>
                 <div class="payment-total-chips">
                     ${Object.entries(totals).map(([currency, total]) => `
@@ -141,7 +141,7 @@
             makeMapLink("픽업 위치", milford.pickupMapQuery || "Hampshire Holiday Parks Queenstown Lakeview, Queenstown, New Zealand"),
             makeMapLink("복귀 위치", milford.returnMapQuery || "Southern Discoveries Queenstown Visitor Centre, 110 Beach Street, Queenstown, New Zealand"),
             makeMapLink("Milford 위치", milford.mapQuery)
-        ].reverse().forEach((link) => actions.insertBefore(link, first));
+        ].forEach((link) => actions.insertBefore(link, first));
 
         actions.dataset.milfordV32 = "true";
     };
