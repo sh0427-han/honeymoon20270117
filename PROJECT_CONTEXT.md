@@ -4,7 +4,7 @@
 > 작업 시작 시 **이 파일을 먼저 읽고, 실제 웹앱 일정 데이터는 `itinerary.js`를 함께 확인**한다.
 > 사용자의 최신 요청이 이 문서와 충돌하면 최신 요청이 우선한다.
 >
-> 마지막 정리 기준: 2026-08-27 · V25
+> 마지막 정리 기준: 2026-09-06 · V27
 
 ---
 
@@ -17,7 +17,8 @@
 - 배포: **Public GitHub repository + GitHub Pages**
 - 사이트: `https://sh0427-han.github.io/honeymoon20270117/`
 - `itinerary.js`가 실제 웹앱 일정의 canonical source다.
-- 예약번호, QR/바코드, 여권정보, 결제정보, 보험증권 번호, 예약확인서 원본 등 민감정보는 Public GitHub에 저장하지 않는다.
+- 예약/문서/현지 결제 메타데이터는 `booking-data.js`에서 관리한다.
+- 예약번호, QR/바코드, 여권정보, 카드번호, 보험증권 번호, 예약확인서 원본 등 민감정보는 Public GitHub에 저장하지 않는다.
 - 실제 민감 문서는 제한된 Google Drive에서 관리하고, Public JS에는 파일명/Drive URL 정도만 연결한다.
 
 주요 현재 파일:
@@ -45,6 +46,7 @@ more-hub-v25.js
 more-hub-v25.css
 app-ux-v25.js
 app-ux-v25.css
+app-ux-v26.js
 service-worker.js
 pwa.js
 pwa.css
@@ -118,10 +120,10 @@ PROJECT_CONTEXT.md
 - 1/19 Surry Hills / Bondi / Botanic Garden / Opera House
 - 1/20 Sydney → Queenstown
 - 1/21 Milford Sound 하루 전체
-- 1/22 Queenstown 휴식 + 렌터카 수령
+- 1/22 Queenstown 휴식 + **15:00 Hertz 렌터카 수령**
 - 1/23 Onsen → Arrowtown → Crown Range / Cardrona → Wanaka
 - 1/24 Wanaka → Pukaki → Tekapo → Fairlie
-- 1/25 Fairlie → Geraldine → Christchurch + 렌터카 반납 기본안
+- 1/25 Fairlie → Geraldine → Christchurch + **17:00 렌터카 반납**
 - 1/26 Christchurch → Auckland
 - 1/27 Rotorua Day Tour
 - 1/28 Waiheke Island
@@ -133,34 +135,30 @@ PROJECT_CONTEXT.md
 
 ## 7. 렌터카 현재 상태
 
-조건:
+현재 선택 방향:
 
+- 업체: **Hertz**
 - Queenstown → Christchurch 편도
 - SUV
 - Full Coverage / Zero Excess 수준 보험
-- Hertz vs Avis 비교
-- 한국차 선호는 optional
+- 1/22 **15:00 Queenstown Downtown 수령**
+- 1/25 **17:00 Christchurch Downtown 반납**
+- 현재 표시 견적: **NZD 746.93**
 
-현재 웹앱 기본안:
+주의:
 
-- 1/22 14:00 Queenstown Downtown 수령
-- 1/25 15:00 Christchurch Downtown 반납
+- NZD 746.93은 현재 Hertz 화면의 예상 견적이며 최종 결제금액으로 확정하지 않는다.
+- 선결제인지 현지결제인지 아직 확인되지 않았으므로 `booking-data.js`에서는 `payment.status = "unknown"`으로 둔다.
+- 결제 시점이 확인되기 전까지 NZD 746.93은 `quotedAmount`로만 표시하고 **현지 결제 총액에는 포함하지 않는다**.
+- 실제 예약 시 추가 운전자, 보험, one-way fee, 보증금/pre-authorisation 등 최종 조건을 다시 확인한다.
 
-대안:
-
-- 1/26 Christchurch Airport 반납
-- 공항 반납이 약 5~7만 원 수준 추가면 편의성 때문에 고려
-- 10만 원 이상 차이면 Downtown 반납 우선
-
-아직 업체/금액 미확정.
-
-예약 탭에는 `CAR` 필터가 있고 현재 기본안만 표시한다. 예약 내역서 파일명 기본값:
+예약 내역서 파일명 기본값:
 
 `20270122-20270125_ZQN-CHC_RENTAL_BOOKING.pdf`
 
 ---
 
-## 8. 예산 관리 — V25 변경
+## 8. 예산 관리
 
 웹앱 `더보기`의 예산 UI는 제거했다.
 
@@ -185,6 +183,11 @@ Google Sheet:
 
 웹앱에서는 `더보기 → 문서 → 여행 예산 Sheet 열기`로 접근한다.
 `booking-data.js > privateDrive.budgetSheetUrl`이 링크의 source다.
+
+예산 Sheet와 웹앱의 현지 결제 내역은 역할을 분리한다.
+
+- Google Sheet: 전체 여행 예산 / 실제 지출 canonical source
+- 웹앱 예약 탭: 여행 중 앞으로 결제해야 할 **AUD / NZD 현지 결제액**을 빠르게 확인하는 Wallet
 
 ---
 
@@ -227,7 +230,7 @@ honeymoon270117
 
 ---
 
-## 10. 예약 탭 UX — 현재 V25
+## 10. 예약 탭 UX — 현재 V27
 
 상단 필터는 가로 4개:
 
@@ -244,13 +247,55 @@ honeymoon270117
 - 예약 앱 바로가기는 각 카드에서 제거하고 예약 탭 최하단에 별도 launcher로 유지
 - Private Drive도 예약 탭 하단에 유지
 
+### 현지 결제 Wallet — V27
+
+예약 필터 바로 아래에 **`현지 결제 예정`** 내역서를 표시한다.
+
+상단 요약:
+
+- Australia / `AUD`
+- New Zealand / `NZD`
+- 통화별 확정 현지 결제 총액
+- 통화별 확정 현금 필요액
+- `확인 필요 N건`
+
+상세 내역:
+
+- 숙소 / 투어 / 렌터카 항목을 날짜별로 표시
+- 결제 상태 / 금액 / 결제 시점 / 결제 방식 표시
+- Hertz처럼 금액만 견적인 경우 `견적 NZD 746.93` 형태로 표시하되 합계에서 제외
+- 보증금 / 카드 pre-authorisation은 실제 현지 결제 합계에서 제외
+
+`booking-data.js > payment` 구조:
+
+```js
+payment: {
+    status: "paid" | "pay_on_site" | "partial" | "unknown",
+    currency: "AUD" | "NZD",
+    amountDue: 0,
+    quotedAmount: 0,        // 필요할 때만
+    timing: "체크인 시",
+    method: "card" | "cash" | "either" | "unknown",
+    cashRequired: false,
+    deposit: { ... }        // 필요할 때만, 합계 제외
+}
+```
+
+합계 원칙:
+
+- `status = pay_on_site / partial`이면서 `amountDue`가 숫자로 확정된 항목만 합산
+- `paid`는 현지 결제 합계에서 제외
+- `unknown`은 금액이 있어도 `quotedAmount` 참고값만 표시하고 합계 제외
+- 보증금 / pre-authorisation은 합계 제외
+- 환전 판단용 `현금 필요액`은 `cashRequired = true` 또는 `method = cash`인 확정 현지 결제액만 합산
+
 현재 테스트 연결:
 
 - 1/29 AKL→ICN 상훈 티켓만 Drive 연결 완료
 
 ---
 
-## 11. 더보기 탭 UX — 현재 V25
+## 11. 더보기 탭 UX
 
 상단 필터는 가로 4개:
 
@@ -289,7 +334,7 @@ Public GitHub에 넣어도 되는 공개 기관 번호만 표시:
 
 ---
 
-## 12. 홈 / 일정 UX — V25 변경
+## 12. 홈 / 일정 UX
 
 ### 홈
 
@@ -324,7 +369,7 @@ Timezone:
 ## 13. PWA / Offline
 
 - `manifest.webmanifest` + `service-worker.js`
-- 현재 cache version: `honeymoon-v25`
+- 현재 cache version: **`honeymoon-v27`**
 - 앱 shell / itinerary / booking UI / 더보기 UI는 캐시
 - 지도 / Google Maps / Google Drive / 외부 예약 앱은 인터넷 필요
 - Android/Chromium: 설치 이벤트 시 앱 설치 버튼
@@ -340,9 +385,11 @@ Public repository / GitHub Pages에는 직접 저장하지 않는다:
 - 항공/호텔/투어/렌터카 예약번호
 - QR / 바코드 / 탑승권 이미지
 - 예약확인서 PDF 원본
-- 카드번호 / 결제수단
+- 카드번호 / 실제 카드 식별정보
 - 개인 전화번호 / 이메일
 - 보험증권 번호
+
+현지 결제 Wallet에는 금액/통화/결제 시점/일반적인 결제방식(`card`, `cash`)만 저장할 수 있다. 실제 카드번호나 민감 결제정보는 저장하지 않는다.
 
 Drive 링크를 Public JS에 둘 경우 URL은 누구나 볼 수 있다고 가정한다. 파일 접근은 반드시 Google Drive `Restricted` 권한으로 제어한다.
 `robots.txt`는 보안 기능이 아니다.
@@ -351,12 +398,14 @@ Drive 링크를 Public JS에 둘 경우 URL은 누구나 볼 수 있다고 가�
 
 ## 15. 현재 TODO
 
-- [ ] Hertz vs Avis 실제 견적 비교 / 확정
-- [ ] Christchurch Downtown vs Airport 반납 최종 결정
-- [ ] Milford Sound 실제 상품/예약 반영
-- [ ] Onsen 예약 정보/문서 반영
-- [ ] Rotorua 상품 확정
+- [ ] Hertz 실제 예약 완료 후 최종 금액 / 선결제·현지결제 여부 확인
+- [ ] Hertz 보증금 / pre-authorisation / 추가 운전자 / one-way fee 최종 확인
+- [ ] 숙소 6건 선결제 / 현지결제 / 잔금 여부와 현지통화 금액 입력
+- [ ] Milford Sound 실제 상품/예약/결제정보 반영
+- [ ] Onsen 예약 정보/문서/결제정보 반영
+- [ ] Rotorua 상품/결제정보 확정
 - [ ] Waiheke 방식 확정
+- [ ] AUD / NZD 현금이 실제 필요한 항목 확인 후 `cashRequired` 입력
 - [ ] 주요 저녁 식당 확정
 - [ ] 가족 선물 수량/예산 확정
 - [ ] ETA / NZeTA / IVL 준비
@@ -366,7 +415,7 @@ Drive 링크를 Public JS에 둘 경우 URL은 누구나 볼 수 있다고 가�
 - [ ] Google Drive를 본인/배우자 계정만 접근하도록 최종 검증
 - [ ] 권한 없는 계정/시크릿 모드 Drive 접근 차단 확인
 - [ ] 핵심 Drive 문서 오프라인 저장
-- [ ] 실제 Android/iPhone PWA/필터/티켓 버튼 동작 확인
+- [ ] 실제 Android/iPhone PWA/필터/티켓/현지 결제 상세 동작 확인
 - [ ] 여행 직전 대한항공 T2/라운지 운영시간 재확인
 - [ ] 여행 직전 용인→인천공항 교통시간 재확인
 
@@ -374,4 +423,4 @@ Drive 링크를 Public JS에 둘 경우 URL은 누구나 볼 수 있다고 가�
 
 ## 16. 핵심 원칙
 
-**숙소·항공과 핵심 경험은 유지하면서 이동 피로를 줄이고, 여행 중 휴대폰에서 일정·예약·문서·긴급정보를 빠르게 확인할 수 있게 운영한다. 일정은 `itinerary.js`, 예산은 Google Sheet, 민감 예약 문서는 Restricted Google Drive를 각각 canonical source로 사용한다.**
+**숙소·항공과 핵심 경험은 유지하면서 이동 피로를 줄이고, 여행 중 휴대폰에서 일정·예약·문서·현지 결제·긴급정보를 빠르게 확인할 수 있게 운영한다. 일정은 `itinerary.js`, 전체 예산은 Google Sheet, 예약/현지 결제 메타데이터는 `booking-data.js`, 민감 예약 문서는 Restricted Google Drive를 각각 canonical source로 사용한다.**
