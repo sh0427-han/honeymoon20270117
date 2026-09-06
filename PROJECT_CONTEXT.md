@@ -4,7 +4,7 @@
 > 작업 시작 시 **이 파일을 먼저 읽고, 실제 웹앱 일정 데이터는 `itinerary.js`를 함께 확인**한다.
 > 사용자의 최신 요청이 이 문서와 충돌하면 최신 요청이 우선한다.
 >
-> 마지막 정리 기준: 2026-09-06 · V27
+> 마지막 정리 기준: 2026-09-06 · V28
 
 ---
 
@@ -217,20 +217,39 @@ honeymoon270117
 - Drive URL 자체는 공개된다고 가정하고, 실제 접근제어는 Google 계정 권한이 담당
 - 중요 문서는 여행 전 Drive 앱에서 오프라인 사용 설정 권장
 
-항공 티켓 파일명:
+### 항공 문서 파일명
+
+승객별 e-Ticket:
 
 `YYYYMMDD_ORIGIN-DEST_PASSENGER_AIRLINECODE.pdf`
 
-예:
+승객별 영수증:
 
-- `20270129_AKL-ICN_SANGHUN_KE.pdf`
-- `20270129_AKL-ICN_JINYEONG_KE.pdf`
+`YYYYMMDD_ORIGIN-DEST_PASSENGER_AIRLINECODE_RECEIPT.pdf`
 
-숙박/투어는 `booking-data.js`에 정의된 파일명을 기준으로 매칭한다.
+공용 일정표 / e-Ticket:
+
+- `YYYYMMDD_ORIGIN-DEST_ITINERARY_EN.pdf`
+- `YYYYMMDD_ORIGIN-DEST_ETICKET_KO-EN.pdf`
+
+### 숙박 문서 파일명
+
+- `YYYYMMDD-YYYYMMDD_LOCATION_PROPERTY_VOUCHER_KO.pdf`
+- `YYYYMMDD-YYYYMMDD_LOCATION_PROPERTY_VOUCHER_EN.pdf`
+- `YYYYMMDD-YYYYMMDD_LOCATION_PROPERTY_RECEIPT.pdf`
+
+현재 `02_Stays` 연결 상태:
+
+- Meriton: 한글 바우처 + 영문 바우처
+- Queenstown Lakeview: 한글 바우처 + 영문 바우처 + 영수증
+- Edgewater: 한글 바우처 + 영문 바우처 + 영수증
+- Fairlie Airbnb: 문서 미연결
+- BreakFree: 한글 바우처 + 영문 바우처 + 영수증
+- Hilton Auckland: 한글 바우처 + 영문 바우처 + 영수증
 
 ---
 
-## 10. 예약 탭 UX — 현재 V27
+## 10. 예약 탭 UX — 현재 V28
 
 상단 필터는 가로 4개:
 
@@ -240,14 +259,40 @@ honeymoon270117
 - 예약 패널 자체를 JS로 `display:none` 처리하지 않는다.
 - `예약 완료 / 예약 미정` 상태 배지는 화면에서 제거했다.
 - 문서 버튼 활성/비활성으로 연결 여부를 판단한다.
-- 항공 카드에는 좌우 2개 티켓 버튼:
-  - `🐶상훈이 티켓`
-  - `🐯진영이 티켓`
-- 숙박/투어/렌터카에는 `예약 내역서` 버튼 제공
 - 예약 앱 바로가기는 각 카드에서 제거하고 예약 탭 최하단에 별도 launcher로 유지
 - Private Drive도 예약 탭 하단에 유지
 
-### 현지 결제 Wallet — V27
+### 항공 문서 UI — V28
+
+노선별 실제 존재 문서만 표시한다.
+
+- 1/17 ICN→SYD:
+  - `🐶 상훈이 티켓`
+  - `🐶 상훈 영수증`
+  - `🐯 진영이 티켓`
+  - `🐯 진영 영수증`
+- 1/20 SYD→ZQN:
+  - `영문 일정표`
+- 1/26 CHC→AKL:
+  - `e-Ticket · 한/영`
+  - `영문 일정표`
+- 1/29 AKL→ICN:
+  - `🐶 상훈이 티켓` 연결
+  - `🐯 진영이 티켓` 미연결
+
+Air New Zealand처럼 두 사람 정보가 한 PDF에 있는 경우 승객별 placeholder를 중복 표시하지 않고 공용 문서 버튼만 노출한다.
+
+### 숙박 문서 UI — V28
+
+숙소 카드의 기존 단일 `예약 내역서` 구조를 다중 문서 구조로 확장했다.
+
+- `예약서 · 한글`
+- `예약서 · 영문`
+- `영수증`
+
+실제 존재하는 문서만 연결하고, 아직 문서가 없는 Fairlie Airbnb만 비활성 `예약 내역서` 버튼을 유지한다.
+
+### 현지 결제 Wallet — V28
 
 예약 필터 바로 아래에 **`현지 결제 예정`** 내역서를 표시한다.
 
@@ -265,6 +310,15 @@ honeymoon270117
 - 결제 상태 / 금액 / 결제 시점 / 결제 방식 표시
 - Hertz처럼 금액만 견적인 경우 `견적 NZD 746.93` 형태로 표시하되 합계에서 제외
 - 보증금 / 카드 pre-authorisation은 실제 현지 결제 합계에서 제외
+
+숙소 문서로 확인된 현재 결제 상태:
+
+- Meriton Suites Campbell Street: **Pay at Hotel · AUD 795**
+- Queenstown Lakeview: 온라인 사전 결제 완료
+- Edgewater Hotel: 온라인 사전 결제 완료
+- BreakFree on Cashel: 온라인 사전 결제 완료
+- Hilton Auckland: 온라인 사전 결제 완료
+- Fairlie Airbnb: 결제 시점 확인 필요
 
 `booking-data.js > payment` 구조:
 
@@ -289,10 +343,6 @@ payment: {
 - 보증금 / pre-authorisation은 합계 제외
 - 환전 판단용 `현금 필요액`은 `cashRequired = true` 또는 `method = cash`인 확정 현지 결제액만 합산
 
-현재 테스트 연결:
-
-- 1/29 AKL→ICN 상훈 티켓만 Drive 연결 완료
-
 ---
 
 ## 11. 더보기 탭 UX
@@ -309,12 +359,18 @@ payment: {
 
 ### 문서
 
-- 예약 문서 연결 현황 자동 계산
-  - 항공권: 8개
-  - 숙박: 6개
-  - 투어: 4개
-  - 렌터카: 1개
-  - 총 19개 기준
+예약 문서 연결 현황은 `booking-data.js`의 실제 문서 구조를 기준으로 자동 계산한다.
+
+현재 기준:
+
+- 항공: **8 / 9 연결**
+- 숙박: **14 / 15 연결**
+- 투어: **0 / 4 연결**
+- 렌터카: **0 / 1 연결**
+- 전체: **22 / 29 연결**
+
+Air NZ 공용 PDF는 승객별 placeholder를 별도 문서로 중복 카운트하지 않는다.
+
 - `Private Drive 열기`
 - `여행 예산 Sheet 열기`
 
@@ -369,7 +425,7 @@ Timezone:
 ## 13. PWA / Offline
 
 - `manifest.webmanifest` + `service-worker.js`
-- 현재 cache version: **`honeymoon-v27`**
+- 현재 cache version: **`honeymoon-v28`**
 - 앱 shell / itinerary / booking UI / 더보기 UI는 캐시
 - 지도 / Google Maps / Google Drive / 외부 예약 앱은 인터넷 필요
 - Android/Chromium: 설치 이벤트 시 앱 설치 버튼
@@ -400,7 +456,9 @@ Drive 링크를 Public JS에 둘 경우 URL은 누구나 볼 수 있다고 가�
 
 - [ ] Hertz 실제 예약 완료 후 최종 금액 / 선결제·현지결제 여부 확인
 - [ ] Hertz 보증금 / pre-authorisation / 추가 운전자 / one-way fee 최종 확인
-- [ ] 숙소 6건 선결제 / 현지결제 / 잔금 여부와 현지통화 금액 입력
+- [ ] Fairlie Airbnb 예약 문서 / 결제 시점 확인 및 Drive 연결
+- [ ] 1/29 AKL→ICN 진영 e-Ticket Drive 연결
+- [ ] 1/20 SYD→ZQN 추가 e-Ticket/영수증이 있다면 Drive 연결
 - [ ] Milford Sound 실제 상품/예약/결제정보 반영
 - [ ] Onsen 예약 정보/문서/결제정보 반영
 - [ ] Rotorua 상품/결제정보 확정
@@ -410,7 +468,6 @@ Drive 링크를 Public JS에 둘 경우 URL은 누구나 볼 수 있다고 가�
 - [ ] 가족 선물 수량/예산 확정
 - [ ] ETA / NZeTA / IVL 준비
 - [ ] 여행자보험 / eSIM 준비
-- [ ] Drive `01_Flights / 02_Stays / 03_Tours` 문서 업로드 및 URL 연결
 - [ ] 렌터카 확정 시 `04_Rental` 문서 연결
 - [ ] Google Drive를 본인/배우자 계정만 접근하도록 최종 검증
 - [ ] 권한 없는 계정/시크릿 모드 Drive 접근 차단 확인
