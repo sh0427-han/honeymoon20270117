@@ -114,9 +114,44 @@ const tripData = {
             intensity: 5,
             fixed: true,
             items: [
-                { time: "05:00", title: "기상", type: "note" },
-                { time: "07:00", title: "Milford Sound 투어 출발", type: "tour", fixed: true },
-                { time: "20:00", title: "퀸스타운 복귀 · 휴식", type: "hotel" }
+                {
+                    time: "05:00",
+                    title: "기상 · 투어 준비",
+                    type: "note",
+                    note: "준비물: 따뜻한 방수 재킷 · 미끄럼 방지 신발 · 선크림 · 벌레기피제 · 이어폰"
+                },
+                {
+                    time: "06:35",
+                    title: "숙소 리셉션 대기",
+                    type: "note",
+                    note: "Southern Discoveries 픽업 10분 전까지 대기"
+                },
+                {
+                    time: "06:45",
+                    title: "Southern Discoveries 숙소 픽업",
+                    type: "tour",
+                    fixed: true,
+                    note: "Hampshire Holiday Parks Queenstown에서 택시 픽업 → Southern Discoveries Queenstown Visitor Centre"
+                },
+                {
+                    time: "이후",
+                    title: "Milford Road 코치 이동",
+                    type: "transport",
+                    note: "Southern Discoveries 코치 탑승 · 경관 정차는 교통/운영상황에 따라 달라질 수 있음 · 한국어 코멘터리 앱 사용 가능(이어폰 필요)"
+                },
+                {
+                    time: "투어 중",
+                    title: "Milford Sound Nature Cruise · To Kai Lunch",
+                    type: "tour",
+                    fixed: true,
+                    note: "Nature Cruise + To Kai Lunch 2인 포함"
+                },
+                {
+                    time: "저녁",
+                    title: "Queenstown 복귀 · 숙소 휴식",
+                    type: "hotel",
+                    note: "정확한 복귀 시각은 예약확약서에 미기재"
+                }
             ]
         },
         {
