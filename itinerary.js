@@ -122,35 +122,41 @@ const tripData = {
                 },
                 {
                     time: "06:35",
-                    title: "숙소 리셉션 대기",
+                    title: "Hampshire Holiday Parks Queenstown Lakeview 리셉션 대기",
                     type: "note",
-                    note: "Southern Discoveries 픽업 10분 전까지 대기"
+                    note: "예약확인서 기준 픽업 10분 전까지 리셉션 대기"
                 },
                 {
                     time: "06:45",
-                    title: "Southern Discoveries 숙소 픽업",
+                    title: "Hampshire Holiday Parks Queenstown Lakeview 픽업",
                     type: "tour",
                     fixed: true,
-                    note: "Hampshire Holiday Parks Queenstown에서 택시 픽업 → Southern Discoveries Queenstown Visitor Centre"
+                    note: "택시 픽업 → Southern Discoveries Queenstown Visitor Centre · St Omer Wharf, 110 Beach Street"
                 },
                 {
-                    time: "이후",
-                    title: "Milford Road 코치 이동",
+                    time: "07:00",
+                    title: "Southern Discoveries Queenstown Visitor Centre 코치 출발",
                     type: "transport",
-                    note: "Southern Discoveries 코치 탑승 · 경관 정차는 교통/운영상황에 따라 달라질 수 있음 · 한국어 코멘터리 앱 사용 가능(이어폰 필요)"
+                    fixed: true,
+                    note: "공식 Coach & Nature Cruise 상품 일정 기준 · Milford Road 경관 정차는 교통/운영상황에 따라 변동"
                 },
                 {
                     time: "투어 중",
                     title: "Milford Sound Nature Cruise · To Kai Lunch",
                     type: "tour",
                     fixed: true,
-                    note: "Nature Cruise + To Kai Lunch 2인 포함"
+                    note: "Nature Cruise + To Kai Lunch 2인 포함 · 한국어 코멘터리 앱 사용 가능(이어폰 필요)"
                 },
                 {
-                    time: "저녁",
-                    title: "Queenstown 복귀 · 숙소 휴식",
-                    type: "hotel",
-                    note: "정확한 복귀 시각은 예약확약서에 미기재"
+                    time: "19:30",
+                    title: "Southern Discoveries Queenstown Visitor Centre 복귀 예정",
+                    type: "transport",
+                    note: "공식 상품 일정 기준 Queenstown 19:30 복귀 · 교통 및 경관 정차 상황에 따라 변동 가능"
+                },
+                {
+                    time: "이후",
+                    title: "숙소 이동 · 휴식",
+                    type: "hotel"
                 }
             ]
         },
@@ -287,6 +293,7 @@ const tripData = {
         { name: "Bondi Beach", city: "Sydney", lat: -33.8915, lng: 151.2767, category: "관광" },
         { name: "Sydney Opera House", city: "Sydney", lat: -33.8568, lng: 151.2153, category: "관광" },
         { name: "Queenstown Lakeview", city: "Queenstown", lat: -45.0274, lng: 168.6602, category: "숙소" },
+        { name: "Southern Discoveries Queenstown Visitor Centre", city: "Queenstown", lat: -45.034225, lng: 168.656356, category: "투어" },
         { name: "Onsen Hot Pools", city: "Queenstown", lat: -44.9876, lng: 168.6795, category: "투어" },
         { name: "Arrowtown", city: "Queenstown", lat: -44.9383, lng: 168.8358, category: "관광" },
         { name: "Edgewater Wanaka", city: "Wanaka", lat: -44.6985, lng: 169.1128, category: "숙소" },
@@ -305,7 +312,7 @@ const tripData = {
     budget: [
         { name: "항공권", amount: 8162600, status: "확정" },
         { name: "숙박", amount: 3988555, status: "확정" },
-        { name: "렌터카 · Full Coverage · 연료", amount: 1250000, status: "예상", range: "100~150만 원" },
+        { name: "렌터카 · 예약금액 + 연료/부대비용", amount: 1250000, status: "예상", range: "100~150만 원" },
         { name: "식비", amount: 2100000, status: "예상", range: "180~240만 원" },
         { name: "투어 · 액티비티", amount: 1750000, status: "예상", range: "140~210만 원" },
         { name: "대중교통 · 택시", amount: 450000, status: "예상", range: "35~55만 원" },
