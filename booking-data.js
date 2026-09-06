@@ -12,8 +12,24 @@ const bookingData = {
             key: "icn-syd",
             status: "예약 완료",
             tickets: {
-                sanghun: { fileName: "20270117_ICN-SYD_SANGHUN_KE.pdf", url: null },
-                jinyeong: { fileName: "20270117_ICN-SYD_JINYEONG_KE.pdf", url: null }
+                sanghun: {
+                    fileName: "20270117_ICN-SYD_SANGHUN_KE.pdf",
+                    url: "https://drive.google.com/file/d/1cnM_LaEuXyYzoeWMqGg81I1XYHGjVaDe/view?usp=drivesdk"
+                },
+                jinyeong: {
+                    fileName: "20270117_ICN-SYD_JINYEONG_KE.pdf",
+                    url: "https://drive.google.com/file/d/1FaZ4qMyI-Xt2sBxGIfOhNt_sa-RLOeLt/view?usp=drivesdk"
+                }
+            },
+            receipts: {
+                sanghun: {
+                    fileName: "20270117_ICN-SYD_SANGHUN_KE_RECEIPT.pdf",
+                    url: "https://drive.google.com/file/d/1Bmq81T9DaaqIR2jRxRbUz11Y4Z27ZfWb/view?usp=drivesdk"
+                },
+                jinyeong: {
+                    fileName: "20270117_ICN-SYD_JINYEONG_KE_RECEIPT.pdf",
+                    url: "https://drive.google.com/file/d/1Fid2PleXFRBuoshCig85UU2QxaqW3eti/view?usp=drivesdk"
+                }
             },
             bookingApp: "koreanair",
             confirmationUrl: null
@@ -25,6 +41,13 @@ const bookingData = {
                 sanghun: { fileName: "20270120_SYD-ZQN_SANGHUN_NZ.pdf", url: null },
                 jinyeong: { fileName: "20270120_SYD-ZQN_JINYEONG_NZ.pdf", url: null }
             },
+            sharedDocuments: [
+                {
+                    label: "영문 일정표",
+                    fileName: "20270120_SYD-ZQN_ITINERARY_EN.pdf",
+                    url: "https://drive.google.com/file/d/1IR6Ozl55ls2ebvVuOZxmBPjUNaOKwz-v/view?usp=drivesdk"
+                }
+            ],
             bookingApp: "trip",
             confirmationUrl: null
         },
@@ -35,6 +58,18 @@ const bookingData = {
                 sanghun: { fileName: "20270126_CHC-AKL_SANGHUN_NZ.pdf", url: null },
                 jinyeong: { fileName: "20270126_CHC-AKL_JINYEONG_NZ.pdf", url: null }
             },
+            sharedDocuments: [
+                {
+                    label: "e-Ticket · 한/영",
+                    fileName: "20270126_CHC-AKL_ETICKET_KO-EN.pdf",
+                    url: "https://drive.google.com/file/d/1bKGnXLRjkqKBIMt3o3kr6s0VTM8UoQA-/view?usp=drivesdk"
+                },
+                {
+                    label: "영문 일정표",
+                    fileName: "20270126_CHC-AKL_ITINERARY_EN.pdf",
+                    url: "https://drive.google.com/file/d/1wBdBC7HTlMJOiVqqwTUJPDzcIvJwRWbQ/view?usp=drivesdk"
+                }
+            ],
             bookingApp: "trip",
             confirmationUrl: null
         },
@@ -59,14 +94,26 @@ const bookingData = {
             mapQuery: "Meriton Suites Campbell Street, 6 Campbell Street, Haymarket NSW 2000, Australia",
             mapLabel: "위치 열기 ↗",
             payment: {
-                status: "unknown",
+                status: "pay_on_site",
                 currency: "AUD",
-                amountDue: null,
-                timing: "결제 시점 확인 필요",
+                amountDue: 795,
+                timing: "호텔 결제",
                 method: "unknown",
-                cashRequired: false
+                cashRequired: false,
+                note: "체크인 바우처 기준 Pay at Hotel"
             },
-            document: { fileName: "20270117-20270120_SYD_MERITON_BOOKING.pdf", url: null },
+            documents: [
+                {
+                    label: "예약서 · 한글",
+                    fileName: "20270117-20270120_SYD_MERITON_VOUCHER_KO.pdf",
+                    url: "https://drive.google.com/file/d/1B5ltNceWtWs91bThRhlURuVA1rZUE0q_/view?usp=drivesdk"
+                },
+                {
+                    label: "예약서 · 영문",
+                    fileName: "20270117-20270120_SYD_MERITON_VOUCHER_EN.pdf",
+                    url: "https://drive.google.com/file/d/1WjnJAF1xCHET3CdOuFxIiniH4IfmVAf2/view?usp=drivesdk"
+                }
+            ],
             confirmationUrl: null
         },
         {
@@ -75,14 +122,30 @@ const bookingData = {
             mapQuery: "Hampshire Holiday Parks Queenstown Lakeview, 4 Cemetery Road, Queenstown 9300, New Zealand",
             mapLabel: "위치 열기 ↗",
             payment: {
-                status: "unknown",
+                status: "paid",
                 currency: "NZD",
-                amountDue: null,
-                timing: "결제 시점 확인 필요",
-                method: "unknown",
+                amountDue: 0,
+                timing: "온라인 사전 결제 완료",
+                method: "card",
                 cashRequired: false
             },
-            document: { fileName: "20270120-20270123_ZQN_LAKEVIEW_BOOKING.pdf", url: null },
+            documents: [
+                {
+                    label: "예약서 · 한글",
+                    fileName: "20270120-20270123_ZQN_LAKEVIEW_VOUCHER_KO.pdf",
+                    url: "https://drive.google.com/file/d/1Bvm_HFFTHWUniiMwplguafi2hp3kStbO/view?usp=drivesdk"
+                },
+                {
+                    label: "예약서 · 영문",
+                    fileName: "20270120-20270123_ZQN_LAKEVIEW_VOUCHER_EN.pdf",
+                    url: "https://drive.google.com/file/d/16maT_ReU66KhP-nB9W2PWARBnGtNOuxa/view?usp=drivesdk"
+                },
+                {
+                    label: "영수증",
+                    fileName: "20270120-20270123_ZQN_LAKEVIEW_RECEIPT.pdf",
+                    url: "https://drive.google.com/file/d/1qRnzQDynrmiE4yHl0wM5ge1_m-_vskhp/view?usp=drivesdk"
+                }
+            ],
             confirmationUrl: null
         },
         {
@@ -91,14 +154,30 @@ const bookingData = {
             mapQuery: "Edgewater Hotel, 54 Sargood Drive, Wanaka 9305, New Zealand",
             mapLabel: "위치 열기 ↗",
             payment: {
-                status: "unknown",
+                status: "paid",
                 currency: "NZD",
-                amountDue: null,
-                timing: "결제 시점 확인 필요",
-                method: "unknown",
+                amountDue: 0,
+                timing: "온라인 사전 결제 완료",
+                method: "card",
                 cashRequired: false
             },
-            document: { fileName: "20270123-20270124_WANAKA_EDGEWATER_BOOKING.pdf", url: null },
+            documents: [
+                {
+                    label: "예약서 · 한글",
+                    fileName: "20270123-20270124_WANAKA_EDGEWATER_VOUCHER_KO.pdf",
+                    url: "https://drive.google.com/file/d/1RsFEI0RViuZ-HwItX6IZWnKNSmP_RC7E/view?usp=drivesdk"
+                },
+                {
+                    label: "예약서 · 영문",
+                    fileName: "20270123-20270124_WANAKA_EDGEWATER_VOUCHER_EN.pdf",
+                    url: "https://drive.google.com/file/d/1Qf8rSKy4yi9m1slL4BDfsD7a8Kl6HV2o/view?usp=drivesdk"
+                },
+                {
+                    label: "영수증",
+                    fileName: "20270123-20270124_WANAKA_EDGEWATER_RECEIPT.pdf",
+                    url: "https://drive.google.com/file/d/1dJqNnFX8AyPS03zObrIYF8oHH23sm4I3/view?usp=drivesdk"
+                }
+            ],
             confirmationUrl: null
         },
         {
@@ -115,7 +194,13 @@ const bookingData = {
                 method: "unknown",
                 cashRequired: false
             },
-            document: { fileName: "20270124-20270125_FAIRLIE_AIRBNB_BOOKING.pdf", url: null },
+            documents: [
+                {
+                    label: "예약 내역서",
+                    fileName: "20270124-20270125_FAIRLIE_AIRBNB_BOOKING.pdf",
+                    url: null
+                }
+            ],
             confirmationUrl: null
         },
         {
@@ -124,14 +209,30 @@ const bookingData = {
             mapQuery: "BreakFree on Cashel Christchurch, 165 Cashel Street, Christchurch 8011, New Zealand",
             mapLabel: "위치 열기 ↗",
             payment: {
-                status: "unknown",
+                status: "paid",
                 currency: "NZD",
-                amountDue: null,
-                timing: "결제 시점 확인 필요",
-                method: "unknown",
+                amountDue: 0,
+                timing: "온라인 사전 결제 완료",
+                method: "card",
                 cashRequired: false
             },
-            document: { fileName: "20270125-20270126_CHC_BREAKFREE_BOOKING.pdf", url: null },
+            documents: [
+                {
+                    label: "예약서 · 한글",
+                    fileName: "20270125-20270126_CHC_BREAKFREE_VOUCHER_KO.pdf",
+                    url: "https://drive.google.com/file/d/1mfQLwES1Q0xaFbTvP0VSIFmEusXMszhv/view?usp=drivesdk"
+                },
+                {
+                    label: "예약서 · 영문",
+                    fileName: "20270125-20270126_CHC_BREAKFREE_VOUCHER_EN.pdf",
+                    url: "https://drive.google.com/file/d/1nCvaQeQg4mzSSOyNjUIr2PRBNjnx-l8Z/view?usp=drivesdk"
+                },
+                {
+                    label: "영수증",
+                    fileName: "20270125-20270126_CHC_BREAKFREE_RECEIPT.pdf",
+                    url: "https://drive.google.com/file/d/1V_f3mqMReLfCEcwz3t6K9vydw_Afmh7d/view?usp=drivesdk"
+                }
+            ],
             confirmationUrl: null
         },
         {
@@ -140,14 +241,30 @@ const bookingData = {
             mapQuery: "Hilton Auckland, 147 Quay Street, Auckland 1010, New Zealand",
             mapLabel: "위치 열기 ↗",
             payment: {
-                status: "unknown",
+                status: "paid",
                 currency: "NZD",
-                amountDue: null,
-                timing: "결제 시점 확인 필요",
-                method: "unknown",
+                amountDue: 0,
+                timing: "온라인 사전 결제 완료",
+                method: "card",
                 cashRequired: false
             },
-            document: { fileName: "20270126-20270129_AKL_HILTON_BOOKING.pdf", url: null },
+            documents: [
+                {
+                    label: "예약서 · 한글",
+                    fileName: "20270126-20270129_AKL_HILTON_VOUCHER_KO.pdf",
+                    url: "https://drive.google.com/file/d/1uEEwPAr8Kpe3DdMNhzACJlCMWmUqiuG1/view?usp=drivesdk"
+                },
+                {
+                    label: "예약서 · 영문",
+                    fileName: "20270126-20270129_AKL_HILTON_VOUCHER_EN.pdf",
+                    url: "https://drive.google.com/file/d/1u3v-23r1vuP5t1-JcWdPm50QhE8PYhoP/view?usp=drivesdk"
+                },
+                {
+                    label: "영수증",
+                    fileName: "20270126-20270129_AKL_HILTON_RECEIPT.pdf",
+                    url: "https://drive.google.com/file/d/1vXE76yPUiNOKhPWl5uk_qQsaM8FViwNn/view?usp=drivesdk"
+                }
+            ],
             confirmationUrl: null
         }
     ],
