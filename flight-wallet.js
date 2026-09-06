@@ -1,14 +1,15 @@
 (() => {
     if (typeof bookingData === "undefined") return;
 
-    const createTicketAction = (label, ticket) => {
-        if (ticket?.url) {
+    const createDocumentAction = (label, documentMeta) => {
+        if (documentMeta?.url) {
             const link = document.createElement("a");
             link.className = "booking-action flight-ticket-action";
-            link.href = ticket.url;
+            link.href = documentMeta.url;
             link.target = "_blank";
             link.rel = "noopener noreferrer";
             link.textContent = `${label} ↗`;
+            link.title = documentMeta.fileName || label;
             return link;
         }
 
@@ -17,10 +18,34 @@
         button.className = "booking-action flight-ticket-action is-pending";
         button.disabled = true;
         button.textContent = label;
-        button.title = ticket?.fileName
-            ? `Google Drive에 ${ticket.fileName} 파일이 업로드되면 연결됩니다.`
-            : "티켓 파일 업로드 후 연결됩니다.";
+        button.title = documentMeta?.fileName
+            ? `Google Drive에 ${documentMeta.fileName} 파일이 업로드되면 연결됩니다.`
+            : "문서 파일 업로드 후 연결됩니다.";
         return button;
+    };
+
+    const getFlightDocuments = (meta) => {
+        const shared = Array.isArray(meta?.sharedDocuments)
+            ? meta.sharedDocuments.filter(Boolean)
+            : [];
+
+        // 공용 예약 문서가 있는 Air NZ 노선은 존재하지 않는 승객별 placeholder 대신
+        // 실제 공용 문서만 노출한다.
+        if (shared.length) {
+            return shared.map((documentMeta) => ({
+                label: documentMeta.label || "항공 문서",
+                documentMeta
+            }));
+        }
+
+        const actions = [
+            { label: "🐶 상훈이 티켓", documentMeta: meta?.tickets?.sanghun },
+            { label: "🐶 상훈 영수증", documentMeta: meta?.receipts?.sanghun },
+            { label: "🐯 진영이 티켓", documentMeta: meta?.tickets?.jinyeong },
+            { label: "🐯 진영 영수증", documentMeta: meta?.receipts?.jinyeong }
+        ];
+
+        return actions.filter(({ documentMeta }) => Boolean(documentMeta));
     };
 
     const enhanceFlightWallet = () => {
@@ -38,16 +63,19 @@
                 card.appendChild(row);
             }
 
-            const signature = [
-                meta.tickets?.sanghun?.url || "pending",
-                meta.tickets?.jinyeong?.url || "pending"
-            ].join("|");
+            const documents = getFlightDocuments(meta);
+            const signature = documents.map(({ label, documentMeta }) => [
+                label,
+                documentMeta?.fileName || "",
+                documentMeta?.url || "pending"
+            ].join(":")).join("|");
 
             if (row.dataset.flightWalletSignature === signature) return;
 
             row.replaceChildren();
-            row.appendChild(createTicketAction("🐶상훈이 티켓", meta.tickets?.sanghun));
-            row.appendChild(createTicketAction("🐯진영이 티켓", meta.tickets?.jinyeong));
+            documents.forEach(({ label, documentMeta }) => {
+                row.appendChild(createDocumentAction(label, documentMeta));
+            });
 
             row.dataset.flightWalletSignature = signature;
             card.dataset.flightWallet = "true";
