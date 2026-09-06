@@ -128,7 +128,7 @@ const tripData = {
             items: [
                 { time: "09:30", title: "늦은 기상 & 브런치", type: "meal" },
                 { time: "11:30", title: "Skyline Gondola 또는 Queenstown Gardens", type: "sightseeing" },
-                { time: "15:00", title: "렌터카 수령", type: "car", note: "Hertz · SUV · Full Coverage / Zero Excess" },
+                { time: "15:00", title: "렌터카 수령", type: "car", note: "Hertz Queenstown Downtown · Compact SUV (G0) · Kia Seltos 또는 동급 · 차량손실 면책 프로그램 포함" },
                 { time: "18:00", title: "Queenstown 저녁 · 와인", type: "meal" }
             ]
         },
@@ -171,8 +171,8 @@ const tripData = {
                 { time: "09:30", title: "Fairlie 출발", type: "drive" },
                 { time: "10:30", title: "Geraldine 카페", type: "meal" },
                 { time: "13:30", title: "Christchurch 도착 · 호텔 짐 보관", type: "hotel" },
-                { time: "16:00", title: "Riverside Market · Cathedral Square · New Regent Street", type: "sightseeing" },
-                { time: "17:00", title: "렌터카 Downtown 반납", type: "car" }
+                { time: "15:00", title: "Hertz Christchurch Downtown 렌터카 반납", type: "car", note: "Unit 4, 150 Kilmore St · 영업시간 14:00-17:00" },
+                { time: "15:30", title: "Riverside Market · Cathedral Square · New Regent Street", type: "sightseeing" }
             ]
         },
         {
