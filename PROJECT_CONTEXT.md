@@ -4,7 +4,7 @@
 > 작업 시작 시 **이 파일을 먼저 읽고, 실제 웹앱 일정 데이터는 `itinerary.js`를 함께 확인**한다.
 > 사용자의 최신 요청이 이 문서와 충돌하면 최신 요청이 우선한다.
 >
-> 마지막 정리 기준: 2026-09-06 · V28
+> 마지막 정리 기준: 2026-09-06 · V29
 
 ---
 
@@ -249,7 +249,7 @@ honeymoon270117
 
 ---
 
-## 10. 예약 탭 UX — 현재 V28
+## 10. 예약 탭 UX — 현재 V29
 
 상단 필터는 가로 4개:
 
@@ -262,27 +262,25 @@ honeymoon270117
 - 예약 앱 바로가기는 각 카드에서 제거하고 예약 탭 최하단에 별도 launcher로 유지
 - Private Drive도 예약 탭 하단에 유지
 
-### 항공 문서 UI — V28
+### 항공 문서 UI — V29
 
 노선별 실제 존재 문서만 표시한다.
 
 - 1/17 ICN→SYD:
   - `🐶 상훈이 티켓`
-  - `🐶 상훈 영수증`
   - `🐯 진영이 티켓`
-  - `🐯 진영 영수증`
 - 1/20 SYD→ZQN:
-  - `영문 일정표`
+  - 두 사람 예약내역이 한 PDF에 있어 `🐶상훈이 / 🐯진영이 티켓` 1개로 통합
 - 1/26 CHC→AKL:
-  - `e-Ticket · 한/영`
-  - `영문 일정표`
+  - 한/영 통합 e-Ticket 1개만 사용하고 `🐶상훈이 / 🐯진영이 티켓`으로 표시
+  - 별도 영문 일정표는 웹앱에서 제외
 - 1/29 AKL→ICN:
   - `🐶 상훈이 티켓` 연결
-  - `🐯 진영이 티켓` 미연결
+  - `🐯 진영이 티켓` 연결
 
-Air New Zealand처럼 두 사람 정보가 한 PDF에 있는 경우 승객별 placeholder를 중복 표시하지 않고 공용 문서 버튼만 노출한다.
+항공 영수증은 웹앱 문서 목록에서 제외한다. Air New Zealand처럼 두 사람 정보가 한 PDF에 있는 경우 승객별 placeholder를 중복 표시하지 않고 공용 티켓 버튼만 노출한다.
 
-### 숙박 문서 UI — V28
+### 숙박 문서 UI — V29
 
 숙소 카드의 기존 단일 `예약 내역서` 구조를 다중 문서 구조로 확장했다.
 
@@ -292,7 +290,7 @@ Air New Zealand처럼 두 사람 정보가 한 PDF에 있는 경우 승객별 pl
 
 실제 존재하는 문서만 연결하고, 아직 문서가 없는 Fairlie Airbnb만 비활성 `예약 내역서` 버튼을 유지한다.
 
-### 현지 결제 Wallet — V28
+### 현지 결제 Wallet — V29
 
 예약 필터 바로 아래에 **`현지 결제 예정`** 내역서를 표시한다.
 
@@ -363,13 +361,13 @@ payment: {
 
 현재 기준:
 
-- 항공: **8 / 9 연결**
+- 항공: **6 / 6 연결**
 - 숙박: **14 / 15 연결**
 - 투어: **0 / 4 연결**
 - 렌터카: **0 / 1 연결**
-- 전체: **22 / 29 연결**
+- 전체: **20 / 26 연결**
 
-Air NZ 공용 PDF는 승객별 placeholder를 별도 문서로 중복 카운트하지 않는다.
+항공 영수증은 문서 현황 집계에서 제외한다. Air NZ 공용 PDF는 승객별 placeholder를 별도 문서로 중복 카운트하지 않는다.
 
 - `Private Drive 열기`
 - `여행 예산 Sheet 열기`
@@ -425,7 +423,7 @@ Timezone:
 ## 13. PWA / Offline
 
 - `manifest.webmanifest` + `service-worker.js`
-- 현재 cache version: **`honeymoon-v28`**
+- 현재 cache version: **`honeymoon-v29`**
 - 앱 shell / itinerary / booking UI / 더보기 UI는 캐시
 - 지도 / Google Maps / Google Drive / 외부 예약 앱은 인터넷 필요
 - Android/Chromium: 설치 이벤트 시 앱 설치 버튼
@@ -457,8 +455,6 @@ Drive 링크를 Public JS에 둘 경우 URL은 누구나 볼 수 있다고 가�
 - [ ] Hertz 실제 예약 완료 후 최종 금액 / 선결제·현지결제 여부 확인
 - [ ] Hertz 보증금 / pre-authorisation / 추가 운전자 / one-way fee 최종 확인
 - [ ] Fairlie Airbnb 예약 문서 / 결제 시점 확인 및 Drive 연결
-- [ ] 1/29 AKL→ICN 진영 e-Ticket Drive 연결
-- [ ] 1/20 SYD→ZQN 추가 e-Ticket/영수증이 있다면 Drive 연결
 - [ ] Milford Sound 실제 상품/예약/결제정보 반영
 - [ ] Onsen 예약 정보/문서/결제정보 반영
 - [ ] Rotorua 상품/결제정보 확정
