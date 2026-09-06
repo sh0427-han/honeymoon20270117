@@ -128,7 +128,7 @@ const tripData = {
             items: [
                 { time: "09:30", title: "늦은 기상 & 브런치", type: "meal" },
                 { time: "11:30", title: "Skyline Gondola 또는 Queenstown Gardens", type: "sightseeing" },
-                { time: "14:00", title: "렌터카 수령", type: "car", note: "Hertz 또는 Avis · SUV · Full Coverage" },
+                { time: "15:00", title: "렌터카 수령", type: "car", note: "Hertz · SUV · Full Coverage / Zero Excess" },
                 { time: "18:00", title: "Queenstown 저녁 · 와인", type: "meal" }
             ]
         },
@@ -171,8 +171,8 @@ const tripData = {
                 { time: "09:30", title: "Fairlie 출발", type: "drive" },
                 { time: "10:30", title: "Geraldine 카페", type: "meal" },
                 { time: "13:30", title: "Christchurch 도착 · 호텔 짐 보관", type: "hotel" },
-                { time: "15:00", title: "렌터카 Downtown 반납", type: "car" },
-                { time: "16:00", title: "Riverside Market · Cathedral Square · New Regent Street", type: "sightseeing" }
+                { time: "16:00", title: "Riverside Market · Cathedral Square · New Regent Street", type: "sightseeing" },
+                { time: "17:00", title: "렌터카 Downtown 반납", type: "car" }
             ]
         },
         {
