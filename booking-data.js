@@ -21,29 +21,15 @@ const bookingData = {
                     url: "https://drive.google.com/file/d/1FaZ4qMyI-Xt2sBxGIfOhNt_sa-RLOeLt/view?usp=drivesdk"
                 }
             },
-            receipts: {
-                sanghun: {
-                    fileName: "20270117_ICN-SYD_SANGHUN_KE_RECEIPT.pdf",
-                    url: "https://drive.google.com/file/d/1Bmq81T9DaaqIR2jRxRbUz11Y4Z27ZfWb/view?usp=drivesdk"
-                },
-                jinyeong: {
-                    fileName: "20270117_ICN-SYD_JINYEONG_KE_RECEIPT.pdf",
-                    url: "https://drive.google.com/file/d/1Fid2PleXFRBuoshCig85UU2QxaqW3eti/view?usp=drivesdk"
-                }
-            },
             bookingApp: "koreanair",
             confirmationUrl: null
         },
         {
             key: "syd-zqn",
             status: "예약 완료",
-            tickets: {
-                sanghun: { fileName: "20270120_SYD-ZQN_SANGHUN_NZ.pdf", url: null },
-                jinyeong: { fileName: "20270120_SYD-ZQN_JINYEONG_NZ.pdf", url: null }
-            },
             sharedDocuments: [
                 {
-                    label: "영문 일정표",
+                    label: "🐶상훈이 / 🐯진영이 티켓",
                     fileName: "20270120_SYD-ZQN_ITINERARY_EN.pdf",
                     url: "https://drive.google.com/file/d/1IR6Ozl55ls2ebvVuOZxmBPjUNaOKwz-v/view?usp=drivesdk"
                 }
@@ -54,20 +40,11 @@ const bookingData = {
         {
             key: "chc-akl",
             status: "예약 완료",
-            tickets: {
-                sanghun: { fileName: "20270126_CHC-AKL_SANGHUN_NZ.pdf", url: null },
-                jinyeong: { fileName: "20270126_CHC-AKL_JINYEONG_NZ.pdf", url: null }
-            },
             sharedDocuments: [
                 {
-                    label: "e-Ticket · 한/영",
+                    label: "🐶상훈이 / 🐯진영이 티켓",
                     fileName: "20270126_CHC-AKL_ETICKET_KO-EN.pdf",
                     url: "https://drive.google.com/file/d/1bKGnXLRjkqKBIMt3o3kr6s0VTM8UoQA-/view?usp=drivesdk"
-                },
-                {
-                    label: "영문 일정표",
-                    fileName: "20270126_CHC-AKL_ITINERARY_EN.pdf",
-                    url: "https://drive.google.com/file/d/1wBdBC7HTlMJOiVqqwTUJPDzcIvJwRWbQ/view?usp=drivesdk"
                 }
             ],
             bookingApp: "trip",
@@ -81,7 +58,10 @@ const bookingData = {
                     fileName: "20270129_AKL-ICN_SANGHUN_KE.pdf",
                     url: "https://drive.google.com/file/d/1v_T9O0hVY1aE6LJeJA86QGwdHzkoYyaV/view?usp=drivesdk"
                 },
-                jinyeong: { fileName: "20270129_AKL-ICN_JINYEONG_KE.pdf", url: null }
+                jinyeong: {
+                    fileName: "20270129_AKL-ICN_JINYEONG_KE.pdf",
+                    url: "https://drive.google.com/file/d/1wUKwQ57yFtTJAVeJ6nxOQ0Q81kdtDCnB/view?usp=drivesdk"
+                }
             },
             bookingApp: "koreanair",
             confirmationUrl: null
