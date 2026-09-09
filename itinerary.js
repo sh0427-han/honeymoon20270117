@@ -48,6 +48,7 @@ const tripData = {
                     time: "08:00",
                     title: "인천 출발",
                     type: "flight",
+                    bookingKey: "icn-syd",
                     note: "대한항공 비즈니스"
                 },
                 {
@@ -59,7 +60,8 @@ const tripData = {
                 {
                     time: "22:00",
                     title: "메리톤 스위트 캠벨 스트리트 체크인",
-                    type: "hotel"
+                    type: "hotel",
+                    bookingKey: "sydney-meriton"
                 }
             ]
         },
@@ -101,9 +103,9 @@ const tripData = {
             intensity: 1,
             items: [
                 { time: "07:30", title: "호텔 출발 · 시드니 공항 이동", type: "transport" },
-                { time: "10:55", title: "시드니 출발", type: "flight" },
+                { time: "10:55", title: "시드니 출발", type: "flight", bookingKey: "syd-zqn" },
                 { time: "16:00", title: "퀸스타운 도착", type: "flight" },
-                { time: "18:00", title: "숙소 체크인 & Lake Wakatipu 산책", type: "hotel" }
+                { time: "18:00", title: "숙소 체크인 & Lake Wakatipu 산책", type: "hotel", bookingKey: "queenstown-lakeview" }
             ]
         },
         {
@@ -130,6 +132,7 @@ const tripData = {
                     time: "06:45",
                     title: "Hampshire Holiday Parks Queenstown Lakeview 픽업",
                     type: "tour",
+                    bookingKey: "milford",
                     fixed: true,
                     note: "택시 픽업 → Southern Discoveries Queenstown Visitor Centre · St Omer Wharf, 110 Beach Street"
                 },
@@ -169,7 +172,7 @@ const tripData = {
             items: [
                 { time: "09:30", title: "늦은 기상 & 브런치", type: "meal" },
                 { time: "11:30", title: "Skyline Gondola 또는 Queenstown Gardens", type: "sightseeing" },
-                { time: "15:00", title: "렌터카 수령", type: "car", note: "Hertz Queenstown Downtown · Compact SUV (G0) · Kia Seltos 또는 동급 · 차량손실 면책 프로그램 포함" },
+                { time: "15:00", title: "렌터카 수령", type: "car", bookingKey: "queenstown-christchurch", note: "Hertz Queenstown Downtown · Compact SUV (G0) · Kia Seltos 또는 동급 · 차량손실 면책 프로그램 포함" },
                 { time: "18:00", title: "Queenstown 저녁 · 와인", type: "meal" }
             ]
         },
@@ -181,10 +184,10 @@ const tripData = {
             intensity: 3,
             items: [
                 { time: "08:45", title: "Onsen Hot Pools 도착", type: "tour", fixed: true },
-                { time: "09:00", title: "Onsen Hot Pools", type: "tour", fixed: true },
+                { time: "09:00", title: "Onsen Hot Pools", type: "tour", bookingKey: "onsen", fixed: true },
                 { time: "10:30", title: "Arrowtown 산책 & 점심", type: "sightseeing" },
                 { time: "12:30", title: "Crown Range · Cardrona 경유", type: "drive" },
-                { time: "15:00", title: "Edgewater Wanaka 체크인", type: "hotel" },
+                { time: "15:00", title: "Edgewater Wanaka 체크인", type: "hotel", bookingKey: "wanaka-edgewater" },
                 { time: "17:00", title: "Lake Wanaka · That Wanaka Tree 산책", type: "sightseeing" }
             ]
         },
@@ -199,7 +202,7 @@ const tripData = {
                 { time: "12:00", title: "Lake Pukaki · 연어 점심", type: "meal" },
                 { time: "15:00", title: "Lake Tekapo 도착", type: "sightseeing" },
                 { time: "15:30", title: "Church of the Good Shepherd · 호수 산책", type: "sightseeing" },
-                { time: "19:00", title: "Fairlie 숙소 이동 & 체크인", type: "hotel" }
+                { time: "19:00", title: "Fairlie 숙소 이동 & 체크인", type: "hotel", bookingKey: "fairlie-airbnb" }
             ]
         },
         {
@@ -211,8 +214,8 @@ const tripData = {
             items: [
                 { time: "09:30", title: "Fairlie 출발", type: "drive" },
                 { time: "10:30", title: "Geraldine 카페", type: "meal" },
-                { time: "13:30", title: "Christchurch 도착 · 호텔 짐 보관", type: "hotel" },
-                { time: "15:00", title: "Hertz Christchurch Downtown 렌터카 반납", type: "car", note: "Unit 4, 150 Kilmore St · 영업시간 14:00-17:00" },
+                { time: "13:30", title: "Christchurch 도착 · 호텔 짐 보관", type: "hotel", bookingKey: "christchurch-breakfree" },
+                { time: "15:00", title: "Hertz Christchurch Downtown 렌터카 반납", type: "car", bookingKey: "queenstown-christchurch", note: "Unit 4, 150 Kilmore St · 영업시간 14:00-17:00" },
                 { time: "15:30", title: "Riverside Market · Cathedral Square · New Regent Street", type: "sightseeing" }
             ]
         },
@@ -224,9 +227,9 @@ const tripData = {
             intensity: 1,
             items: [
                 { time: "09:30", title: "택시로 Christchurch Airport 이동", type: "transport" },
-                { time: "12:00", title: "크라이스트처치 출발", type: "flight" },
+                { time: "12:00", title: "크라이스트처치 출발", type: "flight", bookingKey: "chc-akl" },
                 { time: "13:25", title: "오클랜드 도착", type: "flight" },
-                { time: "15:00", title: "Hilton Auckland 체크인", type: "hotel" },
+                { time: "15:00", title: "Hilton Auckland 체크인", type: "hotel", bookingKey: "auckland-hilton" },
                 { time: "17:00", title: "Commercial Bay 가족 선물 쇼핑", type: "shopping" },
                 { time: "19:00", title: "Viaduct Harbour 저녁", type: "meal" }
             ]
@@ -239,7 +242,7 @@ const tripData = {
             intensity: 5,
             fixed: true,
             items: [
-                { time: "07:00", title: "Rotorua 당일 투어 출발", type: "tour", fixed: true },
+                { time: "07:00", title: "Rotorua 당일 투어 출발", type: "tour", bookingKey: "rotorua", fixed: true },
                 { time: "20:00", title: "Auckland 복귀 · 호텔 휴식", type: "hotel" }
             ]
         },
@@ -251,7 +254,7 @@ const tripData = {
             intensity: 3,
             items: [
                 { time: "09:30", title: "Downtown Ferry Terminal", type: "transport" },
-                { time: "10:30", title: "Waiheke Island · 와이너리 & 점심", type: "tour" },
+                { time: "10:30", title: "Waiheke Island · 와이너리 & 점심", type: "tour", bookingKey: "waiheke" },
                 { time: "17:30", title: "Auckland 복귀", type: "transport" },
                 { time: "19:00", title: "여행 마지막 저녁", type: "meal" }
             ]
@@ -264,7 +267,7 @@ const tripData = {
             intensity: 1,
             items: [
                 { time: "08:00", title: "Hilton Auckland 출발 · 공항 이동", type: "transport" },
-                { time: "11:45", title: "오클랜드 출발", type: "flight" },
+                { time: "11:45", title: "오클랜드 출발", type: "flight", bookingKey: "akl-icn" },
                 { time: "19:40", title: "인천 도착", type: "flight" }
             ]
         }
@@ -274,6 +277,64 @@ const tripData = {
         { route: "시드니 → 퀸스타운", date: "1/20", time: "10:55 → 16:00", airline: "Air New Zealand", price: 918400 },
         { route: "크라이스트처치 → 오클랜드", date: "1/26", time: "12:00 → 13:25", airline: "Air New Zealand", price: 246000 },
         { route: "오클랜드 → 인천", date: "1/29", time: "11:45 → 19:40", airline: "대한항공", price: 2003800 }
+    ],
+    flightOperations: [
+        {
+            date: "2027-01-17",
+            bookingKey: "icn-syd",
+            category: "국제선",
+            countries: "대한민국 → 호주",
+            route: "ICN → SYD",
+            airportTransfer: "03:15 · 용인 출발",
+            airportTarget: "05:00 · 인천공항 T2 도착 목표",
+            departure: "08:00 KST",
+            departurePlace: "ICN · 제2여객터미널",
+            arrival: "20:05 AEDT",
+            arrivalPlace: "SYD · 시드니",
+            mapQuery: "Incheon International Airport Terminal 2"
+        },
+        {
+            date: "2027-01-20",
+            bookingKey: "syd-zqn",
+            category: "국제선",
+            countries: "호주 → 뉴질랜드",
+            route: "SYD → ZQN",
+            airportTransfer: "07:30 · 호텔 출발",
+            airportTarget: "출발 터미널 · 당일 확인",
+            departure: "10:55 AEDT",
+            departurePlace: "SYD · 국제선",
+            arrival: "16:00 NZDT",
+            arrivalPlace: "ZQN · 퀸스타운",
+            mapQuery: "Sydney Airport International Terminal"
+        },
+        {
+            date: "2027-01-26",
+            bookingKey: "chc-akl",
+            category: "국내선",
+            countries: "뉴질랜드 국내 이동",
+            route: "CHC → AKL",
+            airportTransfer: "09:30 · 호텔에서 택시 출발",
+            airportTarget: "출발 구역 · 당일 확인",
+            departure: "12:00 NZDT",
+            departurePlace: "CHC · 국내선",
+            arrival: "13:25 NZDT",
+            arrivalPlace: "AKL · 국내선",
+            mapQuery: "Christchurch Airport Domestic Terminal"
+        },
+        {
+            date: "2027-01-29",
+            bookingKey: "akl-icn",
+            category: "국제선",
+            countries: "뉴질랜드 → 대한민국",
+            route: "AKL → ICN",
+            airportTransfer: "08:00 · 호텔 출발",
+            airportTarget: "출발 터미널 · 당일 확인",
+            departure: "11:45 NZDT",
+            departurePlace: "AKL · 국제선",
+            arrival: "19:40 KST",
+            arrivalPlace: "ICN · 인천",
+            mapQuery: "Auckland Airport International Terminal"
+        }
     ],
     hotels: [
         { city: "Sydney", dates: "1/17 → 1/20", name: "Meriton Suites Campbell Street", price: 811000 },

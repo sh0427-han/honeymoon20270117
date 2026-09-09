@@ -4,7 +4,7 @@
 > 작업 시작 시 **이 파일을 먼저 읽고, 실제 웹앱 일정 데이터는 `itinerary.js`를 함께 확인**한다.
 > 사용자의 최신 요청이 이 문서와 충돌하면 최신 요청이 우선한다.
 >
-> 마지막 정리 기준: 2026-09-06 · V33
+> 마지막 정리 기준: 2026-09-09 · V36
 
 ---
 
@@ -221,7 +221,7 @@ honeymoon270117
 
 ---
 
-## 8. 예약 탭 / 현지 결제 UI — V33
+## 8. 예약 탭 / 현지 결제 UI — V36
 
 상단 필터: `FLIGHTS / STAYS / TOURS / CAR`
 
@@ -251,6 +251,18 @@ Fairlie Airbnb는 ₩391,259 선결제 완료이므로 현지결제 배지를 �
 - `booking-layout-v32.css`: 카드 및 액션 한 줄 레이아웃
 - `reservation-data-v33.js`: Fairlie Airbnb 문서 + 선결제 완료 상태 반영
 - `flight-wallet.css`: 항공 개별 승객 티켓 세로 배치
+
+
+### V36 일정 운용 UI
+
+- 홈 `NOW / NEXT` 계산에서는 `HH:MM` 형식의 일정만 사용한다. `투어 중`, `이후` 같은 표시용 문구는 시간 계산에서 제외한다.
+- 예약 탭을 확인한 뒤 일정 탭으로 돌아와도 사용자가 마지막으로 선택한 날짜를 유지한다. `오늘 / 다음` 버튼은 기존처럼 기준 날짜로 이동한다.
+- 항공 이동일에는 일정 상단에 국제선/국내선, 공항 이동, 출발·도착 현지시간, 출발 공항 길찾기와 티켓을 한 카드로 표시한다.
+- 터미널·체크인 카운터·탑승구는 변동 가능하므로 출발 당일 항공권과 항공사 앱에서 최종 확인하도록 표시한다.
+- 일정 항목에서 연결된 항공권, 숙소 영문 예약서, 투어 예약서, 렌터카 예약서를 바로 열 수 있다.
+- Onsen, Rotorua, Waiheke처럼 문서가 아직 연결되지 않은 일정에는 `예약정보 확인 필요`를 표시한다.
+- `itinerary.js`의 `bookingKey`가 일정과 `booking-data.js` 예약 데이터를 연결한다.
+- `trip-operations-v36.js` / `trip-operations-v36.css`: 항공 이동 카드와 일정별 예약 문서 액션을 담당한다.
 
 ---
 
@@ -284,9 +296,10 @@ Fairlie Airbnb는 ₩391,259 선결제 완료이므로 현지결제 배지를 �
 ## 11. PWA / Offline
 
 - `manifest.webmanifest` + `service-worker.js`
-- 현재 cache version: **`honeymoon-v33`**
-- `index.html`의 주요 자체 자산 query string도 **V33**로 갱신
+- 현재 cache version: **`honeymoon-v36`**
+- `index.html`의 주요 자체 자산 query string도 **V36**으로 갱신
 - `reservation-data-v33.js`도 APP_SHELL에 포함
+- `trip-operations-v36.js` / `trip-operations-v36.css`도 APP_SHELL에 포함
 - 지도 / Google Maps / Google Drive / 외부 예약 앱은 인터넷 필요
 
 ---
@@ -326,7 +339,7 @@ Drive 링크가 Public JS에 있어도 실제 파일 접근은 Google Drive `Res
 - [ ] 여행자보험 / eSIM 준비
 - [ ] Drive를 본인/배우자 계정만 접근하도록 최종 검증
 - [ ] 핵심 Drive 문서 오프라인 저장
-- [ ] 실제 Android/iPhone에서 V33 항공 티켓 세로 배치 / 예약 카드 / PWA 갱신 확인
+- [ ] 실제 Android/iPhone에서 V36 항공 이동 카드 / 일정 예약 링크 / 예약 카드 / PWA 갱신 확인
 - [ ] 여행 직전 대한항공 T2/라운지 운영시간 재확인
 - [ ] 여행 직전 용인→인천공항 교통시간 재확인
 

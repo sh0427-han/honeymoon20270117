@@ -2,11 +2,10 @@
     if (!window.tripClock || typeof tripData === "undefined") return;
 
     const flattenSchedule = () => tripData.days
-        .flatMap((day) => day.items.map((item) => ({
-            day,
-            item,
-            epochMs: window.tripClock.getScheduleItemEpoch(day.date, item)
-        })))
+        .flatMap((day) => day.items.flatMap((item) => {
+            const epochMs = window.tripClock.getScheduleItemEpoch(day.date, item);
+            return Number.isFinite(epochMs) ? [{ day, item, epochMs }] : [];
+        }))
         .sort((a, b) => a.epochMs - b.epochMs);
 
     const allScheduleItems = flattenSchedule();

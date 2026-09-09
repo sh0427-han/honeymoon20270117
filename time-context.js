@@ -21,6 +21,7 @@
 
     const DATE_RE = /^(\d{4})-(\d{2})-(\d{2})$/;
     const DATETIME_RE = /^(\d{4}-\d{2}-\d{2})T(\d{2}):(\d{2})(?::(\d{2}))?$/;
+    const CLOCK_TIME_RE = /^([01]\d|2[0-3]):([0-5]\d)$/;
 
     const isValidDateIso = (value) => {
         const match = DATE_RE.exec(value || "");
@@ -262,6 +263,7 @@
         syncAppState,
         getScheduleItemTimeZone: zoneForScheduleItem,
         getScheduleItemEpoch(dateIso, item) {
+            if (!CLOCK_TIME_RE.test(item?.time || "")) return null;
             const timeZone = zoneForScheduleItem(dateIso, item.time);
             return zonedLocalToEpoch(dateIso, `${item.time}:00`, timeZone);
         },
