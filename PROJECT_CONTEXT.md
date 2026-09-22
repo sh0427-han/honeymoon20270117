@@ -4,7 +4,7 @@
 > 작업 시작 시 **이 파일을 먼저 읽고, 실제 웹앱 일정 데이터는 `itinerary.js`를 함께 확인**한다.
 > 사용자의 최신 요청이 이 문서와 충돌하면 최신 요청이 우선한다.
 >
-> 마지막 정리 기준: 2026-09-09 · V36
+> 마지막 정리 기준: 2026-09-22 · V37
 
 ---
 
@@ -264,6 +264,21 @@ Fairlie Airbnb는 ₩391,259 선결제 완료이므로 현지결제 배지를 �
 - `itinerary.js`의 `bookingKey`가 일정과 `booking-data.js` 예약 데이터를 연결한다.
 - `trip-operations-v36.js` / `trip-operations-v36.css`: 항공 이동 카드와 일정별 예약 문서 액션을 담당한다.
 
+### V37 입국 신고 작성 가이드
+
+- 더보기 탭에 `입국` 필터를 추가한다.
+- `entry-guide-v37.js` / `entry-guide-v37.css`: 호주 Incoming Passenger Card(IPC)와 New Zealand Traveller Declaration(NZTD) 작성 가이드를 담당한다.
+- 공개 사이트에는 여권번호, 생년월일, 개인 전화번호, 긴급연락처 등 개인정보를 저장하지 않는다.
+- 여행 일정에서 안전하게 공개 가능한 값만 미리 보여준다.
+  - 호주 IPC: KE401, Meriton Suites Campbell Street 주소, NSW, 호주 체류 3일, Holiday
+  - NZTD: NZ234, Sydney 출발, Queenstown 첫 숙소 주소, 뉴질랜드 체류 9일, Holiday/Vacation
+- 호주 IPC는 1/17 KE401 기내에서 작성하도록 일정에 안내를 추가한다.
+- NZTD는 시드니 체류 후 출발하는 일정이므로 1/20 10:55 NZ234 출발 기준 24시간 전인 **1/19 10:55 AEDT 이후** 제출 가능하며, 일정에는 11:00 작성 알림을 둔다.
+- 두 사람은 NZTD를 각각 제출한다.
+- 신고 물품 YES/NO는 사이트에서 미리 확정하지 않고 실제 수하물·최근 방문 이력을 기준으로 답하도록 안내한다.
+- 공식 ABF / NZTD / Immigration New Zealand 링크를 가이드에서 바로 열 수 있다.
+- 질문과 허용량은 2026-09-22 공식 기준이며 2027-01 출발 직전에 다시 확인한다.
+
 ---
 
 ## 9. 더보기 탭 / 문서 현황
@@ -296,10 +311,11 @@ Fairlie Airbnb는 ₩391,259 선결제 완료이므로 현지결제 배지를 �
 ## 11. PWA / Offline
 
 - `manifest.webmanifest` + `service-worker.js`
-- 현재 cache version: **`honeymoon-v36`**
-- `index.html`의 주요 자체 자산 query string도 **V36**으로 갱신
+- 현재 cache version: **`honeymoon-v37`**
+- `index.html`의 주요 자체 자산 query string은 **V37**로 갱신
 - `reservation-data-v33.js`도 APP_SHELL에 포함
 - `trip-operations-v36.js` / `trip-operations-v36.css`도 APP_SHELL에 포함
+- `entry-guide-v37.js` / `entry-guide-v37.css`도 APP_SHELL에 포함
 - 지도 / Google Maps / Google Drive / 외부 예약 앱은 인터넷 필요
 
 ---
