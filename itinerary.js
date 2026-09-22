@@ -52,6 +52,12 @@ const tripData = {
                     note: "대한항공 비즈니스"
                 },
                 {
+                    time: "기내",
+                    title: "호주 Incoming Passenger Card 작성",
+                    type: "note",
+                    note: "KE401 기내 배포 시 영어로 작성 · 더보기 > 입국 가이드의 IPC 항목 참고"
+                },
+                {
                     time: "20:05",
                     title: "시드니 도착",
                     type: "flight",
@@ -88,6 +94,7 @@ const tripData = {
             intensity: 3,
             items: [
                 { time: "10:00", title: "Surry Hills 산책 & 브런치", type: "meal" },
+                { time: "11:00", title: "NZ Traveller Declaration 제출", type: "note", note: "1/20 10:55 NZ234 출발 24시간 전부터 제출 가능 · 두 사람 각각 작성 · 더보기 > 입국 가이드 참고" },
                 { time: "12:00", title: "Bondi Beach", type: "sightseeing" },
                 { time: "15:30", title: "호텔 복귀 · 샤워 · 휴식", type: "hotel" },
                 { time: "17:00", title: "Royal Botanic Garden", type: "sightseeing" },
