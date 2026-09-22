@@ -8,6 +8,7 @@
 
     const FILTERS = [
         { id: "prep", label: "준비" },
+        { id: "entry", label: "입국" },
         { id: "docs", label: "문서" },
         { id: "emergency", label: "긴급" },
         { id: "gifts", label: "선물" }
