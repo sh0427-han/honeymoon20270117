@@ -15,6 +15,27 @@
         typeof escapeHtml === "function" ? escapeHtml(value) : String(value)
     );
 
+    const PRIVATE_CONTACT_KEYS = {
+        email: "honeymoon-private-contact-email",
+        phone: "honeymoon-private-contact-phone"
+    };
+
+    const getPrivateContact = (key) => {
+        try {
+            return localStorage.getItem(PRIVATE_CONTACT_KEYS[key]) || "";
+        } catch (error) {
+            return "";
+        }
+    };
+
+    const setPrivateContact = (key, value) => {
+        try {
+            localStorage.setItem(PRIVATE_CONTACT_KEYS[key], value);
+        } catch (error) {
+            // Private contact convenience only; the guide still works without storage.
+        }
+    };
+
     const renderFieldRows = (rows) => rows.map((row) => {
         const value = row.value
             ? `<strong class="entry-field-value">${safe(row.value)}</strong>`
@@ -333,6 +354,29 @@
             <span>여권번호 · 생년월일 · Gmail · 전화번호 · 긴급연락처처럼 개인 식별이 가능한 정보는 Public GitHub에 저장하지 않고, 현장에서 실물 여권과 본인 정보를 보고 직접 입력합니다.</span>
         </div>
 
+        <div class="entry-local-contact">
+            <div class="entry-local-contact__head">
+                <div>
+                    <strong>내 연락처 · 이 기기에만 저장</strong>
+                    <span>IPC/NZTD 작성 중 바로 확인하기 위한 메모입니다. GitHub 코드나 서버로 전송하지 않고 이 브라우저의 localStorage에만 저장됩니다.</span>
+                </div>
+                <span>PRIVATE</span>
+            </div>
+            <label>
+                <span>Gmail / E-mail</span>
+                <input id="entry-private-email" type="email" autocomplete="email"
+                    placeholder="본인 Gmail 주소"
+                    value="${safe(getPrivateContact("email"))}">
+            </label>
+            <label>
+                <span>Contact phone</span>
+                <input id="entry-private-phone" type="tel" autocomplete="tel"
+                    placeholder="본인 연락 가능한 전화번호"
+                    value="${safe(getPrivateContact("phone"))}">
+            </label>
+            <small>공용 PC에서는 입력하지 마세요. 같은 GitHub 사이트라도 다른 기기에는 이 값이 자동으로 공유되지 않습니다.</small>
+        </div>
+
         <article class="entry-guide-card">
             <div class="entry-guide-card__head">
                 <div>
@@ -449,4 +493,12 @@
     } else {
         panel.appendChild(section);
     }
+
+    section.querySelector("#entry-private-email")?.addEventListener("input", (event) => {
+        setPrivateContact("email", event.target.value.trim());
+    });
+
+    section.querySelector("#entry-private-phone")?.addEventListener("input", (event) => {
+        setPrivateContact("phone", event.target.value.trim());
+    });
 })();
