@@ -5,6 +5,7 @@
     const OFFICIAL = {
         auIpc: "https://www.abf.gov.au/crossing/Pages/incoming-passenger-card.aspx",
         auIpcSample: "https://www.abf.gov.au/crossing/files/ipc-sample-english.pdf",
+        auIpcKorean: "https://www.abf.gov.au/entering-leaving-australia/files/ipc-sample-korean.pdf",
         nztd: "https://www.travellerdeclaration.govt.nz/",
         nztdGuide: "https://www.travellerdeclaration.govt.nz/completing-your-declaration/",
         nztdApp: "https://www.travellerdeclaration.govt.nz/nztd-app/"
@@ -41,47 +42,47 @@
 
     const ipcFront = [
         {
-            label: "Family / surname",
+            label: "Family / surname · 성",
             value: "",
             note: "각자 여권의 성(Surname)을 영문 그대로 작성합니다."
         },
         {
-            label: "Given names",
+            label: "Given names · 이름",
             value: "",
             note: "각자 여권의 Given names를 순서와 철자 그대로 작성합니다."
         },
         {
-            label: "Passport number",
+            label: "Passport number · 여권번호",
             value: "",
             note: "여권번호는 이 공개 웹사이트에 저장하지 않습니다. 실물 여권을 보고 직접 적습니다."
         },
         {
-            label: "Flight number",
+            label: "Flight number · 항공편명",
             value: "KE 401",
             note: "2027-01-17 인천(ICN) → 시드니(SYD) 대한항공 편명입니다. 출발 당일 탑승권에서 최종 확인합니다."
         },
         {
-            label: "Intended address in Australia",
+            label: "Intended address in Australia · 호주에서 머무를 주소",
             value: "6 CAMPBELL STREET, HAYMARKET",
             note: "첫 숙소 Meriton Suites Campbell Street의 주소입니다."
         },
         {
-            label: "State",
+            label: "State · 주(州)",
             value: "NSW",
             note: "시드니가 속한 New South Wales의 약어입니다."
         },
         {
-            label: "Live in Australia next 12 months?",
+            label: "Do you intend to live in Australia for the next 12 months? · 향후 12개월간 호주 거주 예정?",
             value: "NO",
             note: "신혼여행 단기 방문 일정이므로 NO입니다."
         },
         {
-            label: "Tuberculosis / criminal convictions",
+            label: "Tuberculosis / criminal convictions · 결핵 / 범죄 유죄판결 여부",
             value: "",
             note: "개인의 실제 사실관계에 따라 정확하게 답합니다. 임의로 NO를 선택하면 안 됩니다."
         },
         {
-            label: "Signature / Date",
+            label: "Signature / Date · 서명 / 작성일",
             value: "각자 서명 · 17 / 01 / 2027",
             note: "카드 작성자가 직접 서명하고, 도착일 기준 날짜를 일/월/연도 순서로 적습니다."
         }
@@ -89,52 +90,52 @@
 
     const ipcBack = [
         {
-            label: "Country where you boarded",
+            label: "In which country did you board this flight? · 이 항공편을 탑승한 국가",
             value: "REPUBLIC OF KOREA",
             note: "KE401을 인천에서 바로 탑승하므로 대한민국을 적습니다."
         },
         {
-            label: "Usual occupation",
+            label: "Usual occupation · 평소 직업",
             value: "",
             note: "본인의 실제 직업을 영어로 적습니다. 예: AI ENGINEER, TEACHER."
         },
         {
-            label: "Nationality as shown on passport",
+            label: "Nationality as shown on passport · 여권에 표시된 국적",
             value: "",
             note: "여권의 국적 표기를 그대로 적습니다."
         },
         {
-            label: "Date of birth",
+            label: "Date of birth · 생년월일",
             value: "",
             note: "각자 여권의 생년월일을 Day / Month / Year 순서로 작성합니다."
         },
         {
-            label: "Contact details in Australia",
-            value: "6 CAMPBELL STREET, HAYMARKET NSW 2000",
-            note: "호텔 주소를 연락처로 사용할 수 있습니다. 본인 이메일/전화번호를 적는 경우 실제 정보대로 작성합니다."
+            label: "Your contact details in Australia · 호주 내 연락처",
+            value: "E-MAIL → 본인 Gmail 주소 입력 · ADDRESS → 6 CAMPBELL STREET, HAYMARKET NSW 2000",
+            note: "공식 IPC에는 Phone / E-mail 또는 Address / State 입력란이 있습니다. 본인 Gmail 주소를 E-mail 칸에 적어도 됩니다. 실제 Gmail 주소는 Public GitHub에 저장하지 않습니다."
         },
         {
-            label: "Emergency contact",
+            label: "Emergency contact details (family or friend) · 비상연락처(가족 또는 친구)",
             value: "",
             note: "한국의 가족 또는 지인 1명의 영문 이름과 연락처를 적습니다. 공개 사이트에는 저장하지 않습니다."
         },
         {
-            label: "A / B / C",
+            label: "A / B / C status · 입국자 유형 선택",
             value: "B · VISITOR OR TEMPORARY ENTRANT",
             note: "관광객이므로 B에 표시합니다."
         },
         {
-            label: "Intended length of stay",
+            label: "Intended length of stay · 호주 체류 예정 기간",
             value: "3 DAYS",
             note: "1/17 시드니 입국 → 1/20 뉴질랜드 출국 일정 기준입니다."
         },
         {
-            label: "Country of residence",
+            label: "Country of residence · 평소 거주 국가",
             value: "REPUBLIC OF KOREA",
             note: "평소 거주 국가를 적습니다."
         },
         {
-            label: "Main reason for travel",
+            label: "Main reason for travel · 여행의 주된 목적",
             value: "HOLIDAY · 7",
             note: "신혼여행이므로 Holiday에 표시합니다."
         }
@@ -189,7 +190,7 @@
 
     const nzFields = [
         {
-            label: "제출 가능 시점",
+            label: "Submission window · 제출 가능 시점",
             value: "1/19 10:55 AEDT 이후",
             note: "시드니에서 체류 후 1/20 10:55 뉴질랜드행 항공편을 타므로, 시드니 출발 24시간 전부터 제출할 수 있습니다."
         },
@@ -199,57 +200,57 @@
             note: "2027-01-20 Sydney → Queenstown Air New Zealand 편명입니다. 출발 당일 탑승권에서 최종 확인합니다."
         },
         {
-            label: "Overseas port / airport boarded",
+            label: "Overseas port / airport boarded · 뉴질랜드행 항공기를 탑승한 해외 공항",
             value: "SYDNEY, AUSTRALIA",
             note: "뉴질랜드행 항공기를 실제로 탑승하는 해외 공항입니다."
         },
         {
-            label: "Passport / name / date of birth",
+            label: "Passport / name / date of birth · 여권 / 성명 / 생년월일",
             value: "",
             note: "각자 여권을 스캔하거나 여권 그대로 입력합니다. 공개 사이트에는 여권정보를 저장하지 않습니다."
         },
         {
-            label: "Nationality / country of birth",
+            label: "Nationality / country of birth · 국적 / 출생 국가",
             value: "",
             note: "각자의 여권 및 실제 출생국 정보대로 입력합니다."
         },
         {
-            label: "Occupation or job",
+            label: "Occupation or job · 직업",
             value: "",
             note: "본인의 실제 직업을 영어로 입력합니다. 예: AI ENGINEER, TEACHER."
         },
         {
-            label: "First address in New Zealand",
+            label: "First address in New Zealand · 뉴질랜드에서 첫 번째로 머무를 주소",
             value: "4 CEMETERY ROAD, QUEENSTOWN 9300, NEW ZEALAND",
             note: "첫 뉴질랜드 숙소 Hampshire Holiday Parks Queenstown Lakeview 주소입니다."
         },
         {
-            label: "Email / phone",
-            value: "",
-            note: "각자 실제 연락 가능한 이메일과 전화번호를 입력합니다."
+            label: "Email address / contact phone number · 이메일 / 연락 가능한 전화번호",
+            value: "E-MAIL → 본인 Gmail 주소 입력 · PHONE → 본인 휴대전화번호 입력",
+            note: "NZTD는 이메일 주소와 연락 가능한 전화번호를 요구합니다. 실제 Gmail·전화번호는 Public GitHub에 저장하지 않고 작성 시 본인 정보로 입력합니다."
         },
         {
-            label: "Length of stay",
+            label: "Length of stay · 뉴질랜드 체류 예정 기간",
             value: "9 DAYS",
             note: "1/20 퀸스타운 입국 → 1/29 오클랜드 출국 일정 기준입니다."
         },
         {
-            label: "Main reason",
+            label: "Main reason for coming to New Zealand · 뉴질랜드 방문의 주된 목적",
             value: "HOLIDAY / VACATION",
             note: "신혼여행 관광 목적입니다."
         },
         {
-            label: "Country lived in for 12+ months",
+            label: "Country where you last lived for 12 months or more · 최근 12개월 이상 거주한 국가",
             value: "REPUBLIC OF KOREA",
             note: "현재 실제 장기 거주 국가가 다르다면 실제 정보를 우선합니다."
         },
         {
-            label: "Travel history · past 30 days",
+            label: "Travel history · past 30 days · 최근 30일 방문/경유 국가",
             value: "REPUBLIC OF KOREA · AUSTRALIA",
             note: "현재 확정 일정만 기준한 예시입니다. 입국 전 30일 안에 다른 국가 방문이 있다면 반드시 추가합니다."
         },
         {
-            label: "Do you know contents of baggage?",
+            label: "Do you know the contents of your baggage? · 본인 수하물 내용물을 알고 있습니까?",
             value: "YES",
             note: "본인 수하물의 내용물을 알고 있어야 합니다. 다른 사람의 물건을 대신 운반한다면 해당 질문에도 정확하게 신고합니다."
         }
@@ -328,8 +329,8 @@
         </div>
 
         <div class="entry-privacy-note">
-            <strong>개인정보는 이 사이트에 저장하지 않음</strong>
-            <span>여권번호 · 생년월일 · 개인 연락처 · 긴급연락처는 현장에서 실물 여권과 본인 정보를 보고 직접 입력합니다.</span>
+            <strong>표 읽는 법 · 영문 항목 + 한글 뜻 + 우리 일정 기준 입력값</strong>
+            <span>여권번호 · 생년월일 · Gmail · 전화번호 · 긴급연락처처럼 개인 식별이 가능한 정보는 Public GitHub에 저장하지 않고, 현장에서 실물 여권과 본인 정보를 보고 직접 입력합니다.</span>
         </div>
 
         <article class="entry-guide-card">
@@ -369,7 +370,8 @@
 
             <div class="entry-official-links">
                 <a href="${OFFICIAL.auIpc}" target="_blank" rel="noopener noreferrer">ABF 공식 안내 ↗</a>
-                <a href="${OFFICIAL.auIpcSample}" target="_blank" rel="noopener noreferrer">공식 IPC 샘플 ↗</a>
+                <a href="${OFFICIAL.auIpcSample}" target="_blank" rel="noopener noreferrer">공식 IPC 영문 샘플 ↗</a>
+                <a href="${OFFICIAL.auIpcKorean}" target="_blank" rel="noopener noreferrer">공식 IPC 한글 번역본 ↗</a>
             </div>
         </article>
 
