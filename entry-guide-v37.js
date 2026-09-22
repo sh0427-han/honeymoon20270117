@@ -164,47 +164,47 @@
 
     const ipcQuestions = [
         {
-            title: "규제·금지 가능 물품",
+            title: "Restricted / prohibited goods · 규제·금지 가능 물품",
             note: "의약품, 스테로이드, 무기류 등 해당 물품이 있다면 YES. 처방약도 종류에 따라 신고 대상일 수 있어 애매하면 YES로 신고합니다."
         },
         {
-            title: "주류·담배 허용량 초과",
+            title: "Alcohol / tobacco allowance · 주류·담배 허용량 초과",
             note: "주류 2,250mL 초과 또는 담배 25개비 / 담배제품 25g 초과 여부를 실제 소지량으로 확인합니다."
         },
         {
-            title: "해외·면세 구매품 AUD 900 초과",
+            title: "Overseas / duty-free goods over AUD 900 · 해외·면세 구매품 AUD 900 초과",
             note: "선물을 포함한 해당 구매품의 합계가 AUD 900을 넘는지 확인합니다."
         },
         {
-            title: "사업·상업용 물품",
+            title: "Business / commercial goods · 사업·상업용 물품",
             note: "업무용 샘플이나 판매 목적 물품이 있으면 YES."
         },
         {
-            title: "현금 AUD 10,000 이상",
+            title: "AUD 10,000 or more cash · 현금 AUD 10,000 이상",
             note: "호주달러 또는 이에 상당하는 외화 현금을 합산해 판단합니다."
         },
         {
-            title: "육류·생선·달걀·유제품·과일·채소",
+            title: "Meat / fish / eggs / dairy / fruit / vegetables · 육류·생선·달걀·유제품·과일·채소",
             note: "기내식에서 남은 음식, 간식 등도 포함될 수 있습니다. 가지고 입국한다면 신고합니다."
         },
         {
-            title: "곡물·씨앗·견과·식물·약초·목제품",
+            title: "Grains / seeds / nuts / plants / herbs / wood · 곡물·씨앗·견과·식물·약초·목제품",
             note: "식품이나 천연 재료 제품이 있으면 실제 내용물을 확인합니다."
         },
         {
-            title: "동물·동물성 제품·벌 제품",
+            title: "Animals / animal products / bee products · 동물·동물성 제품·벌 제품",
             note: "꿀·벌 제품, 조개류, 동물성 기념품 등이 포함됩니다."
         },
         {
-            title: "흙 또는 흙이 묻은 신발·장비",
+            title: "Soil or items with soil attached · 흙 또는 흙이 묻은 신발·장비",
             note: "야외활동에 사용한 신발이나 장비에 흙이 묻어 있다면 신고합니다."
         },
         {
-            title: "최근 30일 농장·야생지·담수 지역 접촉",
+            title: "Farm / wilderness / freshwater contact · 최근 30일 농장·야생지·담수 지역 접촉",
             note: "농장, 야생지역, 민물 호수·하천 등에 다녀왔다면 실제 일정에 맞게 답합니다."
         },
         {
-            title: "최근 6일 아프리카·중남미·카리브 방문",
+            title: "Recent Africa / South & Central America / Caribbean travel · 최근 6일 해당 지역 방문",
             note: "현재 확정 일정만으로는 해당하지 않지만, 실제 여행 직전 다른 국가를 방문했다면 그 이력을 기준으로 답합니다."
         }
     ];
@@ -279,58 +279,58 @@
 
     const nzBiosecurity = [
         {
-            title: "모든 음식",
+            title: "Any food · 모든 음식",
             note: "조리·미조리·신선·보존·포장·건조 식품 모두 포함됩니다. 라면, 과자, 육포, 김, 한약·건강식품 등 식품을 가지고 있다면 먼저 신고 대상으로 생각하는 편이 안전합니다."
         },
         {
-            title: "동물 또는 동물성 제품",
+            title: "Animal or animal products · 동물 또는 동물성 제품",
             note: "육류, 유제품, 생선, 꿀·벌 제품, 달걀, 깃털, 조개, 가죽·뼈, 곤충 등이 포함됩니다."
         },
         {
-            title: "식물 또는 식물성 제품",
+            title: "Plant or plant products · 식물 또는 식물성 제품",
             note: "과일, 꽃, 씨앗, 구근, 목재, 나뭇잎, 견과, 채소, 균류, 대나무·짚 등이 포함됩니다."
         },
         {
-            title: "흙·물·동식물과 접촉한 장비",
+            title: "Equipment used with soil / water / plants / animals · 흙·물·동식물과 접촉한 장비",
             note: "낚시·수상스포츠·원예·양봉 등에 사용한 장비나 의류를 확인합니다."
         },
         {
-            title: "사용한 야외활동 장비·신발",
+            title: "Used outdoor equipment / footwear · 사용한 야외활동 장비·신발",
             note: "등산화, 캠핑·하이킹·골프·스포츠 장비 등 야외에서 사용한 물품이 포함됩니다. 깨끗하게 세척하고 해당하면 신고합니다."
         },
         {
-            title: "최근 30일 야생지·농장·동물 접촉",
+            title: "Recent wilderness / farm / animal contact · 최근 30일 야생지·농장·동물 접촉",
             note: "뉴질랜드 밖에서 야생지역 방문, 농장·동물·동식물 가공 시설 접촉이 있었다면 실제 경험대로 답합니다."
         }
     ];
 
     const nzCustoms = [
         {
-            title: "의약품",
+            title: "Medicines · 의약품",
             note: "3개월 초과 분량 또는 본인에게 처방되지 않은 약품인지 확인합니다."
         },
         {
-            title: "규제·금지 물품",
+            title: "Restricted / prohibited goods · 규제·금지 물품",
             note: "무기류, 불법·통제 약물, 멸종위기 동식물 제품 등의 소지 여부를 확인합니다."
         },
         {
-            title: "주류",
+            title: "Alcohol · 주류",
             note: "증류주 1.125L 이하 병 3병 및 와인·맥주 4.5L 기준을 초과하는지 확인합니다."
         },
         {
-            title: "담배",
+            title: "Tobacco · 담배",
             note: "50개비 또는 담배제품 50g 기준을 초과하는지 확인합니다."
         },
         {
-            title: "해외·면세 구매품",
+            title: "Overseas / duty-free purchases · 해외·면세 구매품",
             note: "선물을 포함해 총 가치가 NZD 700을 초과하는지 확인합니다."
         },
         {
-            title: "사업용·타인 대신 운반하는 물품",
+            title: "Commercial goods / goods carried for someone else · 사업용·타인 대신 운반하는 물품",
             note: "상업용 또는 다른 사람을 대신해 운반하는 물품이라면 신고합니다."
         },
         {
-            title: "현금 NZD 10,000 이상",
+            title: "NZD 10,000 or more cash · 현금 NZD 10,000 이상",
             note: "외화 상당액과 여행자수표·은행환어음 등 신고 대상 수단을 포함해 확인합니다."
         }
     ];
