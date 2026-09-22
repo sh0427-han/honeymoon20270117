@@ -36,6 +36,8 @@
         { id: "au-eta", title: "호주 ETA", note: "출국 전 승인 상태 확인" },
         { id: "nzeta", title: "NZeTA", note: "뉴질랜드 입국 준비" },
         { id: "ivl", title: "IVL", note: "납부/처리 상태 확인" },
+        { id: "ipc", title: "호주 IPC 작성 가이드", note: "1/17 KE401 기내 작성 · 더보기 > 입국에서 확인" },
+        { id: "nztd", title: "뉴질랜드 NZTD", note: "1/19 10:55 AEDT부터 두 사람 각각 제출" },
         { id: "license", title: "렌터카 운전 준비", note: "국내 면허 · 국제운전 관련 서류 확인" },
         { id: "insurance", title: "여행자보험", note: "가입 및 긴급 연락 방법 확인" },
         { id: "esim", title: "eSIM / 로밍", note: "두 사람 통신 준비" },
