@@ -4,7 +4,7 @@
 > 작업 시작 시 **이 파일을 먼저 읽고, 실제 웹앱 일정 데이터는 `itinerary.js`를 함께 확인**한다.
 > 사용자의 최신 요청이 이 문서와 충돌하면 최신 요청이 우선한다.
 >
-> 마지막 정리 기준: 2026-09-22 · V37
+> 마지막 정리 기준: 2026-09-22 · V38
 
 ---
 
@@ -264,11 +264,13 @@ Fairlie Airbnb는 ₩391,259 선결제 완료이므로 현지결제 배지를 �
 - `itinerary.js`의 `bookingKey`가 일정과 `booking-data.js` 예약 데이터를 연결한다.
 - `trip-operations-v36.js` / `trip-operations-v36.css`: 항공 이동 카드와 일정별 예약 문서 액션을 담당한다.
 
-### V37 입국 신고 작성 가이드
+### V38 입국 신고 작성 가이드
 
 - 더보기 탭에 `입국` 필터를 추가한다.
 - `entry-guide-v37.js` / `entry-guide-v37.css`: 호주 Incoming Passenger Card(IPC)와 New Zealand Traveller Declaration(NZTD) 작성 가이드를 담당한다.
-- 공개 사이트에는 여권번호, 생년월일, 개인 전화번호, 긴급연락처 등 개인정보를 저장하지 않는다.
+- 공개 사이트에는 여권번호, 생년월일, Gmail, 개인 전화번호, 긴급연락처 등 개인정보를 저장하지 않는다.
+- 입국 가이드에는 영문 필드명 + 한글 뜻 + 우리 일정 기준 입력 예시를 함께 표시한다.
+- Gmail/전화번호는 공개 코드에 넣지 않고 브라우저 localStorage에만 저장할 수 있는 개인 연락처 메모를 제공한다.
 - 여행 일정에서 안전하게 공개 가능한 값만 미리 보여준다.
   - 호주 IPC: KE401, Meriton Suites Campbell Street 주소, NSW, 호주 체류 3일, Holiday
   - NZTD: NZ234, Sydney 출발, Queenstown 첫 숙소 주소, 뉴질랜드 체류 9일, Holiday/Vacation
@@ -311,8 +313,8 @@ Fairlie Airbnb는 ₩391,259 선결제 완료이므로 현지결제 배지를 �
 ## 11. PWA / Offline
 
 - `manifest.webmanifest` + `service-worker.js`
-- 현재 cache version: **`honeymoon-v37`**
-- `index.html`의 주요 자체 자산 query string은 **V37**로 갱신
+- 현재 cache version: **`honeymoon-v38`**
+- `index.html`의 주요 자체 자산 query string은 **V38**로 갱신
 - `reservation-data-v33.js`도 APP_SHELL에 포함
 - `trip-operations-v36.js` / `trip-operations-v36.css`도 APP_SHELL에 포함
 - `entry-guide-v37.js` / `entry-guide-v37.css`도 APP_SHELL에 포함
